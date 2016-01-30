@@ -1,3 +1,5 @@
+var auth = require('../../middlewares/auth');
+
 module.exports = function(app) {
 	// =====================================
 	// HOME PAGE (with login links) ========
@@ -22,4 +24,18 @@ module.exports = function(app) {
 	app.get('/wf.jpg', function (req, res) {
 			res.sendfile(path.resolve('public/images/wf.jpg'));
 	});
+
+	 // =====================================
+    // HOME SECTION =====================
+    // =====================================
+       app.get('/home', auth.isLoggedIn, function(req, res) {
+		console.log("Get home");
+		res.render('home.hbs',{
+			layout:"homeMain",
+			user : req.user
+		});
+       // res.render('home.ejs', {
+       //      user : req.user // get the user out of session and pass to template
+       //  });
+    });
 }

@@ -21,21 +21,9 @@ var auth = require('../middlewares/auth');
 module.exports = function(app, passport) {
 
 	require('../controllers/common/home')(app);
+	
 	require('../controllers/authentication/auth')(app, passport);
     require('../controllers/authentication/signup')(app, passport);
-	 // =====================================
-    // HOME SECTION =====================
-    // =====================================
-       app.get('/home', auth.isLoggedIn, function(req, res) {
-		console.log("Get home");
-		res.render('home.hbs',{
-			layout:"homeMain",
-			user : req.user
-		});
-       // res.render('home.ejs', {
-       //      user : req.user // get the user out of session and pass to template
-       //  });
-    });
 
     require('../controllers/user/profile')(app);
     require('../controllers/user/admin')(app);
