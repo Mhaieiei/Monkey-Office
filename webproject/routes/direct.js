@@ -34,13 +34,11 @@ module.exports = function(app, passport) {
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
-    	//res.render('signin.ejs');
-        res.render('signin.hbs',{layout:"main"}); // load the sigin.ejs file
+        res.render('welcome.hbs',{layout:"main"});
     });
 	
 	// Get path images
 	app.get('/image.png', function (req, res) {
-    		//res.sendfile(path.resolve('uploads/acnes.png'));
 			res.sendfile(path.resolve('uploads/image_'+req.user._id+'.jpg'));
 	});
 	app.get('/imagelogo.jpg', function (req, res) {
