@@ -27,6 +27,7 @@ var current_year = date.getFullYear();
 var index = 0;
 var nametemp = "";
 
+var auth = require('../middlewares/auth');
 
 module.exports = function(app, passport) {
 
@@ -36,7 +37,7 @@ module.exports = function(app, passport) {
 	 // =====================================
     // HOME SECTION =====================
     // =====================================
-       app.get('/home', isLoggedIn, function(req, res) {
+       app.get('/home', auth.isLoggedIn, function(req, res) {
 		console.log("Get home");
 		res.render('home.hbs',{
 			layout:"homeMain",
@@ -46,170 +47,12 @@ module.exports = function(app, passport) {
        //      user : req.user // get the user out of session and pass to template
        //  });
     });
-      // =====================================
-    // PROFILE SECTION =====================
-    // =====================================
-    app.get('/profile', isLoggedIn, function(req, res) {
-		console.log("Get profile");
-		console.log(req.user.local.name);
-		var name = req.user.local.name;
-		var fac;
-		if(name == "admin")
-			fac = true;
-		else
-			fac = false;
-		res.render('profile/userprofile.hbs',{
-			layout:"profileMain",
-			user : req.user,
-			fac : fac
-		});
-        // res.render('profile/userprofile.ejs', {
-        //     user : req.user // get the user out of session and pass to template
-        // });
-    });
-    // =====================================
-    // Get User Info. ==============================
-    // =====================================
-	app.get('/profile_inf',isLoggedIn,function(req,res){
-		console.log("Get profile information");		
-		res.render('profile/profileinfo.hbs',{
-			layout:"profileMain",
-			user : req.user
 
-		});
-		
-	});
-    
-	// =====================================
-    // Edit Profile ========
-    // =====================================
-		app.get('/edit', isLoggedIn, function(req, res) {
-			console.log( "Get editprofile");
-			res.render('profile/edit.hbs', {
-				layout: "profileMain",
-				user : req.user
-			});
-		});
-		
-		app.post('/edit',isLoggedIn, function (req, res){
-			console.log( "Post editprofile");
-			user : req.user
-
-		User.findOne({ 'local.email' : req.body.email }, function(err, user) {
-				if (err){ 
-					console.log("Upload Failed!");
-					return done(err);}
-				
-				if (user){
-						console.log(req.body.email);
-						console.log(req.body.nameuser);
-						console.log(user);
-						console.log("eiei");
-						user.updateUser(req, res)
-
-				}
-			});
-			
-  		});
-	//=====================================
-    // Get Education Info. ==============================
-    // =====================================
-	app.get('/education_inf',isLoggedIn,function(req,res){
-		console.log("Get education");
-		console.log(req.user);
-		res.render('profile/educationinfo.hbs', {
-			layout: "profileMain",
-            user : req.user, // get the user out of session and pass to template
-            helpers: {
-            inc: function (value) { return parseInt(value) + 1; }
-        }			
-        });
-	});
-	//add education_inf
-	app.get('/addedu',isLoggedIn,function(req,res){
-		console.log("Add Education");
-		res.render('profile/addeducation.hbs', {
-			layout: "profileMain",
-            user : req.user // get the user out of session and pass to template			
-        });
-	});
-	
-	app.post('/addedu',isLoggedIn,function(req,res){
-		console.log("Posttt Mhai eiei1234455678");
-
-		User.update({ 'local.email' : req.body.email },
-		{
-		 "$push" : {
-			"education" :  {
-					 "level": req.body.level,
-					 "degree": req.body.degree,
-					 "university": req.body.university,
-					 "year": req.body.year
-				   } //inserted data is the object to be inserted 
-			  }
-			},{safe:true},
-			  function (err, user) {
-				if (err){console.log('mhaiiiiiii');}
-			    else console.log(user);
-		});
-		res.redirect('/education_inf');
-		
-		
-	});
-	//edit education information.
-	app.get('/editeducation',isLoggedIn,function(req,res){
-		var index =req.query.id;
-		console.log("Get Edit education");
-		console.log(req.query.id);
-		res.render('profile/editedu.hbs', {
-			layout: "profileMain",
-            user : req.user, // get the user out of session and pass to template
-			index : req.query.id,
-			education : req.user.education[index]
-        });
-	});
-	app.post('/editedu',isLoggedIn,function(req,res){
-		console.log("Edit education");
-		console.log(req.query.id);
-		user : req.user		
-		User.findOne({'local.email' : req.body.email },{ education: 1}, function(err, user) {
-					if (err){ 
-						console.log("Upload Failed!");
-						return done(err);}
-					
-					if (user){
-							console.log(user);
-							console.log("eiei");
-							user.editEducation(req, res)
-							
-					}
-
-			});
-	});
-	//delete education information.
-	app.get('/deledu',isLoggedIn,function(req,res){
-		console.log("Delete Education");
-		console.log(req.query.email);
-		User.update({ 'local.email' : req.query.email },
-		{
-		 "$pull" : {
-			"education" :  {
-					 "_id": req.query.id,
-					} //inserted data is the object to be inserted 
-			  }
-			},{safe:true},
-			  function (err, user) {
-				if (err){console.log('mhaiiiiiii');}
-			    else console.log(user);
-		});
-		res.redirect('/education_inf');
-		
-		
-	});
+    require('../controllers/user/profile')(app);
 	 // =====================================
     // Admin SECTION =====================
     // =====================================
-    app.get('/admin',isLoggedIn,function(req,res){
+    app.get('/admin',auth.isLoggedIn,function(req,res){
 		console.log("Get Admin");
 		console.log(current_year);
 		res.render('admin/home.hbs', {
@@ -217,7 +60,7 @@ module.exports = function(app, passport) {
             user : req.user // get the user out of session and pass to template			
         });
 	});
-	app.get('/programs',isLoggedIn,function(req,res){
+	app.get('/programs',auth.isLoggedIn,function(req,res){
 		console.log('Admin Get Program');
 		console.log(years);
 		console.log(years[0]);
@@ -242,7 +85,7 @@ module.exports = function(app, passport) {
 		
 		
 	});
-	app.post('/programs',isLoggedIn,function(req,res){
+	app.post('/programs',auth.isLoggedIn,function(req,res){
 		console.log("Admin Post Program");
 		console.log(req.body.sub_programs);
 		console.log(req.body.years);
@@ -271,7 +114,7 @@ module.exports = function(app, passport) {
 	
   });
     
-    app.get('/showprogram',isLoggedIn,function(req,res){
+    app.get('/showprogram',auth.isLoggedIn,function(req,res){
     	console.log("Admin get showprogram");
     	console.log(req.query.id);
     	return Teach.find({'ac_id' : req.query.id }, function( err, teachsemes ) {
@@ -295,7 +138,7 @@ module.exports = function(app, passport) {
 
     });
 
-	app.post('/showprogram',isLoggedIn,function(req,res){
+	app.post('/showprogram',auth.isLoggedIn,function(req,res){
 	console.log("Post show program");
 	console.log(req.body.sub_programs);
 	console.log(req.body.years);
@@ -304,7 +147,7 @@ module.exports = function(app, passport) {
 		
  	});
 
-	app.get('/addprogram',isLoggedIn,function(req,res){
+	app.get('/addprogram',auth.isLoggedIn,function(req,res){
 		console.log("Admin Add Head program");
 		res.render('admin/faculty/addprogram.hbs',{
 			layout: "adminMain",
@@ -337,7 +180,7 @@ module.exports = function(app, passport) {
 
 	});
 
-	app.get('/addsubprogram',isLoggedIn,function(req,res){
+	app.get('/addsubprogram',auth.isLoggedIn,function(req,res){
 		console.log('Admin add Program');
 		console.log(req.query.name);
 		console.log(req.query.year);
@@ -393,7 +236,7 @@ module.exports = function(app, passport) {
 		
 	});
 
-	app.post('/addsubprogram',isLoggedIn,function(req,res){
+	app.post('/addsubprogram',auth.isLoggedIn,function(req,res){
 		console.log("Posttt Add Program");
 		console.log(req.body.nametrack);
 		console.log(req.body.year);
@@ -440,7 +283,7 @@ module.exports = function(app, passport) {
  	});
 
 	
-	app.get('/subjects',isLoggedIn,function(req,res){
+	app.get('/subjects',auth.isLoggedIn,function(req,res){
 		console.log('Admin Get Subject Home');
 		//console.log(years);
 		return Subject.find( function( err, subject ) {
@@ -459,7 +302,7 @@ module.exports = function(app, passport) {
 		
 		
 	});
-	app.get('/addsubjects',isLoggedIn,function(req,res){
+	app.get('/addsubjects',auth.isLoggedIn,function(req,res){
 		console.log('Admin Get Add Subject');
 		console.log(years);
 		return Fac.find( function( err, faculty ) {
@@ -478,7 +321,7 @@ module.exports = function(app, passport) {
 		
 		
 	});
-	app.post('/addsubjects',isLoggedIn,function(req,res){
+	app.post('/addsubjects',auth.isLoggedIn,function(req,res){
 		console.log("Posttt Add Subject");
 		console.log(req.body.sub_code);
 		console.log(req.body.lec_name);
@@ -512,7 +355,7 @@ module.exports = function(app, passport) {
  	});
 
  		//delete subject information.
-	app.get('/delsub',isLoggedIn,function(req,res){
+	app.get('/delsub',auth.isLoggedIn,function(req,res){
 		console.log("Delete Subject");
 		console.log(req.query.id);
 		//console.log(req.query.email);
@@ -528,7 +371,7 @@ module.exports = function(app, passport) {
 		
 	});
 		//edit education information.
-	app.get('/editsubject',isLoggedIn,function(req,res){
+	app.get('/editsubject',auth.isLoggedIn,function(req,res){
 		var index =req.query.id;
 		console.log("Admin Edit subject");
 		console.log(req.query.id);
@@ -550,7 +393,7 @@ module.exports = function(app, passport) {
 	    });	
 	});
 	
-	app.post('/editsubjects',isLoggedIn,function(req,res){
+	app.post('/editsubjects',auth.isLoggedIn,function(req,res){
 		console.log("Admin Edit subject");
 		//console.log(req.query.id);
 		//user : req.user		
@@ -646,7 +489,7 @@ module.exports = function(app, passport) {
 		
 	});
 		
-	app.get( '/tqf21',isLoggedIn, function( req, res ) {
+	app.get( '/tqf21',auth.isLoggedIn, function( req, res ) {
 		console.log( "Get TQF21");
 		program = req.query.program;
 		year = req.query.year;
@@ -668,7 +511,7 @@ module.exports = function(app, passport) {
 	        }
 	    });
 	});
-	app.get( '/tqf22',isLoggedIn, function( req, res ) {
+	app.get( '/tqf22',auth.isLoggedIn, function( req, res ) {
 		console.log( "Get TQF22");
 		program = req.query.program;
 		year = req.query.year;
@@ -703,14 +546,14 @@ module.exports = function(app, passport) {
 	//=====================================
     // Get Work Info. ==============================
     // =====================================
-	app.get('/work_inf',isLoggedIn,function(req,res){
+	app.get('/work_inf',auth.isLoggedIn,function(req,res){
 		console.log("Get Work Information");
 		res.render('profile/workinfo.ejs', {
             user : req.user, // get the user out of session and pass to template		
 			//work : req.works
         });
 	});
-	app.get('/addwork',isLoggedIn,function(req,res){
+	app.get('/addwork',auth.isLoggedIn,function(req,res){
 		console.log("Add Work Information");
 		res.render('profile/addwork.ejs', {
             user : req.user, // get the user out of session and pass to template	
@@ -854,22 +697,3 @@ module.exports = function(app, passport) {
 	});
 
 };
-
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-}
-//route middleware to make sure user is logged in as Admin
-function isAdmin(req,res,next){
-
-	if(req.user.local.name == "admin")
-		return next();
-
-	res.redirect('/');
-}
