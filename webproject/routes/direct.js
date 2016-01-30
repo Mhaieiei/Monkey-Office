@@ -160,52 +160,21 @@ module.exports = function(app, passport) {
 		
 		app.post('/edit',isLoggedIn, function (req, res){
 			console.log( "Post editprofile");
-			//console.log(req.files.file.path)
 			user : req.user
-			//if(req.busboy){
-				/*console.log('Nothingg happend');
-				//console.log(req.busboy);
-				var fstream;
-				//var busboy = new Busboy({headers: "Mhai eiei"});
-				req.pipe(req.busboy);
-				req.busboy.on('file', function (fieldname, file, filename) {
-					console.log("Uploading: " + filename); 
-					fstream = fs.createWriteStream(path.resolve('uploads/image_'+req.user._id+'.jpg'));
-					console.log(fstream);
-					file.pipe(fstream);
-					fstream.on('close', function(err) {
-						if (err){ console.log("Error Can't upload");}
-						console.log("Upload completed!");
-						res.redirect('/profile_inf');
-					});
-				});*/
-			//}
-			
-		/*var tempPath = req.files.file.path,
-			targetPath = path.resolve('uploads/'+req.files.file.originalFilename);
-		var fstream;
-		console.log(tempPath);
-		if (path.extname(req.files.file.name).toLowerCase() === '.png') {
-			fs.rename(tempPath, 'uploads/image_'+req.user._id, function(err) {
-					if (err){ console.log("Error Can't upload");}
-				else{console.log("Upload completed!");}
-			});
-		}*/
+
 		User.findOne({ 'local.email' : req.body.email }, function(err, user) {
-					if (err){ 
-						console.log("Upload Failed!");
-						return done(err);}
-					
-					if (user){
-							console.log(req.body.email);
-							console.log(req.body.nameuser);
-							console.log(user);
-							console.log("eiei");
-							user.updateUser(req, res)
+				if (err){ 
+					console.log("Upload Failed!");
+					return done(err);}
+				
+				if (user){
+						console.log(req.body.email);
+						console.log(req.body.nameuser);
+						console.log(user);
+						console.log("eiei");
+						user.updateUser(req, res)
 
-							
-					}
-
+				}
 			});
 			
   		});
@@ -234,21 +203,7 @@ module.exports = function(app, passport) {
 	
 	app.post('/addedu',isLoggedIn,function(req,res){
 		console.log("Posttt Mhai eiei1234455678");
-		/*User.findOne({ 'local.email' : req.body.email }, function(err, user) {
-				if (err){ 
-					console.log("Upload Failed!");
-					return done(err);}
-				
-				if (user){
-						console.log(req.body.level);
-						console.log(req.body.degree);
-						console.log(user);
-						console.log("eiei");
-						user.addEducation(req, res)
-						
-				}
 
-		});*/
 		User.update({ 'local.email' : req.body.email },
 		{
 		 "$push" : {
@@ -374,15 +329,7 @@ module.exports = function(app, passport) {
 			console.log("There have table(s) to show");
 			console.log(ac.id);
 			res.redirect('/showprogram?id='+ac.id);
-			// res.render('admin/faculty/searchprogram.hbs',{
-			// 	layout: "adminMain",
-			// 	user: req.user,
-			// 	program : req.body.sub_programs,
-			// 	acid : ac.id,
-			// 	year : req.body.years
-				
-			// 	});
-			// });
+
         } else {
            console.log("There not have table to show");
        	   res.redirect('/showprogram');
@@ -423,25 +370,6 @@ module.exports = function(app, passport) {
 
 		
  	});
-	// return Fac.findOne({
-	//      $and: [
-	//             { 'program_name' : req.body.programs },
-	//             { 'academic_year' : req.body.years }
-	//           ]
-	//    }, function( err, programs ) {
-	//     if( !err ) {
-	//     	console.log(programs);
-	// 		console.log( "What happend here" );
-	//         res.render('faculty/showprogram.ejs', {
-	// 		  user : req.user,
-	//           program: programs
-	//         });
-	//     } else {
-	//     	//res.redirect('/fachome');
-	//         return console.log( err+"mhaieiei" );
-	//         }
-	//     });
-	//  });
 
 	app.get('/addprogram',isLoggedIn,function(req,res){
 		console.log("Admin Add Head program");
@@ -458,34 +386,6 @@ module.exports = function(app, passport) {
 		console.log(req.body.sub_program[0]);
 		var sub_track = req.body.sub_program;
 		console.log(sub_track.length);
-		// Fac.findOne({ 'fac_name' :  "International College" }, function(err, ac) {
-        
-  //       if (err){
-		// 	console.log("Error ...1");
-		// }
-  //       // check to see if theres already a user with that email
-  //       if (ac) {
-		// 	console.log("That code is already have");
-			
-			
-  //       } else {
-  //           // if there is no user with that email
-  //           // create the user
-  //           var newFac        = new Fac();
-
-  //           // set the user's local credentials
-		// 	newFac.fac_name = "International College" ;
-			
-  //           // save the acyear
-  //           newFac.save(function(err,fac) {
-  //           	if (err){console.log('mhaiiiiiii');}
-  //               else{
-  //                console.log("Insert already"+ fac);
-                 	
-  //               }
-  //           });
-  //      	 }
-		// });
 		
 		Fac.update({ 'fac_name' : "International College" },
 		{
@@ -558,25 +458,6 @@ module.exports = function(app, passport) {
        	 }
 		});
 		
-		// return Fac.find( function( err, faculty ) {
-  //       if( !err ) {
-		// 	console.log(faculty);
-  //           res.render("admin/faculty/addsubprogram.hbs", {
-  //           	layout: "adminMain",
-  //           	user : req.user,
-  //           	faculty: faculty,
-  //           	year : years,
-  //           	cryear : current_year,
-  //           	helpers: {
-  //           	set: function (value) { index = value; },
-  //           	get: function(){return index;}
-  //           	}
-  //           });
-  //       } else {
-  //           return console.log( err+"mhaieiei" );
-	 //        }
-	 //    })
-
 	});
 
 	app.post('/addsubprogram',isLoggedIn,function(req,res){
@@ -622,22 +503,6 @@ module.exports = function(app, passport) {
 
         });  
 
-		/*Fac.update({ 'fac_name' : "International College" },
-		{
-		 "$push" : {
-			"program" :  {
-					 "sub_program" : req.body.sub_program,
-					 "program_name": req.body.program_name,
-					 "program_year": req.body.program_years,
-					 "academic_year": current_year,
-					 "subject": req.body.subject_code
-				   } //inserted data is the object to be inserted 
-			  }
-			},{safe:true},
-			  function (err, program) {
-				if (err){console.log('mhaiiiiiii');}
-			    else console.log(program);
-		});*/
 		res.redirect('/programs');
  	});
 
@@ -727,17 +592,6 @@ module.exports = function(app, passport) {
 		      }
 		   );
 		res.redirect('/subjects');
-
-		// Subject.update({ 'sub_code' : req.query.id },
-		// {
-		//  "$unset" : {"sub_code": req.query.id},				  
-		// 	},{safe:true},
-		// 	  function (err, user) {
-		// 		if (err){console.log('mhaiiiiiii');}
-		// 	    else console.log(user);
-		// });
-		// res.redirect('/subjects');
-		
 		
 	});
 		//edit education information.
@@ -932,35 +786,7 @@ module.exports = function(app, passport) {
 	});
 	app.post('/addwork',function(req,res){
 		console.log("Add work......");
-		//simple json record
-		//var document = {idUser: req.query.id};
-		//console.log(req.body.name);
-		//console.log(document);
-		//insert record
-		/*Fac.findOne({ 'program_name' :  req.body.name }, function(err, fac) {
-            // if there are any errors, return the error
-            if (err){
-				console.log("Error ...1");
-			}
-            // check to see if theres already a user with that email
-            if (fac) {
-				console.log("That fac is already have");
-            } else {
-                // if there is no user with that email
-                // create the user
-                var newFac  = new Fac();
-                // set the user's local credentials
-				newFac.program_name = req.body.name;
-				newFac.program_year = req.body.year;
-               	newFac.subject = array;	
-                // save the user
-                newFac.save(function(err,user) {
-                    if (err){console.log('mhaiiiiiii');}
-                    else console.log("Insert already"+user);
-                });
-            }
 
-        });  */
 		console.log(req.body.namework);
 		console.log(req.body.details);
 		var test = {
@@ -974,32 +800,7 @@ module.exports = function(app, passport) {
         var jsonobject = JSON.parse(jsonstring);
 		test = ["thesis","a","bb"];
 		temp = "rhw";
-		//test = JSON.parse(array);
-		//console.log(test);
-		/*PSchema.find({},function(err,docs){
-			docs.forEach(function(doc){
-			if(doc.array.indexOf("hello2") == -1)
-			{
-			    doc.array.push("hello2");
-			    doc.save(function (err) {
-			        if(err) {
-			            //error
-			        }
-			    });
-			}
-			})
-			})*/
-		/*Work.findOne({'nameUser' : req.query.email },function(err,docs){
-				console.log(docs);
-			    docs.push(test);
-			    docs.save(function (err,user) {
-			        if (err){console.log('mhaiiiiiii'+err);}
-			    	else console.log(user);
-			    });
-			
-			});
 
-			"details": req.body.details*/
 		var i = 0;
 		changes = { };
 		changes["work."+i]= req.body.namework;
