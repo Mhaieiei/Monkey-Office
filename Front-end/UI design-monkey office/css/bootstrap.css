@@ -239,9 +239,6 @@ th {
     page-break-after: avoid;
   }
 
-  .text-center {
-text-align: center;
-}
   .navbar {
     display: none;
   }
@@ -6803,7 +6800,32 @@ input[readonly] {
   user-select: none;
   cursor:pointer;
 }
+/*My DMS setting*/
 
+  .text-process{
+    text-align: center;
+    padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #eee;
+
+}
+
+.text-focus{
+   border: 1px solid #07c;
+    box-shadow: 0 0 10px #07c;
+}
+
+.text-done{
+  color: green;
+}
+
+.text-inprog{
+  color: blue;
+}
+
+.text-create{
+  color: yellow;
+}
 
 th {text-align:center}
 //tree
