@@ -54,3 +54,16 @@
         .tab.active {
             display:block;
         }
+
+
+    #choice-btn{
+        width: 100%;
+
+    }
+
+    #choice-btn td{
+        float: right;
+        text-align: right;
+    }
+
+
