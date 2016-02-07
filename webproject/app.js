@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path'); //path 
 var	fs = require('fs'); //file
 var busboy = require('connect-busboy');
-//var favicon = require('serve-favicon');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -15,19 +15,11 @@ var morgan = require('morgan');
 var session = require('express-session');
 var exphbs = require('express3-handlebars');  //handle bars
 
-
 var configDB = require('./config/database.js');
 mongoose.connect('mongodb://localhost:27017/nodewebapp');//connect to our database
 require('./config/passport')(passport); // pass passport for configuration
-//var routes = require('./routes/index');
-//var users = require('./routes/users');
-
-
-
-
 
 var app = express();
-//app.set('port',3000);
 // view engine setup
 
 app.set('views', path.join(__dirname, 'views'));
@@ -36,7 +28,6 @@ app.engine('hbs', exphbs({extname:'hbs', defaultLayout:'main.hbs'}));
 app.set('view engine', 'hbs');//set up hbs for templating
 
 // set up our express application
-//app.use(session({secret:'mhai_fat'}));
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 
@@ -56,9 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-require('./routes/direct.js')(app, passport);
-//app.use('/', routes);
-//app.use('/users', users);
+require('./routes/loader.js')(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
