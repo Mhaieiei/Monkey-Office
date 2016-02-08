@@ -1033,21 +1033,16 @@ module.exports = function(app, passport) {
 	//=====================================
 	// Workflow. ==============================
 	// =====================================
+	
+	//app.get('/workflow', function(req, res){
+	//	res.render('wf/index.hbs',{
+	//		layout:"workflowMain"
+	//	});
+	//});
+
 	app.get('/workflow', function(req, res){
-		res.render('wf/index.hbs',{
-			layout:"workflowMain"
-		});
-	});
-
-	app.get('/execute', function(req, res){
-	TemplateWorkflow.find({}, function(err, result){
-
-		if(err) console.log(err);
-
-		res.render('wf/execute.hbs', 
-			{ layout: "workflowMain",workflows : result });
-		});
-
+		console.log('Workflow page');
+	
 	});
 
 	app.get('/create', function(req, res){
