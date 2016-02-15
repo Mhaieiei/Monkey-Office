@@ -139,48 +139,8 @@ module.exports = function(app, passport, schemas) {
 	 // =====================================
     // HOME SECTION =====================
     // =====================================
-
-  app.get('/home', isLoggedIn, function(req, res) {
-  		
-       	// var doc1 = new Doc({
-       	// 	personReceive: req.user,
-       	// 	type: 'doc',
-       	// 	name: 'Harry Potter',
-       	// 	author: 'Tester',
-       	// 	filepath: path.resolve('uploads/document/mydoc1.docx')
-       	// });
-       	// var doc2 = new Doc({
-       	// 	personReceive: req.user,
-       	// 	type: 'doc',
-       	// 	name: 'Deadpool',
-       	// 	author: 'James Bond',
-       	// 	filepath: path.resolve('uploads/document/mydoc2.docx')
-       	// });
-       	// var doc3 = new Doc({
-       	// 	personReceive: req.user,
-       	// 	type: 'Doc',
-       	// 	name: 'Star War',
-       	// 	author: 'Mango',
-       	// 	filepath: path.resolve('uploads/document/mydoc3.docx')
-       	// });
-       	// var doc4 = new Doc({
-       	// 	personReceive: req.user,
-       	// 	type: 'doc',
-       	// 	name: 'Nodejs',
-       	// 	author: 'Alex Ferguson',
-       	// 	filepath: path.resolve('uploads/document/mydoc4.docx')
-       	// });
-
-
-       	// doc1.save();
-       	// doc2.save();
-
-       	// doc3.save();
-       	// doc4.save();
-
-
-       	//var doclist = [doc1,doc2];
-
+       app.get('/home', isLoggedIn, function(req, res) {
+       	
        	var query = Doc.findByUser(req.user);
        	var date= [];
        	query.exec(function(err,_docs) {
@@ -421,6 +381,7 @@ module.exports = function(app, passport, schemas) {
    		});
 
    });
+
       // =====================================
     // PROFILE SECTION =====================
     // =====================================
