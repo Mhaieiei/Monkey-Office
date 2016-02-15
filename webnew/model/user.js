@@ -3,9 +3,7 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
-// define the schema for our user model
-var userSchema = mongoose.Schema({
-
+var userSchema = new mongoose.Schema({
 
 	local: {
         title: String,
@@ -27,6 +25,9 @@ var userSchema = mongoose.Schema({
     
 
 },{strict : false});
+
+
+
 
 // methods ======================
 // generating a hash
@@ -84,18 +85,6 @@ userSchema.methods.editEducation = function(request, response){
 
 
 };
-// create the model for users and expose it to our app
-module.exports = mongoose.model('User', userSchema);
 
-
-
-
-
-
-
-
-
-
-
-
+module.exports = userSchema;
 

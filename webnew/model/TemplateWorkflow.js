@@ -6,4 +6,4 @@ var schema = new mongoose.Schema({
 	xml: String
 });
 
-module.exports = mongoose.model('TemplateWorkflow', schema);
+module.exports = schema;
