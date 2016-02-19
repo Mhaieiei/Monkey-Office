@@ -1,19 +1,38 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-  <title>Just Monkey</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-  <link rel="stylesheet" href="/stylesheets/workflow.css">
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/stylesheets/diagram-js.css" />
-    <link rel="stylesheet" href="/bpmn-font/css/bpmn-embedded.css" />
-    <link rel="stylesheet" href="/stylesheets/app.css" />
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Monkey office</title>
+
+    <!-- Bootstrap Core CSS -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
+
 <body>
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+     <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -23,16 +42,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Monkey Office</a>
+                <a class="navbar-brand" href="/home">Monkey Office</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                <ul class="nav navbar-nav navbar-left">
                     <li>
-                        <a href="/workflow/execute">Workflow</a>
+                        <a href="/workflow">Workflow</a>
                     </li>
                     <li>
-                        <a href="#">QASS</a>
+                        <a href="/qapage">QASS</a>
                     </li>
                      <li>
                         <ul class="nav navbar-nav navbar-right">
@@ -40,12 +59,12 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/workflow/create">Create Workflow</a>
+                                    <a href="/create"> Create Workflow</a>
                                 </li>
                                 <li>
                                    <a class="trigger right-caret">Settings</a>
                                     <ul class="dropdown-menu sub-menu">
-                                        <li><a href="/usersets">Users</a></li>
+                                        <li><a href="/user">Users</a></li>
                                         <li><a href="/programs">Programs</a></li>
                                         <li><a href="/subjects">Subjects</a></li>
                                         
@@ -76,7 +95,7 @@
                                 <a href="edit_user-staff_profile.hbs" class = "glyphicon glyphicon-wrench"> Settings </a>
                             </li>
                             <li>
-                                <a href="#" class = "glyphicon glyphicon-log-out"> Logout </a>
+                                <a href="/" class = "glyphicon glyphicon-log-out"> Logout </a>
                             </li>
                         </ul>
                     </li>
@@ -85,18 +104,65 @@
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
-  </nav>
-  {{{body}}}
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
+    </nav>
 
-    $(function(){
+    <!-- Page Content -->
+    <div class="container">
+
+
+
+        <!-- Page Heading/Breadcrumbs -->
+        <section id="profile">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Settings
+                    
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/profile?name={{user.local.username}}">Profile</a></li>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Work <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/thesisinf?name={{user.local.username}}">Thesis</a>
+                            </li>
+                            <li>
+                                <a href="C">Publication</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    <li><a href="edit_user-student_course.hbs">Course</a></li> 
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+
+
+
+
+        <!-- Edit Personal infomationRow -->
+         {{{body}}}
+        
+
+        
+
+    <!-- jQuery -->
+    <script src="/javascripts/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+
+</body>
+<script>
+$(document).on('click', '.browse', function(){
+  var file = $(this).parent().parent().parent().find('.file');
+  file.trigger('click');
+});
+$(document).on('change', '.file', function(){
+  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+});
+$(function(){
         $(".dropdown-menu > li > a.trigger").on("click",function(e){
             var current=$(this).next();
             var grandparent=$(this).parent().parent();
@@ -113,7 +179,6 @@
             root.find('.sub-menu:visible').hide();
         });
     });
-    
-    </script>
-</body>
+</script>
+
 </html>

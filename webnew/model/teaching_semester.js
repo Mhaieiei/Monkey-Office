@@ -6,9 +6,11 @@ var semesyearSchema = mongoose.Schema({
 	ac_id: String,
 	Year : Number,
 	semester : Number,
-	subject : [String]		
+	subject : [{type: String,ref:'Subject'}]	
 	
 });
+
+
 
 // create the model for year and expose it to our app
 module.exports = mongoose.model('Yearstudy', semesyearSchema);

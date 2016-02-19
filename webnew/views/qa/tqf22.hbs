@@ -1,5 +1,5 @@
-<%- include ../header.ejs %>
-	<body>
+
+<body>
         
         <td>
             <div class="container-fluid">
@@ -11,11 +11,9 @@
                 
 
 				<h5>Table : List of lectures and instructors in charge /Academic Year: {{year}}</h5> 
-    <% if(program != null){%>  
-    	 <% var i,j,k;
-			for(i=0;i< program.length;i++){%>	  
         
-                <h5>Year:  <%= program[i].Year %> Semester:<%= program[i].semester %> </h5>
+        {{#each program}}
+                <h5>Year: {{Year}} Semester: {{semester}}</h5>
                 <div id="tab_tqf2"><table class="table muffin">
                 <thead align="center">
                     <tr>
@@ -36,29 +34,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                 <%   for(j=0;j< program[i].subject.length;j++){%>
+                    {{#each subject}}
                     <tr>
-                    <th colspan=1><%= program[i].subject[j]._id %> </th>
-                    <th colspan=1><%= program[i].subject[j].sub_name %> </th>
-                    <th colspan=1><%= program[i].subject[j].sub_credit %></th>
+                    <th colspan=1> {{_id}}</th>
+                    <th colspan=1> {{sub_name}}</th>
+                    <th colspan=1> {{sub_credit}}</th>
                     <th colspan=1>
-                   <%   for(k=0;k< program[i].subject[j].sub_lecter.length;k++){%>
-                      <%= program[i].subject[j].sub_lecter[k].local.title %>
-                      <%= program[i].subject[j].sub_lecter[k].local.name %> 
-                      <%= program[i].subject[j].sub_lecter[k].local.surname %> <br>
-                                                
-                     <%}%>
+                      {{#each sub_lecter}}
+                        {{local.title}}
+                        {{local.name}} {{local.surname}}<br>
+                        
+                      {{/each}}
                      </th>
                     <th> </th>
                     <th> </th>
                     </tr>
                     <tr>
-                   <%}%>
+                    {{/each}}
                 </tbody>
                 </table>
               </div>
 
-       <%}%>
+        {{/each}}
 
         <br>
         <br>
@@ -86,44 +83,34 @@
                     </tr>
                     </thead>
                     <tbody>
-            <% var i,j,k,l;
-			for(i=0;i< program.length;i++){%>
+             {{#each program}}
                 
-				 <%   for(j=0;j< program[i].subject.length;j++){%>
+					       {{#each subject}}
                   
-                    <%   for(k=0;k< program[i].subject[j].sub_lecter.length;k++){%>
+                   {{#each sub_lecter}}
 				          	<tr>
-                      <th colspan=1><%= 1 %></th>
-                      <th colspan=1><%= program[i].subject[j].sub_lecter[k].local.title %></th>
-                      <th colspan=1><%= program[i].subject[j].sub_lecter[k].local.name %> 
-                      				<%= program[i].subject[j].sub_lecter[k].local.surname %> </th>
-                      
+                      <th colspan=1>{{getindex }}</th>
+                      <th colspan=1>{{local.title}}</th>
+                      <th colspan=1>{{local.name}} {{local.surname}}</th>
+                      {{#each education}}
                       <th>
-                        <%= program[i].subject[j].sub_lecter[k].education[0].degree %>
+                        {{degree}}
                       </th>
-                      <th> <%= program[i].subject[j].sub_lecter[k].education[0].university %></th>
-                     
+                      <th> {{university}}</th>
+                      {{/each}}
                       <th>{{local.teachingExperience}}</th>                     
                     </tr>
-                    <%}%>
-                  <%}%>
-              <%}%>  
+                    {{/each}}
+                  {{/each}}
+              {{/each}}    
                 </tbody>
                 </table>
               </div>
 
           </div>
         </td>
-       <%}else{%>
-			<strong>No program</strong> 
-		<%} %>		
+       
 
 
 
 </body>
-	
-				
-	
-
-	
-<%- include ../footer.ejs %>

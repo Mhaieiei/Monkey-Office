@@ -21,15 +21,27 @@ var userSchema = mongoose.Schema({
         email: String,
         role: String,
         program: String,
-        faculty: String
-       
-    }
+        faculty: String,
+        status: String,
+        yeargrade : String,
+        salary: Number,
+        academic_position: String,
+        admin_position: String
+       },
+    subjects : [{type: String,ref:'Subject'}],
+    education: mongoose.Schema.Types.Mixed,
+    thesis: mongoose.Schema.Types.Mixed
     
 
 },{strict : false});
 
 // methods ======================
-// generating a hash
+// generating a has
+userSchema.methods.add = function(status) {
+    userSchema.add({ status: 'string'});
+
+};
+
 userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
@@ -40,29 +52,50 @@ userSchema.methods.validPassword = function(password) {
 };
 
 userSchema.methods.updateUser = function(request, response){
+	console.log("User Update user");
+	console.log(request.user);
+	var roletype = request.body.role;
+
 	this.local.title = request.body.title;
 	this.local.ID = request.body.ID;
-	this.local.email = request.body.email;
-	this.local.role = request.body.role;
-	this.local.dateOfBirth = request.body.dateOfBirth;
-
 	this.local.name = request.body.name;
 	this.local.surname = request.body.surname;
-
-	this.local.position = request.body.position;
+	this.local.username = request.body.username;
+	this.local.password = request.body.password;
 	this.local.gender = request.body.gender;
-	this.local.salary = request.body.salary;
-	this.local.yearattend = request.body.year;
+	this.local.dateOfBirth = request.body.dateOfBirth;
+	this.local.yearattend = request.body.yearattend;
+	this.local.bankAccount = request.body.bankAccount;
+	this.local.email = request.body.email;
+	this.local.program = request.body.program;
 	this.local.faculty = request.body.faculty;
-	 console.log(this.local.name);
-	this.save(function (err) {
+	if( roletype == "student"){
+		this.local.status = request.body.status;
+		this.local.yeargrade = request.body.yeargrade;
+	}
+	else{
+		this.local.salary = request.body.salary;
+		this.local.academic_position = request.body.academic_position;
+		this.local.admin_position = request.body.admin_position;
+	}	
+	
+	this.save(function (err,user) {
         if(err) {
             console.error('ERROR!');
         }
+        else{
+        	console.log("edit already"+user)
+        }
 		
     });
-	 console.log("Eieiei");
-	response.redirect('/profile_inf');
+	if(request.user.username == request.body.username){
+		response.redirect('/profile_inf');
+	}
+	else{
+		response.redirect('/profile_inf_admin?user='+request.body.username);
+	}
+
+	
 };
 userSchema.methods.editEducation = function(request, response){	
 	console.log("Eieiei555");	

@@ -3,7 +3,7 @@
 {{	user.education 	}} -->
  <div class="col-md-8">
  				
-                <h3>Education</h3>
+                <h3>Thesis Information</h3>
                 <form class="form-horizontal" role="form">
                     </div>
 
@@ -11,24 +11,22 @@
                     <thead>
                         <tr>
                         <th>Index</th>
-                        <th><a href="javascript:table_sort('tab_2',1)">Level</a></th>
-                        <th><a href="javascript:table_sort('tab_2',2)">Degree</a></th>
-                        <th><a href="javascript:table_sort('tab_2',3)">University</a></th>
-                        <th><a href="javascript:table_sort('tab_2',4)">Year</a></th>
-                        <th><a href="javascript:table_sort('tab_2',6)">Edit</a></th>
+                        <th><a href="javascript:table_sort('tab_2',1)">Name</a></th>
+                        <th><a href="javascript:table_sort('tab_2',2)">Academic Year</a></th>
+                        <th><a href="javascript:table_sort('tab_2',3)">Advisor</a></th>
+                        <th><a href="javascript:table_sort('tab_2',4)">Co-advisor</a></th>
                         <th><a href="javascript:table_sort('tab_2',6)">Delete</a></th>
                         </tr>
                     </thead>
                     <tbody>
-                    {{#each user.education}}
+                    {{#each user.thesis}}
                         <tr>                       
                         <td>{{inc @index}}</td>
-						<td>{{level}}</td>
-						<td>{{degree}}</td>
-						<td>{{university}}</td>
-						<td>{{year}}</td>
-                        <td><a href='/editeducation?id={{@index}}'>edit</a></td>
-						<td><a href='/deledu?id={{id}}&user={{user.local.username}}'>delete</a></td>
+						<td>{{name}}</td>
+						<td>{{academic_year}}</td>
+						<td>{{Advisors}}</td>
+						<td>{{Co-Advisors}}</td>
+                        <td><a href='/deledu?id={{id}}&user={{user.local.username}}'>delete</a></td>
                         </tr>
                         <tr>
                     {{/each}}  
@@ -47,7 +45,7 @@
                         </div>
                         
                         <div class="btn-group">
-                            <a href = "/addedu?user={{user.local.username}}"><button id="tab_2_add" class="btn btn-mini" type="button">Add</button></a>
+                            <a href = "/addthesis?user={{user.local.username}}"><button id="tab_2_add" class="btn btn-mini" type="button">Add</button></a>
                         </div>
                         
                                     
