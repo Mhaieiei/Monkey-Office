@@ -6,9 +6,9 @@ var bcrypt   = require('bcrypt-nodejs');
 // define the schema for our user model
 var userSchema = mongoose.Schema({
 
-
+	_id : String,
 	local: {
-        title: String,
+		title: String,
         ID : String,
         name: String, //eg.Mhai
         surname: String,
@@ -28,19 +28,16 @@ var userSchema = mongoose.Schema({
         academic_position: String,
         admin_position: String
        },
-    subjects : [{type: String,ref:'Subject'}],
+    subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,
-    thesis: mongoose.Schema.Types.Mixed
+	thesis : [{type: mongoose.Schema.Types.ObjectId,ref:'Work'}]
     
 
 },{strict : false});
 
 // methods ======================
 // generating a has
-userSchema.methods.add = function(status) {
-    userSchema.add({ status: 'string'});
 
-};
 
 userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -117,6 +114,8 @@ userSchema.methods.editEducation = function(request, response){
 
 
 };
+
+
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', userSchema);
 

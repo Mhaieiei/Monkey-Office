@@ -6,7 +6,10 @@ var semesyearSchema = mongoose.Schema({
 	ac_id: String,
 	Year : Number,
 	semester : Number,
-	subject : [{type: String,ref:'Subject'}]	
+	subject : [{
+		subcode : {type: mongoose.Schema.Types.ObjectId,ref:'Subject'},
+		enroll_num : mongoose.Schema.Types.Mixed,
+	}]	
 	
 });
 
