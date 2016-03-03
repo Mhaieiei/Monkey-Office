@@ -6,12 +6,14 @@ var bcrypt   = require('bcrypt-nodejs');
 // define the schema for our user model
 var subjectSchema = mongoose.Schema({	
     
-	sub_code	: String,
+	
+	sub_code : String,
 	sub_name	: String,
 	sub_credit	: Number,
-	sub_lecter	: [String]	
+	sub_lecter : [{type: String,ref:'User'}]		
 
 });
+
 subjectSchema.methods.editSubject = function(request, response){	
 	console.log("Edit subject method");	
 	var index = request.query.id;
