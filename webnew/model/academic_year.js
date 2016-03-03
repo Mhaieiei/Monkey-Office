@@ -10,4 +10,4 @@ var acyearSchema = mongoose.Schema({
 });
 
 // create the model for year and expose it to our app
-module.exports = mongoose.model('Acyear', acyearSchema);
+module.exports = acyearSchema;
