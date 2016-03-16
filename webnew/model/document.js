@@ -1,4 +1,6 @@
-var Schema = require('mongoose').Schema;
+var db = require('../lib/dbclient').db();
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var docSchema = new Schema({
 	personReceive: {
@@ -58,6 +60,6 @@ docSchema.methods.personResponsible = function() {
 	return this.personReceive;
 };
 
-module.exports = docSchema;
+module.exports = db.model('Document', docSchema);
 
 

@@ -36,19 +36,19 @@ var nametemp = "";
 
 
 
-module.exports = function(app, passport, schemas) {
+module.exports = function(app, passport) {
  	// =====================================
     // Setting Model Databases ========
     // =====================================
-	var User  = schemas.User;
-	var Work  = schemas.Work;
+	var User  = require('../model/user');
+	var Work  = require('../model/works');
 
-	var Fac   = schemas.Faculty;
-	var Subject = schemas.Subject;
-	var Acyear = schemas.AcademicYear;
-	var Teach = schemas.TeachingSemester;
-	var TemplateWorkflow 	= schemas.TemplateWorkflow;
-	var Doc = schemas.Document;
+	var Fac   = require('../model/faculty');
+	var Subject = require('../model/subject');
+	var Acyear = require('../model/academic_year');
+	var Teach = require('../model/teaching_semester');
+	var TemplateWorkflow 	= require('../model/TemplateWorkflow');
+	var Doc = require('../model/document');
 
 
 

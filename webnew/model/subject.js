@@ -1,5 +1,6 @@
 // app/models/user.js
 // load the things we need
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
@@ -34,7 +35,7 @@ subjectSchema.methods.editSubject = function(request, response){
 
 };
 
-module.exports = subjectSchema;
+module.exports = db.model('Subject', subjectSchema);
 
 
 

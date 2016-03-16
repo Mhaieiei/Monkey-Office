@@ -6,7 +6,8 @@ Taking advantage of module caching
 var dmsDBConfig = require('../config/dbconfig');
 var mongoose = require('mongoose');
 
-var conn2db = function() {
+exports = {};
+exports.createClient = function() {
 
 	var optArgs = {
 		'user': dmsDBConfig.username,
@@ -23,4 +24,6 @@ var conn2db = function() {
 	return dmsDB;
 }
 
-module.exports = conn2db();
+
+
+module.exports = exports;
