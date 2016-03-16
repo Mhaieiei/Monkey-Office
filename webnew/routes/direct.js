@@ -146,10 +146,7 @@ module.exports = function(app, passport, schemas) {
        			date: {},
        			
        		}
-       		//response.docs.dateCreate[0] 
-       		//var a = new Date(response.docs[0].dateCreate );
-       		//console.log(response.docs[0].dateCreate.getHours() )
-       		//console.log(ja))
+
        		for(var i = 0 ; i < response.docs.length ;++i){
        			var a = response.docs[i].dateCreate;
        			var mm = a.getMonth()+1;
