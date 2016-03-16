@@ -36,28 +36,24 @@ var current_year = date.getFullYear();
 var index = 0;
 var nametemp = "";
 
-
-module.exports = function(app, passport, schemas) {
+module.exports = function(app, passport) {
  	// =====================================
     // Setting Model Databases ========
     // =====================================
-	var User  = schemas.User;
-	var Work  = schemas.Work;
-
-	var Fac   = schemas.Faculty;
-	var Subject = schemas.Subject;
-	var Acyear = schemas.AcademicYear;
-	var Teach = schemas.TeachingSemester;
-	var TemplateWorkflow 	= schemas.TemplateWorkflow;
-	var Doc = schemas.Document;
-	var Subenroll = schemas.SubjectEnroll;
-	var Stdenroll = schemas.StudentEnroll;
-	var FacilityAndInfrastruture = schemas.FacilityAndInfrastruture;
-	var AssesmentTool = schemas.AssesmentTool;
-	var ReferenceCurriculum = schemas.ReferenceCurriculum;
-
-
-
+  var User                     = require('../model/user').User;
+  var Work                     = require('../model/works');
+  
+  var Fac                      = require('../model/faculty').Faculty;
+  var Subject                  = require('../model/subject').Subject;
+  var Acyear                   = require('../model/academic_year');
+  var Teach                    = require('../model/teaching_semester').TeachingSemester;
+  var TemplateWorkflow         = require('../model/TemplateWorkflow');
+  var Doc                      = require('../model/document');
+  var Subenroll                = require('../model/subject_enroll');
+  var Stdenroll                = require('../model/student_enroll');
+  var FacilityAndInfrastruture = require('../model/FacilityAndInfrastrutureSchema');
+  var AssesmentTool            = require('../model/assesmentToolSchema');
+  var ReferenceCurriculum      = require('../model/referenceCurriculumSchema').ReferenceCurriculum;
 
     // =====================================
     // HOME PAGE (with login links) ========
