@@ -1,5 +1,6 @@
 // app/models/faculty.js
 // load the things we need
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
@@ -73,25 +74,9 @@ facSchema.methods.editProgram = function(request, response){
 	response.redirect('/programs');
 };
 
-
-
-// create the model for users and expose it to our app
 module.exports = {
-
-    Faculty: facSchema,
-    Evaluateion: EvaluationMethodSchema,
-    Stakeholder: StakeholderSchema,
-    ProgramManagement: ProgramManagement
-
+    Faculty          : db.model('Faculty', facSchema, 'faculty'),
+    Evaluation       : db.model('EvaluationMethod', EvaluationMethodSchema, 'faculty'),
+    Stakeholder      : db.model('stakeholder', StakeholderSchema, 'faculty'),
+    ProgramManagement: db.model('ProgramManagement', ProgramManagement, 'faculty')
 }
-
-
-
-
-
-
-
-
-
-
-

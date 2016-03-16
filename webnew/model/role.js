@@ -1,5 +1,5 @@
 // JavaScript source code
-
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
@@ -42,9 +42,8 @@ var roleOfFacultySchema = mongoose.Schema({
 });
 
 module.exports = {
-
-    role: roleSchema,
-    roleOfProgram: roleOfProgramSchema,
-    roleOfFaculty: roleOfFacultySchema,
-    roleOfStaff: roleOfStaffSchema
+    role: db.model('role', roleSchema, 'role'),
+    roleOfProgram: db.model('roleOfProgram', roleOfProgramSchema, 'role'),
+    roleOfFaculty: db.model('roleOfFaculty', roleOfFacultySchema, 'role'),
+    roleOfStaff: db.model('roleOfStaff', roleOfStaffSchema, 'role')
 }
