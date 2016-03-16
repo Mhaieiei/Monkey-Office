@@ -2159,42 +2159,43 @@ module.exports = function(app, passport, schemas) {
       
 	 
 	});
-	app.get( '/tqf23',isLoggedIn, function( req, res ) {
-		console.log( "Get TQF23");
-		console.log(req.query.acid);
-		console.log(req.query.program);
+	// app.get( '/tqf23',isLoggedIn, function( req, res ) {
+	// 	console.log( "Get TQF23");
+	// 	console.log(req.query.acid);
+	// 	console.log(req.query.program);
 		
-		var index = 1, idof = 0;
-		// User.find({''})//find user that advising project != null
-		Work.Project
-		.find({'acyear': req.query.acid})
-		.populate({
-			path:'advisee advisor coadvisor examiner',
-			model : 'User'
-		}).exec(function(err, works) {
-		    if(err) console.log("find teach err"+err);
-		   	  // This object should now be populated accordingly.
-		    	console.log(works);
-		    	console.log(works[0].nametitle);
-    			res.render('qa/tqf23.hbs', {
-    			  layout: "qaPage",
-				  user : req.user,
-	              Thesis: works,		             
-	              year: req.query.year,
-	              helpers: {
-            		inc: function (value) { return parseInt(value) + 1; },
-            		getindex:function() {return index++;},
-            		setid:function(value) {idof =  parseInt(value) + 1;},
-            		getid:function() {return idof;}
+	// 	var index = 1, idof = 0;
+	// 	// User.find({''})//find user that advising project != null
+	// 	Work.Project
+	// 	.find({'acyear': req.query.acid})
+	// 	.populate({
+	// 		path:'advisee advisor coadvisor examiner',
+	// 		model : 'User'
+	// 	}).exec(function(err, works) {
+	// 	    if(err) console.log("find teach err"+err);
+	// 	   	  // This object should now be populated accordingly.
+	// 	    	console.log(works);
+	// 	    	console.log(works[0].nametitle);
+ //    			res.render('qa/tqf23.hbs', {
+ //    			  layout: "qaPage",
+	// 			  user : req.user,
+	//               Thesis: works,		             
+	//               year: req.query.year,
+	//               helpers: {
+ //            		inc: function (value) { return parseInt(value) + 1; },
+ //            		getindex:function() {return index++;},
+ //            		setid:function(value) {idof =  parseInt(value) + 1;},
+ //            		getid:function() {return idof;}
 
-            		}
+ //            		}
 
-	            });	
-		});   
-	});
+	//             });	
+	// 	});   
+	// });
 
-	app.get('/tqf23test',isLoggedIn,function(req,res){
-		console.log("tqf23test");
+	app.get('/tqf23',isLoggedIn,function(req,res){
+		console.log("tqf23");
+		console.log("change state");
 		console.log(req.query.acid);
 		//console.log(req.query.program);
 		//var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
