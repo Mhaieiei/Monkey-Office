@@ -42,6 +42,16 @@ module.exports = function(app, passport, schemas) {
     // =====================================
 	var User  = schemas.User;
 	var Work  = schemas.Work;
+<<<<<<< HEAD
+=======
+
+	var Fac   = schemas.Faculty;
+	var Subject = schemas.Subject;
+	var Acyear = schemas.AcademicYear;
+	var Teach = schemas.TeachingSemester;
+	var TemplateWorkflow 	= schemas.TemplateWorkflow;
+	var Doc = schemas.Document;
+>>>>>>> parent of e5f5e9e... [refactor] compile schemas in the file itself and include them just like what we did with mongoose
 
 	var Fac   = schemas.Faculty;
 	var Subject = schemas.Subject;

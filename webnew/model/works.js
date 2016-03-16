@@ -70,5 +70,9 @@ module.exports = {
 
 
 
+<<<<<<< HEAD
+=======
+module.exports = workSchema;
+>>>>>>> parent of e5f5e9e... [refactor] compile schemas in the file itself and include them just like what we did with mongoose
 
 

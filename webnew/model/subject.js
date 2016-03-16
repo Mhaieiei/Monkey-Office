@@ -34,8 +34,12 @@ subjectSchema.methods.editSubject = function(request, response){
 
 };
 
+<<<<<<< HEAD
 // create the model for users and expose it to our app
 module.exports = mongoose.model('Subject', subjectSchema);
+=======
+module.exports = subjectSchema;
+>>>>>>> parent of e5f5e9e... [refactor] compile schemas in the file itself and include them just like what we did with mongoose
 
 
 

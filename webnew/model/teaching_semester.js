@@ -16,4 +16,8 @@ var semesyearSchema = mongoose.Schema({
 
 
 // create the model for year and expose it to our app
+<<<<<<< HEAD
 module.exports = mongoose.model('Yearstudy', semesyearSchema);
+=======
+module.exports = semesyearSchema;
+>>>>>>> parent of e5f5e9e... [refactor] compile schemas in the file itself and include them just like what we did with mongoose
