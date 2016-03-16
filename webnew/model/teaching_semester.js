@@ -1,4 +1,3 @@
-var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 
 //define schema for year study schema
@@ -17,4 +16,4 @@ var semesyearSchema = mongoose.Schema({
 
 
 // create the model for year and expose it to our app
-module.exports = db.model('TeachingSemester', semesyearSchema);
+module.exports = mongoose.model('Yearstudy', semesyearSchema);

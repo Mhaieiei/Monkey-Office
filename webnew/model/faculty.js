@@ -1,6 +1,5 @@
 // app/models/faculty.js
 // load the things we need
-var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
@@ -32,7 +31,7 @@ facSchema.methods.editProgram = function(request, response){
 
 
 // create the model for users and expose it to our app
-module.exports = db.model('Faculty', facSchema);
+module.exports = facSchema;
 
 
 
