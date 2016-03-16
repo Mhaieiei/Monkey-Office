@@ -5,6 +5,20 @@ var exphbs = require('express3-handlebars');
 var async = require('async');
 var mongoose = require('mongoose');
 //var busboy = require('connect-busboy');
+var Handlebars = require('handlebars/runtime')['default'];
+
+Handlebars.registerHelper('select', function( value, options ){
+        var $el = $('<select />').html( options.fn(this) );
+        $el.find('[value="' + value + '"]').attr({'selected':'selected'});
+        return $el.html();
+    });
+
+// Handlebars.registerHelper('select', function(selected, options) {
+//     return options.fn(this).replace(
+//         new RegExp(' value=\"' + selected + '\"'),
+//         '$& selected="selected"');
+// });
+
 
  	// =====================================
     // Setting Workflow ========
@@ -20,12 +34,15 @@ var index = 0;
 var nametemp = "";
 
 
+
+
 module.exports = function(app, passport, schemas) {
  	// =====================================
     // Setting Model Databases ========
     // =====================================
 	var User  = schemas.User;
 	var Work  = schemas.Work;
+
 	var Fac   = schemas.Faculty;
 	var Subject = schemas.Subject;
 	var Acyear = schemas.AcademicYear;
@@ -34,6 +51,7 @@ module.exports = function(app, passport, schemas) {
 	var Doc = schemas.Document;
 	var Subenroll = schemas.SubjectEnroll;
 	var Stdenroll = schemas.StudentEnroll;
+
 
 
     // =====================================
@@ -111,42 +129,29 @@ module.exports = function(app, passport, schemas) {
 	 // =====================================
     // HOME SECTION =====================
     // =====================================
-       app.get('/home', isLoggedIn, function(req, res) {
 
-       	var query = Doc.findByUser(req.user);
-       	query.exec(function(err, _docs) {
-       		if(err) {
-       			console.log(err);
-       			res.status(500);
-       			return next(err);
-       		}
+  app.get('/home', isLoggedIn, function(req, res) {
+        console.log("Get home");
+		res.render('home.hbs',{
+			layout:"homePage",
+			user : req.user
+		});
+ 	
 
-       		var response = {
-       			layout: 'homepage',
-       			docs: _docs
-       		}
-       		
-			res.render('home.hbs', response);
-       	})
+	
     });
 
-       app.post('/home', isLoggedIn, function(req, res) {
-
-       	console.log('AT HOME');
+    app.post('/home', isLoggedIn, function(req, res) {
+      console.log('AT HOME');
    		var documentName = req.body.doc_name;
    		var status = req.body.doc_status;
    		var fromDate = Date.parse(req.body.fromDate);
+      var fDate = req.body.fromDate;
    		var toDate = Date.parse(req.body.toDate);
+      var tDate = req.body.toDate;
    		var type = req.body.doc_type;
    		var author = req.body.doc_author;
    		var user = req.user;
-   		console.log(documentName);
-   		console.log(status);
-   		console.log(fromDate);
-   		console.log(toDate);
-   		console.log(type);
-   		console.log(author);
-
 
    		var subStringRegex = function(subString, isCaseSensitive) {
    			var mode;
@@ -173,23 +178,80 @@ module.exports = function(app, passport, schemas) {
    			status = status.toLowerCase().trim();
    			query = query.where('status').equals(status);
    		}
-   				
+
+   		console.log("Status:"+status);
+
    		query.exec(function(err, _docs) {
        		if(err) {
        			console.log(err);
        			res.status(500);
        			return next(err);
    			}
-   			console.log(_docs);
+
+      console.log("Type: " + type);
+      var status1;
+      var status2;
+      var status3;
+      var type1;
+      var type2;
+
+      if (status == 'create') {
+        status1 = true;
+      } else if (status == 'inprogress'){
+        status2 = true;
+      } else if (status == 'done'){
+        status3 = true;
+      }
+
+      if (type == 'own'){
+        type1 = true;
+      } else if (type = 'other_type'){ 
+        type2 = true;
+      }
+
+      console.log('s1:'+status1);
+      console.log('s2:'+status2);
+      console.log('s3:'+status3);
 			var response = {
        			layout: 'homepage',
-       			docs: _docs
+       			docs: _docs,
+       			date: {},
+            docName: documentName,
+            docAuthor: author,
+            docStatus: status,
+            docFromDate: fDate,
+            docToDate: tDate,
+            docType: type,
+            st1: status1,
+            st2: status2,
+            st3: status3,
+            type1: type1,
+            type2: type2
    			}
+   			
+       		for(var i = 0 ; i < response.docs.length ;++i){
+       			var a = response.docs[i].dateCreate;
+       			var mm = a.getMonth()+1;
+       			var dd = a.getDate();
+       			
+       			if(mm<10){
+       				mm = "0"+mm;
+       			}
+       			if(dd<10){
+       				dd = "0"+dd;
+       			}
+       			
+       			response.docs[i].date = a.getFullYear() + '-' +mm+'-'+dd;
+       		}
    		
 			res.render('home.hbs', response); 
    		});
-
    });
+
+    app.get('/document', isLoggedIn, function(req, res){
+      console.log("Document Information");
+      res.render('dms/document.hbs');
+    });
       // =====================================
     // PROFILE SECTION =====================
     // =====================================
@@ -266,7 +328,8 @@ module.exports = function(app, passport, schemas) {
 	// =====================================
     // Edit Profile ========
     // =====================================
-		// edit user profile
+		
+    	// edit user profile
 		app.get('/adminedit', isLoggedIn, function(req, res) {
 			console.log( "Get Admin editprofile");
 			console.log(req.query.user);
@@ -297,6 +360,7 @@ module.exports = function(app, passport, schemas) {
 			
 
 		});
+
 		// edit user profile
 		app.get('/edit', isLoggedIn, function(req, res) {
 			console.log( "Get editprofile");
@@ -328,6 +392,7 @@ module.exports = function(app, passport, schemas) {
 			
 
 		});
+
 		
 		app.post('/edit',isLoggedIn, function (req, res){
 			console.log( "Post editprofile");
@@ -410,6 +475,9 @@ module.exports = function(app, passport, schemas) {
 		 });
 		
 	});
+	
+
+
 	//add education_inf
 	app.get('/addedu',isLoggedIn,function(req,res){
 		console.log("Add Education");
@@ -518,7 +586,9 @@ module.exports = function(app, passport, schemas) {
 	 // =====================================
     // Admin SECTION =====================
     // =====================================
-     app.get('/admin',isLoggedIn,function(req,res){
+
+
+    app.get('/admin',isLoggedIn,function(req,res){
 		console.log("Get Admin");
 		console.log(current_year);
 		res.render('admin/home.hbs', {
@@ -526,6 +596,7 @@ module.exports = function(app, passport, schemas) {
             user : req.user // get the user out of session and pass to template			
         });
 	});
+
 
     //user section================================================================================== 
 	app.get('/user',isLoggedIn,function(req,res){
@@ -627,7 +698,7 @@ module.exports = function(app, passport, schemas) {
 				
 		User.find( { 'local.program' : req.query.program  }, function (err, users) {
         	if(!err){	        		
-        		console.log(users);
+        		
         		 res.render('admin/faculty/user/userslist.hbs',{
 		    		layout : "adminPage",
 		    		user: req.user,
@@ -668,7 +739,9 @@ module.exports = function(app, passport, schemas) {
 	    var records = [ { body: 'Test 1'}, { body: "Test 2" } ];
 	    for(var i=0;i<lenn;i++){
 	    	if(lenn==1){
-	    		var obj = { 'local': {
+	    		var obj = { 
+	    		'_id' : req.body.username,
+	    		'local': {
 	    		'username':req.body.username,
 	    		'password': req.body.username,
 	    		'name': req.body.name,
@@ -679,7 +752,9 @@ module.exports = function(app, passport, schemas) {
 	    		}
 	    	}
 	    	else{
-	    		var obj = {'local' :{
+	    		var obj = {
+	    			'_id' : req.body.username[i],
+	    			'local' :{
 	    			'username' : req.body.username[i],
 	    			'password' : req.body.username[i],
 	    			'name' : req.body.name[i],
@@ -728,7 +803,7 @@ module.exports = function(app, passport, schemas) {
                
                 // save the user
                 newUser.save(function(err,user) {
-                    if (err){console.log('mhaiiiiiii');}
+                    if (err){console.log('mhaiiiiiii'+err);}
                     else console.log("Insert already"+user);
                 });
 	        		console.log("mhai_eiei");
@@ -772,9 +847,7 @@ module.exports = function(app, passport, schemas) {
 		
 		
 	});
-
-
- 	//program section======================================================================================================================
+ 		//program section======================================================================================================================
 	app.get('/programs',isLoggedIn,function(req,res){
 		console.log('Admin Get Program');
 		console.log(years);
@@ -884,17 +957,18 @@ module.exports = function(app, passport, schemas) {
 
     	Teach
 		.find({'ac_id': req.query.id})
-		.populate('subject')
+		.populate('subject.subcode')
 		.exec(function(err, docs) {
-		  if(err) return callback(err);
+		  if(err) console.log(err);
 		  Teach.populate(docs, {
-		    path: 'subject.sub_lecter',
+		    path: 'subject.subcode.sub_lecter',
 		    model: 'User'
 		  },
 		  function(err, subs) {
-		    if(err) return callback(err);
+		    if(err) console.log(err);
 		   	  // This object should now be populated accordingly.
 		    console.log(subs);
+
     			res.render("admin/faculty/program/showprogram.hbs", {
             	layout: "adminPage",
             	user : req.user,
@@ -905,25 +979,6 @@ module.exports = function(app, passport, schemas) {
              });
 		  });
 		});
-
-    	// Teach.find({'ac_id': req.query.id}).populate({path:'subject',populate:{path:'sub_lecter'}}).exec(function(err,sub){
-    	// 	if(!err){
-    	// 		console.log(sub);
-    	// 		res.render("admin/faculty/program/showprogram.hbs", {
-     //        	layout: "adminPage",
-     //        	user : req.user,
-     //        	teachsemes: sub,
-     //        	year : years,
-     //        	acid : req.query.id,
-           
-     //         });
-    	// 	}
-    	// 	else{
-    	// 		console.log(err);
-    	// 	}
-
-    	// });
-   
 
     });
 
@@ -1016,14 +1071,13 @@ module.exports = function(app, passport, schemas) {
 	             { 'Year' : req.query.year },
 	             { 'semester' : req.query.semes }
 	           ]
-	    }).populate('subject')
+	    }).populate('subject.subcode')
 		.exec(function(err, docs) {
 		  if(err) return callback(err);
 		  Teach.populate(docs, {
-		    path: 'subject.sub_lecter',
+		    path: 'subcode.sub_lecter',
 		    model: 'User'
-		  },
-		  function(err, subs) {
+		  },function(err, subs) {
 		    if(err) return callback(err);
 		   	  // This object should now be populated accordingly.
 		    console.log(subs);
@@ -1041,6 +1095,7 @@ module.exports = function(app, passport, schemas) {
              });
 		  });
 		});
+		
  	   
 
  	});
@@ -1336,10 +1391,8 @@ module.exports = function(app, passport, schemas) {
 		
 		
 	});
-
- 	//subject section======================================================================================================================
-	
-		app.get('/subjects',isLoggedIn,function(req,res){
+	//subject section======================================================================================================================
+	app.get('/subjects',isLoggedIn,function(req,res){
 		console.log('Admin Get Subject select');
 		return Fac.find( function( err, faculty ) {
         if( !err ) {
@@ -1565,10 +1618,14 @@ module.exports = function(app, passport, schemas) {
 			        	else{
 		        		//if there is no user 
 		           	    // create the user
-		           	    var userobj = { 'local': {
-				    		'name': item.sub_lecter,
+		           	   var userobj = { 
+		           	    	'_id' : index,
+		           	    	'local': {
+		           	    	'username': index,
+				    		'name': index,
+				    		'program' : "",
 				    		'role': "staff"},
-				    		'subjects' : [item._id] 
+				    		'subjects' : [sub._id] 
 				    		}
 				    	//also add subject code to user
 		                var newUser        = new User(userobj);		                
@@ -1955,8 +2012,8 @@ module.exports = function(app, passport, schemas) {
 
 
 	});
-	
-//=====================================
+
+	//=====================================
     // Get QA Info. ==============================
     // =====================================
     app.get('/qapage',function(req,res){
@@ -1989,16 +2046,25 @@ module.exports = function(app, passport, schemas) {
 	console.log('Get QA home(select Topic)');
 	console.log(req.body.sub_programs);
 	console.log(req.body.years);
-	res.render('qa/qahome.hbs',{
+	return Acyear.findOne({
+	     $and: [
+	            { 'program_name' : req.body.sub_programs },
+	            { 'academic_year' : req.body.years }
+	          ]
+	   }, function( err, programs ) {
+	   	if(err){console.log('program err'+err);}
+	   	else{
+	   		console.log(programs);
+	   		res.render('qa/qahome.hbs',{
 			layout: "qaPage",
 			user: req.user,
 			programname: req.body.sub_programs,
-			year: req.body.years
-		});
-	
-		
+			year: req.body.years,
+			acid : programs._id
+		 	});
+		}	
 	});
-
+});
     app.get('/tqf21',function(req,res){
 		console.log('Get TQF21');
 		console.log(req.query.program);
@@ -2048,11 +2114,12 @@ module.exports = function(app, passport, schemas) {
 	
 	app.get( '/tqf22',isLoggedIn, function( req, res ) {
 		console.log( "Get TQF22");
-		program = req.query.program;
-		year = req.query.year;
-		console.log(program);
+		console.log(req.query.acid);
+		console.log(req.query.year);
+		
+		
 		var index = 1;
-		var acyear_1 = year;
+		var acyear_1 = req.query.year;
 	    var acyear_2 = acyear_1-1;
 	    var yearac = [];
 	     yearac[0] = acyear_1.toString();
@@ -2061,16 +2128,9 @@ module.exports = function(app, passport, schemas) {
 	     yearac[3] = ">"+acyear_1.toString();
 	       
 	       
-		return Acyear.findOne({
-	     $and: [
-	            { 'program_name' : program },
-	            { 'academic_year' : year }
-	          ]
-	   }, function( err, programs ) {
-        if( !err ) {
-        	console.log(programs._id);
+		
         	Teach
-			.find({'ac_id': programs._id})
+			.find({'ac_id': req.query.acid})
 			.populate('subject.subcode')
 			.exec(function(err, docs) {
 			  if(err) return callback(err);
@@ -2085,9 +2145,8 @@ module.exports = function(app, passport, schemas) {
 	    			res.render('qa/tqf22.hbs', {
 	    			  layout: "qaPage",
 					  user : req.user,
-		              program: subs,
-		              programname: program,
-		              year: year,
+		              program: subs,		             
+		              year: req.query.year,
 		              helpers: {
 	            		inc: function (value) { return parseInt(value) + 1; },
 	            		getyear:function(value) {return yearac[value];},
@@ -2097,31 +2156,328 @@ module.exports = function(app, passport, schemas) {
 			  });	
 			});           
       
-       } else {
-        	//res.redirect('/fachome');
-            return console.log( err+"mhaieiei" );
-	        }
-	    });
+      
 	 
 	});
+	app.get( '/tqf23',isLoggedIn, function( req, res ) {
+		console.log( "Get TQF23");
+		console.log(req.query.acid);
+		console.log(req.query.program);
+		
+		var index = 1, idof = 0;
+		// User.find({''})//find user that advising project != null
+		Work.Project
+		.find({'acyear': req.query.acid})
+		.populate({
+			path:'advisee advisor coadvisor examiner',
+			model : 'User'
+		}).exec(function(err, works) {
+		    if(err) console.log("find teach err"+err);
+		   	  // This object should now be populated accordingly.
+		    	console.log(works);
+		    	console.log(works[0].nametitle);
+    			res.render('qa/tqf23.hbs', {
+    			  layout: "qaPage",
+				  user : req.user,
+	              Thesis: works,		             
+	              year: req.query.year,
+	              helpers: {
+            		inc: function (value) { return parseInt(value) + 1; },
+            		getindex:function() {return index++;},
+            		setid:function(value) {idof =  parseInt(value) + 1;},
+            		getid:function() {return idof;}
+
+            		}
+
+	            });	
+		});   
+	});
+
+	app.get('/tqf23test',isLoggedIn,function(req,res){
+		console.log("tqf23test");
+		console.log(req.query.acid);
+		//console.log(req.query.program);
+		//var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
+		Work.Project.aggregate([
+        {
+            $match: { 'acyear' : req.query.acid }           
+        },
+       { 
+       		$unwind: "$user"
+       },
+       {
+       		 $group: {
+   				 _id: "$user.iduser",
+   				 works: { $addToSet: { workid: '$_id',roleuser:"$user.typeuser"} }
+ 		 }
+
+	   }], function( e, result ) {
+	  		console.log(result);
+	  		console.log(result[0].works);
+	  		console.log(result[1].works);
+	  		Work.Project.populate(result,{path:'_id',model:'User'},function(err,userwork){
+	  			if(err){console.log("first populate is err"+err);}
+	  			console.log(userwork);
+	  			console.log(userwork[0].works[0].roleuser);
+	  			Work.Project
+				.find({'acyear': req.query.acid})
+				.populate({
+					path:'user.iduser',
+					model : 'User'
+				}).exec(function(err, works) {
+				    if(err) console.log("find teach err"+err);
+				   	  // This object should now be populated accordingly.
+				    	console.log(works);
+				    	console.log(works[0].nametitle);
+				    	console.log(works[0].user[0].iduser.local.username);
+		    			res.render('qa/tqf23_test.ejs', {
+		    			  //layout: "qaPage",
+						  user : req.user,
+						  examiner : userwork,
+			              Thesis: works,		             
+			             //  helpers: {
+		            		// inc: function (value) { return parseInt(value) + 1; },
+		            		// getindex:function() {return index++;},
+		            		// setid:function(value) {idof =  parseInt(value) + 1;},
+		            		// getid:function() {return idof;}
+
+		            		// }
+
+			            });	
+				});   
+
+	  		});
+	  		
+		  	   
+			});
+
+	});
+
+	
 	
 	//=====================================
-    // Get Work Info. ==============================
+    // Get Work Info.(Student) ==============================
     // =====================================
-	app.get('/work_inf',isLoggedIn,function(req,res){
-		console.log("Get Work Information");
-		res.render('profile/workinfo.ejs', {
-            user : req.user, // get the user out of session and pass to template		
-			//work : req.works
+	app.get('/thesisinf',isLoggedIn,function(req,res){
+		console.log("Get Thesis Information");
+		console.log(req.query.name);
+		User
+		.findOne({'local.username': req.query.name})
+		.populate('advisingProject')
+		.exec(function(err, docs) {
+		  if(err) console.log(err);
+		  User.populate(docs, {
+		    path: 'advisingProject.user.iduser',		
+		     model: 'User'   
+		  },
+		  function(err, works) {
+		    if(err) console.log("cant find thesis of user"+err);
+		   	  // This object should now be populated accordingly.
+		    console.log(works);
+
+    			res.render("profile/works/thesisinfo_test.ejs", {
+            	//layout: "profileAdstudent",
+            	user : req.query.name,
+            	Userinfo: works,
+            	year : years,
+            	acid : req.query.id,
+           
+             });
+		  });
+		});		
+	});
+		
+	//add thesis
+	app.get('/addthesis',isLoggedIn,function(req,res){
+		console.log("Add Thesis");
+		console.log(req.query.user);
+		res.render('profile/works/addthesis_test.hbs', {
+			layout: "profilestudent",
+            username : req.query.user // get the user out of session and pass to template			
         });
 	});
-	app.get('/addwork',isLoggedIn,function(req,res){
-		console.log("Add Work Information");
-		res.render('profile/addwork.ejs', {
-            user : req.user, // get the user out of session and pass to template	
-			work : req.works
-        });
-	});
+//-------------------edit here-----------------------------------------------------------
+	app.post('/addthesis',isLoggedIn,function(req,res){
+		console.log("Posttt Add thesis");
+		console.log(req.body.name);
+		console.log(req.body.username);
+		console.log(req.body.nameuser);
+		console.log(req.body.roleuser);
+		
+		console.log(req.body.program)
+		console.log(req.body.acyear);
+		
+		console.log(req.body.arrlen);
+				
+		var strlen = req.body.arrlen;	
+		var userarr = [];
+	    var array = [];	   
+	    //advisee
+	    for(var i=0;i< strlen;i++){
+	    	if(strlen==1){
+	    		var userobj = {
+	    			'iduser': req.body.nameuser,
+	    			'typeuser' : req.body.roleuser
+	    		}
+	    		if(req.body.roleuser == 'advisee'){
+		    		var obj ={ 
+	           	    	'_id' : req.body.nameuser,
+	           	    	'education': [],
+	           	    	'local': {
+	           	    	'username': req.body.nameuser,
+			    		'name': req.body.nameuser,
+			    		'program' : "",
+			    		'role': "student"},
+			    		}						    		
+			   	}else{
+		    		var obj = { 
+	           	    	'_id' : req.body.nameuser,
+	           	    	'education': [],
+	           	    	'local': {
+	           	    	'username': req.body.nameuser,
+			    		'name': req.body.nameuser,
+			    		'program' : "",
+			    		'role': "staff"},	
+			    		}					    		
+		    	}
+	    	}else{
+	    		var userobj = {
+	    			'iduser': req.body.nameuser[i],
+	    			'typeuser' : req.body.roleuser[i]
+	    		}
+	    		if(req.body.roleuser[i] == 'advisee'){
+		    		var obj ={ 
+	           	    	'_id' : req.body.nameuser[i],
+	           	    	'education': [],
+	           	    	'local': {
+	           	    	'username': req.body.nameuser[i],
+			    		'name': req.body.nameuser[i],
+			    		'program' : "",
+			    		'role': "student"},
+			    		}						    		
+		   		}else{
+		    		var obj = { 
+	           	    	'_id' : req.body.nameuser[i],
+	           	    	'education': [],
+	           	    	'local': {
+	           	    	'username': req.body.nameuser[i],
+			    		'name': req.body.nameuser[i],
+			    		'program' : "",
+			    		'role': "staff"},	
+			    		}					    		
+		    	}
+	    	}
+	    	userarr.push(userobj);	    	
+	    	array.push(obj);
+	    }
+	     
+		console.log(userarr);
+		console.log(array);	
+	    Acyear.findOne({ 
+			$and: [
+		             { 'program_name' :  req.body.program  },
+		             { 'academic_year' : req.body.acyear }
+		           ]
+			
+		}, function(err, ac) {
+        
+        if (err){
+			console.log("Error ...1");
+		}
+        // check to see if theres already a user with that email
+        if (ac!= null) {
+			console.log("There have table(s) to show");
+			console.log(ac);
+			Work.findOne( { 
+			$and: [
+		             { '_type' :  'advisingProject' },
+		             { 'nametitle' : req.body.name }
+		           ]
+			
+		}, function (err, rows) {
+	        	if(err){
+	        		console.log("Find thesis err"+err);
+	        	}
+	        	if(rows != null){
+	        		console.log("This work have already");
+	        		console.log(rows);
+	        		//if user have already, set ref of id user to subject        		
+	        	}
+	        	else{
+	    		//if there is no user 
+	       	    // create the work
+	       	    var workobj = { 
+		    		'nametitle': req.body.name,
+		    		'_type' : 'advisingProject',		    		
+		    		'acyear' :  ac._id,
+		    		'user' : userarr
+		    		
+		    		}
+		    	//also add subject code to user
+	            var newthesis       = new Work.Project(workobj);		                
+	            // save the user
+	            newthesis.save(function(err,thesis) {
+	                if (err){console.log('new Thesis save'+err);}
+	                else {
+	                	console.log("Save new thesis already"+thesis);
+	                	//set id of work to each user
+	                		async.eachSeries(array,function(item,callback) { 
+							 User.findOne({'_id': item._id},function(err,user){
+							 	if(err){console.log("user can't find"+err);}
+							 	if(user != null){
+							 		user.advisingProject.push(thesis._id); //save id of project to user
+									user.save(function(err,user) {
+					                    if (err){console.log('user cant update work id'+err);}  
+					                    else{
+					                    	console.log("Update advisingProject succesful");
+					                    	callback(err);	
+					                    	                 	
+					                    }			                    
+					                });  
+							 	}
+							 	else{
+							 		//can't find user, create new
+							 		 // create the user
+					           	   
+							    	//also add subject code to user
+							    	console.log(item);
+					                var newUser        = new User(item);
+					                newUser.advisingProject.push(thesis._id);		                
+					                // save the user
+					                newUser.save(function(err,user) {
+					                    if (err){console.log('Cant save new user'+err);}
+					                    else {
+					                    	console.log("Insert new User already");
+					                    	callback(err);		   
+					                    	}
+							                    
+							            });
+					                }
+					             });						 						  	
+						        	
+						    },function(err) {
+						        if (err) console.log('Async enroll err');
+						        res.redirect('/thesisinf?name='+req.body.username);
+						        console.log("done");
+						    });
+	                	}
+	                });
+	            
+	        		
+	        	}
+	        	
+	        });  
+			
+        } else {
+           console.log("There not have table to show,make new");
+           
+       	 }
+       	});
+		
+     });       
+		
+
+
 	app.post('/addwork',function(req,res){
 		console.log("Add work......");
 		//simple json record
@@ -2355,3 +2711,4 @@ function isAdmin(req,res,next){
 
 	res.redirect('/');
 }
+

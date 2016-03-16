@@ -7,7 +7,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 module.exports = function(passport, schemas) {
 
     var User = schemas.User;
-    var Work = schemas.Work;
+    //var Work = schemas.Work;
 
     // =========================================================================
     // passport session setup ==================================================
@@ -60,7 +60,7 @@ module.exports = function(passport, schemas) {
                 // if there is no user with that email
                 // create the user
                 var newUser            = new User();
-				var newWork 		   = new Work();
+				
                 // set the user's local credentials
 				
                 newUser.local.username    = email;
@@ -68,18 +68,14 @@ module.exports = function(passport, schemas) {
                 newUser.local.password = newUser.generateHash(password);
                 newUser.local.role = 'admin';
                
-				newWork.nameUser		= email;
+				
                 // save the user
                 newUser.save(function(err,user) {
                     if (err)
                         throw err;
                     console.log("Update new User"+user);
                 });
-				newWork.save(function(err) {
-                    if (err)
-                        throw err;
-                    console.log("Update new Work");
-                });
+				
 				return done(null, newUser);
             }
 
