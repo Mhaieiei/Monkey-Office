@@ -19,21 +19,19 @@ WorkflowHandler.prototype.setup = function( xml ){
 	this.endEvent = new Element( endEventXml['$']['id'], 'endEvent' );
 	this.endEvent.inComing = endEventXml['bpmn2:incoming'][0];
 
-	var tasks = xml['bpmn2:task'];
+	var tasks = [];
 
-	if( tasks === undefined ){
-		return;
+	var normalTasks = xml['bpmn2:task'];
+	var sendTasks = xml['bpmn2:sendTask'];
+
+	if( normalTasks != undefined ){
+		this.setTasks( normalTasks, 'normal' );
 	}
 	
-	for( var i = 0; i < tasks.length; i++ ){
-		
-		var dummy = new Element( tasks[i]['$']['id'], 'task' );
-		dummy.name = tasks[i]['$']['name'];
-		dummy.inComing = tasks[i]['bpmn2:incoming'][0];
-		dummy.outGoing =  tasks[i]['bpmn2:outgoing'][0];
-
-		this.taskList.push( dummy );
+	if( sendTasks != undefined ){
+		this.setTasks( sendTasks, 'send' );
 	}
+
 
 	this.connectElements();
 
@@ -115,6 +113,40 @@ WorkflowHandler.prototype.toString = function(){
 	text += this.endEvent.toString();
 
 	return text;
+}
+
+WorkflowHandler.prototype.setTasks = function(tasks, type){
+
+
+
+	for( var i = 0; i < tasks.length; i++ ){
+		
+		var dummy = new Element( tasks[i]['$']['id'], type );
+		dummy.name = tasks[i]['$']['name'];
+		dummy.inComing = tasks[i]['bpmn2:incoming'][0];
+		dummy.outGoing =  tasks[i]['bpmn2:outgoing'][0];
+
+		if(type === 'send'){
+			dummy.attributes = [
+				{ 
+					name : 'to',
+					type : 'email' 
+				},
+				{ 
+					name : 'subject',
+					type : 'text' 
+				},
+				{ 	
+					name : 'body',
+					type : 'text'
+				}
+			];
+		}
+
+		this.taskList.push( dummy );
+	}
+
+
 }
 
 
