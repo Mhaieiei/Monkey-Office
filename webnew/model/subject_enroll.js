@@ -18,7 +18,7 @@ var subEnrollSchema = mongoose.Schema({
 
 
 // create the model for users and expose it to our app
-module.exports = subEnrollSchema;
+module.exports = mongoose.model('Subenroll', subEnrollSchema);
 
 
 

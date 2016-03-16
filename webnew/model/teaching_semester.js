@@ -16,4 +16,4 @@ var semesyearSchema = mongoose.Schema({
 
 
 // create the model for year and expose it to our app
-module.exports = semesyearSchema;
+module.exports = mongoose.model('Yearstudy', semesyearSchema);

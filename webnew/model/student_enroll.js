@@ -19,7 +19,7 @@ var stdEnrollSchema = mongoose.Schema({
 
 
 // create the model for users and expose it to our app
-module.exports = stdEnrollSchema
+module.exports = mongoose.model('Stdenroll', stdEnrollSchema);
 
 
 

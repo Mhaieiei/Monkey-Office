@@ -2,6 +2,7 @@
     $(document).ready(function(){
     	var program = document.getElementById('program').value;
     	var year = document.getElementById('year').value;
+        var acid = document.getElementById('acid').value;
         var data = [{
             id: 'tqf_head',
             name: 'TQF',
@@ -16,13 +17,13 @@
                     id: 'tqf2',
                     name: 'Lecturer and Instructors',
                     type: 'hbs',
-                    url: '/tqf22?program='+program+'&year='+year
+                    url: '/tqf22?program='+program+'&year='+year+'&acid='+acid
                     
                 },{
                     id: 'tqf3',
                     name: 'Thesis Advisors and Thesis     Examination Committees',
                     type: 'hbs',
-                    url: 'qa-tqf3.hbs'
+                    url: '/tqf23?acid='+acid
                     
                 },{
                     id: 'tqf4',
@@ -550,4 +551,5 @@
 <p hidden> 	
   <input type="text" tabindex="1"  name="program" id="program" value={{programname}} readonly=""><br>
   <input type="text" tabindex="1" name="year" id="year" value="{{year}}"><br>
+  <input type="text" tabindex="1" name="acid" id="acid" value="{{acid}}"><br>
 </p>	
