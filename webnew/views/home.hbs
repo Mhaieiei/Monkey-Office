@@ -1,4 +1,6 @@
 
+
+                                    
     <div class="container">
         <form class="form-horizontal" role="form"  action="/home" method="post">
                     <h3>Search</h3>
@@ -102,15 +104,15 @@
                                     <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
                                     
                                     </tr>
+                                 
+                                {{#each docs}}
                                     
-                                    
-                                    {{#each docs}}
                                     <tr>
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
                                   <td>{{this._id}}</td>
                                   <td><a href="#">{{this.name}}</a></td>
                                   <td>{{this.author}}</td>
-                                  <td>{{this.dateCreate}}</td>
+                                  <td>{{getdate @index}}</td>
                                   <td><font color="red">{{this.status}}</td>
 
                                     </tr>

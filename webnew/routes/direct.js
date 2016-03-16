@@ -131,6 +131,7 @@ module.exports = function(app, passport, schemas) {
 
   app.get('/home', isLoggedIn, function(req, res) {
        	var query = Doc.findByUser(req.user);
+       	var date= [];
        	query.exec(function(err, _docs) {
        		if(err) {
        			console.log(err);
@@ -143,7 +144,9 @@ module.exports = function(app, passport, schemas) {
        		var response = {
        			layout: 'homepage',
        			docs: _docs,
-       			date: {},
+       		    helpers: {
+                getdate: function (value) { return date[value]; }
+            }
        			
        		}
        		//response.docs.dateCreate[0] 
@@ -152,6 +155,7 @@ module.exports = function(app, passport, schemas) {
        		//console.log(ja))
        		for(var i = 0 ; i < response.docs.length ;++i){
        			var a = response.docs[i].dateCreate;
+       			var yy = a.getFullYear();
        			var mm = a.getMonth()+1;
        			var dd = a.getDate();
        			
@@ -162,18 +166,19 @@ module.exports = function(app, passport, schemas) {
        				dd = "0"+dd;
        			}
        			
-       			response.docs[i].date = a.getFullYear() + '-' +mm+'-'+dd;
+       			date[i] = dd+ '/' +mm +'/'+ yy;
        		}
        		
        		//response.docs[0].dateCreate =  a.getYear() + '/' +a.getMonth() +'/'+a.getDay()
        		
-       		// console.log("update")
+       		console.log("update")
        		// console.log(response.docs[0].gun)
        		// response.docs[0].dateCreate = a
-       		//response.docs.dateCreate[0].toString('ddd MMM yyy h:mm:ss')
+       		// response.docs.dateCreate[0].toString('ddd MMM yyy h:mm:ss')
        		
-       		//console.log(esponse.docs.dateCreate[0].toString('ddd MMM yyy h:mm:ss'))
-       		//console.log(response);
+       		// console.log(esponse.docs.dateCreate[0].toString('ddd MMM yyy h:mm:ss'))
+       		// console.log(response);
+
 			res.render('home.hbs', response);
        	});
 
@@ -184,6 +189,7 @@ module.exports = function(app, passport, schemas) {
 
     app.post('/home', isLoggedIn, function(req, res) {
       console.log('AT HOME');
+      var date= [];
    		var documentName = req.body.doc_name;
    		var status = req.body.doc_status;
    		var fromDate = Date.parse(req.body.fromDate);
@@ -256,8 +262,7 @@ module.exports = function(app, passport, schemas) {
 			var response = {
        			layout: 'homepage',
        			docs: _docs,
-       			date: {},
-            docName: documentName,
+       			 docName: documentName,
             docAuthor: author,
             docStatus: status,
             docFromDate: fDate,
@@ -267,11 +272,15 @@ module.exports = function(app, passport, schemas) {
             st2: status2,
             st3: status3,
             type1: type1,
-            type2: type2
+            type2: type2,
+             helpers: {
+                getdate: function (value) { return date[value]; }
+            }
    			}
    			
        		for(var i = 0 ; i < response.docs.length ;++i){
        			var a = response.docs[i].dateCreate;
+       			var yy = a.getFullYear();
        			var mm = a.getMonth()+1;
        			var dd = a.getDate();
        			
@@ -282,7 +291,7 @@ module.exports = function(app, passport, schemas) {
        				dd = "0"+dd;
        			}
        			
-       			response.docs[i].date = a.getFullYear() + '-' +mm+'-'+dd;
+       			date[i] = dd+ '/' +mm +'/'+ yy;
        		}
    		
 			res.render('home.hbs', response); 
