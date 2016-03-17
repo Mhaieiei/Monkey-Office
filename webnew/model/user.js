@@ -30,7 +30,8 @@ var userSchema = new mongoose.Schema({
     roleOfProgram: [{ type: mongoose.Schema.Types.ObjectId, ref: 'roleOfProgram' }],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,
-    advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],	
+    advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
+    publicResearch : [{type: mongoose.Schema.Types.ObjectId,ref:'Public'}],	
     
 
 },{strict : false});

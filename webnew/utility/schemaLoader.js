@@ -6,6 +6,7 @@ module.exports = function(database) {
 
 	models.Work             = database.model('Work', require('../model/works').Work,'works');
 	models.Work.Project     = database.model('Project', require('../model/works').Project,'works');
+	models.Work.Public     = database.model('Public', require('../model/works').Public,'works');
 
 	models.Document         = database.model('Document', require('../model/document'));
 	models.Faculty          = database.model('Faculty', require('../model/faculty'));

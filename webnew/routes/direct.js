@@ -2254,11 +2254,74 @@ module.exports = function(app, passport, schemas) {
 
 	});
 
+	app.get('/tqf24',isLoggedIn,function(req,res){
+		console.log("tqf24 publications of advisors");
+		console.log(req.query.acid);
+		//console.log(req.query.program);
+		//var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
+		Work.Project.aggregate([
+        {
+            $match: { 'acyear' : req.query.acid }           
+        },
+       { 
+       		$unwind: "$user"
+       },
+       {
+       		 $group: {
+   				 _id: "$user.iduser",
+   				 works: { $addToSet: { workid: '$_id',roleuser:"$user.typeuser"} }
+ 		 }
+
+	   }], function( e, result ) {
+	  		console.log(result);
+	  		console.log(result[0].works);
+	  		console.log(result[1].works);
+	  		Work.Project.populate(result,{path:'_id',model:'User'},function(err,userwork){
+	  			if(err){console.log("first populate is err"+err);}
+	  			console.log(userwork);
+	  			console.log(userwork[0].works[0].roleuser);
+	  			Work.Project
+				.find({'acyear': req.query.acid})
+				.populate({
+					path:'user.iduser',
+					model : 'User'
+				}).exec(function(err, works) {
+				    if(err) console.log("find teach err"+err);
+				   	  // This object should now be populated accordingly.
+				    	console.log(works);
+				    	console.log(works[0].nametitle);
+				    	console.log(works[0].user[0].iduser.local.username);
+		    			res.render('qa/tqf23_test.ejs', {
+		    			  //layout: "qaPage",
+						  user : req.user,
+						  examiner : userwork,
+			              Thesis: works,		             
+			             //  helpers: {
+		            		// inc: function (value) { return parseInt(value) + 1; },
+		            		// getindex:function() {return index++;},
+		            		// setid:function(value) {idof =  parseInt(value) + 1;},
+		            		// getid:function() {return idof;}
+
+		            		// }
+
+			            });	
+				});   
+
+	  		});
+	  		
+		  	   
+			});
+
+	});
+
 	
 	
 	//=====================================
     // Get Work Info.(Student) ==============================
     // =====================================
+
+  //-------------------thesis---------------------------------------------------------------------------
+
 	app.get('/thesisinf',isLoggedIn,function(req,res){
 		console.log("Get Thesis Information");
 		console.log(req.query.name);
@@ -2297,7 +2360,7 @@ module.exports = function(app, passport, schemas) {
             username : req.query.user // get the user out of session and pass to template			
         });
 	});
-//-------------------edit here-----------------------------------------------------------
+
 	app.post('/addthesis',isLoggedIn,function(req,res){
 		console.log("Posttt Add thesis");
 		console.log(req.body.name);
@@ -2477,96 +2540,53 @@ module.exports = function(app, passport, schemas) {
 		
      });       
 		
-
-
-	app.post('/addwork',function(req,res){
-		console.log("Add work......");
-		//simple json record
-		//var document = {idUser: req.query.id};
-		//console.log(req.body.name);
-		//console.log(document);
-		//insert record
-		/*Fac.findOne({ 'program_name' :  req.body.name }, function(err, fac) {
-            // if there are any errors, return the error
-            if (err){
-				console.log("Error ...1");
-			}
-            // check to see if theres already a user with that email
-            if (fac) {
-				console.log("That fac is already have");
-            } else {
-                // if there is no user with that email
-                // create the user
-                var newFac  = new Fac();
-                // set the user's local credentials
-				newFac.program_name = req.body.name;
-				newFac.program_year = req.body.year;
-               	newFac.subject = array;	
-                // save the user
-                newFac.save(function(err,user) {
-                    if (err){console.log('mhaiiiiiii');}
-                    else console.log("Insert already"+user);
-                });
-            }
-
-        });  */
-		console.log(req.body.namework);
-		console.log(req.body.details);
-		var test = {
-		    foo: "here be dragons",
-		    bar: "foo is a lie"
-		  };
-		var array = {"nameofwork":"thesis2","detail":"thesis year"};
-		//use JSON.stringify to convert it to json string
-        var jsonstring = JSON.stringify(array);
-        //convert json string to json object using JSON.parse function
-        var jsonobject = JSON.parse(jsonstring);
-		test = ["thesis","a","bb"];
-		temp = "rhw";
-		//test = JSON.parse(array);
-		//console.log(test);
-		/*PSchema.find({},function(err,docs){
-			docs.forEach(function(doc){
-			if(doc.array.indexOf("hello2") == -1)
-			{
-			    doc.array.push("hello2");
-			    doc.save(function (err) {
-			        if(err) {
-			            //error
-			        }
-			    });
-			}
-			})
-			})*/
-		/*Work.findOne({'nameUser' : req.query.email },function(err,docs){
-				console.log(docs);
-			    docs.push(test);
-			    docs.save(function (err,user) {
-			        if (err){console.log('mhaiiiiiii'+err);}
-			    	else console.log(user);
-			    });
-			
-			});
-
-			"details": req.body.details*/
-		var i = 0;
-		changes = { };
-		changes["work."+i]= req.body.namework;
-		changes["work."+i]= req.body.details;
-		console.log(changes);
-		Work.update({ 'nameUser' : req.query.email },
-		{
-			$push : changes			  
-			},{safe:true},
-			  function (err, user) {
-				if (err){console.log('mhaiiiiiii'+err);}
-			    else console.log(user);
-		});
-			
-		res.redirect('/work_inf');
-		
 	
+	//-----------------publication------------------------------------------------------------------
+
+	app.get('/publicationinf',isLoggedIn,function(req,res){
+		console.log("Get Publication Information");
+		console.log(req.query.name);
+		User
+		.findOne({'local.username': req.query.name})
+		.populate('publicResearch')
+		.exec(function(err, docs) {
+		  if(err) console.log(err);
+		  User.populate(docs, {
+		    path: 'publicResearch.user.iduser',		
+		     model: 'User'   
+		  },
+		  function(err, works) {
+		    if(err) console.log("cant find thesis of user"+err);
+		   	  // This object should now be populated accordingly.
+		    console.log(works);
+
+    			res.render("profile/works/publicinfo.ejs", {
+            	//layout: "profileAdstudent",
+            	user : req.query.name,
+            	Userinfo: works,
+            	year : years,
+            	acid : req.query.id,
+           
+             });
+		  });
+		});		
 	});
+	//add publication
+	app.get('/addpublication',isLoggedIn,function(req,res){
+		console.log("Add Publication");
+		console.log(req.query.user);
+		res.render('profile/works/addpublic.hbs', {
+			layout: "profilestudent",
+            username : req.query.user // get the user out of session and pass to template			
+        });
+	});
+
+
+
+
+
+
+	
 	
 	
 	//=====================================

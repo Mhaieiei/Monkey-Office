@@ -8,11 +8,12 @@ var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var workSchema = mongoose.Schema({
-	acyear : String	
+	acyear : String,
+    _type : String	
 });
 
 var projectSchema = mongoose.Schema({
-	_type: {type: String, default: 'Thesis'},
+	_type: {type: String, default: 'advisingProject'},
 	nametitle : String,
 	acyear : String,
 	user : [{
@@ -26,14 +27,19 @@ var projectSchema = mongoose.Schema({
 });
 
 var publicResearchSchema = mongoose.Schema({
-    lecturer:{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    _type : {type: String, default: 'publicResearch'},
     researchName: String,
-    academicYear: { type: mongoose.Schema.Types.ObjectId, ref: 'Acyear' },
-    partners: [String],
+    acyear : String,
     publishOn: String,
-    level: String,
     nameOfConferenceJournal: String,
-    type: String, //national Conference, international conference..
+    typepublic: String, //national Conference, international conference..
+
+    //user advisor,advisee
+    user : [{
+        iduser : {type: String,ref:'User'},
+        typeuser : String,
+    }],    
+    level: String,    
     referenced: [{
         type: String,
         agenciesOrganizationCommunity: String,
