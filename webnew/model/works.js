@@ -28,25 +28,22 @@ var projectSchema = mongoose.Schema({
 
 var publicResearchSchema = mongoose.Schema({
     _type : {type: String, default: 'publicResearch'},
-    researchName: String,
+    namepublic: String,
     acyear : String,
-    publishOn: String,
-    nameOfConferenceJournal: String,
     typepublic: String, //national Conference, international conference..
-
+    nameconfer: String,
+    namejournal : String,
+    location : String,
+    vol : String,
+    datenum : String,
+    issue : String,
+    page : String,
     //user advisor,advisee
     user : [{
         iduser : {type: String,ref:'User'},
         typeuser : String,
     }],    
-    level: String,    
-    referenced: [{
-        type: String,
-        agenciesOrganizationCommunity: String,
-        utilization: String,
-        monthAndYearToUse: String,
-
-    }]
+   
 });
 
 // var Work = mongoose.model('Work', workSchema, 'works');

@@ -2583,23 +2583,24 @@ module.exports = function(app, passport, schemas) {
 
 	app.post('/addpublication',isLoggedIn,function(req,res){
 		console.log("Posttt Add Publication");
-		console.log(req.body.username);
-		console.log(req.body.namepublic);
-		console.log(req.body.program);
-		console.log(req.body.acyear);
-		console.log(req.body.typepublic)
-		console.log(req.body.nameconfer);
-		console.log(req.body.namejournal);
-		console.log(req.body.location);
-		console.log(req.body.vol);
-		console.log(req.body.date);
-		console.log(req.body.issue);
-		console.log(req.body.page);
+		console.log("username"+req.body.username);
+		console.log("namepublic"+req.body.namepublic);
+		console.log("program"+req.body.program);
+		console.log("acyear"+req.body.acyear);
+		console.log("typepublic"+req.body.typepublic)
+		console.log("nameconfer"+req.body.nameconfer);
+		console.log("namejournal"+req.body.namejournal);
+		console.log("location"+req.body.location);
+		console.log("vol"+req.body.vol);
+		console.log("date"+req.body.date);
+		console.log("issue"+req.body.issue);
+		console.log("page"+req.body.page);
+		console.log("article"+req.body.article);
 
-		console.log(req.body.arrlen);
-		console.log(req.body.nameuser);
-		console.log(req.body.roleuser);
-		console.log(req.body.article);
+		console.log("arrlen"+req.body.arrlen);
+		console.log("nameuser"+req.body.nameuser);
+		console.log("roleuser"+req.body.roleuser);
+		
 				
 		var strlen = req.body.arrlen;	
 		var userarr = [];
@@ -2707,7 +2708,7 @@ module.exports = function(app, passport, schemas) {
 			Work.findOne( { 
 			$and: [
 		             { '_type' :  'publicResearch' },
-		             { 'nametitle' : req.body.namepublic }
+		             { 'namepublic' : req.body.namepublic }
 		           ]
 			
 		}, function (err, rows) {
@@ -2722,31 +2723,33 @@ module.exports = function(app, passport, schemas) {
 	        	else{
 	    		//if there is no user 
 	       	    // create the work
-
-	       	    var workobj = { 
-		    		'nametitle': req.body.name,
-		    		'_type' : 'advisingProject',		    		
-		    		'acyear' :  ac._id,
-		    		'user' : userarr
+	       	    publicobj.user = userarr;
+	       	    publicobj.acyear = ac._id;
+	       	    console.log(publicobj);
+	       // 	    var workobj = { 
+		    		// 'nametitle': req.body.name,
+		    		// '_type' : 'advisingProject',		    		
+		    		// 'acyear' :  ac._id,
+		    		// 'user' : userarr
 		    		
-		    		}
+		    		// }
 		    	//also add subject code to user
-	            var newthesis       = new Work.Project(workobj);		                
+	            var newpublic       = new Work.Public(publicobj);		                
 	            // save the user
-	            newthesis.save(function(err,thesis) {
-	                if (err){console.log('new Thesis save'+err);}
+	            newpublic.save(function(err,thesis) {
+	                if (err){console.log('new Publication save'+err);}
 	                else {
-	                	console.log("Save new thesis already"+thesis);
+	                	console.log("Save new Publication already"+thesis);
 	                	//set id of work to each user
 	                		async.eachSeries(array,function(item,callback) { 
 							 User.findOne({'_id': item._id},function(err,user){
 							 	if(err){console.log("user can't find"+err);}
 							 	if(user != null){
-							 		user.advisingProject.push(thesis._id); //save id of project to user
+							 		user.publicResearch.push(thesis._id); //save id of project to user
 									user.save(function(err,user) {
 					                    if (err){console.log('user cant update work id'+err);}  
 					                    else{
-					                    	console.log("Update advisingProject succesful");
+					                    	console.log("Update Publication succesful");
 					                    	callback(err);	
 					                    	                 	
 					                    }			                    
@@ -2774,7 +2777,7 @@ module.exports = function(app, passport, schemas) {
 						        	
 						    },function(err) {
 						        if (err) console.log('Async enroll err');
-						        res.redirect('/thesisinf?name='+req.body.username);
+						        res.redirect('/publicationinf?name='+req.body.username);
 						        console.log("done");
 						    });
 	                	}
