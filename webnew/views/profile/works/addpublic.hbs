@@ -1,5 +1,41 @@
 
 <script>
+$(document).ready(function() {
+  var $state = $("#typepublic"),
+    $nameconfer = $('#nameconfer'),
+    $namejournal = $('#namejournal'), 
+    $location = $('#location');
+    //$page = $('#page');
+    //$date = $('#date');
+    $vol = $('#vol');
+    $issue = $('#issue');
+    $article = $('#article');
+  $state.change(function() {
+    if ($state.val() == 'intercon') {
+        console.log('intercon');
+        $nameconfer.removeAttr('disabled');
+        $location.removeAttr('disabled');
+        
+        $namejournal.attr('disabled', 'disabled').val('');
+        $vol.attr('disabled', 'disabled').val('');
+        $issue.attr('disabled', 'disabled').val('');
+        $article.attr('disabled', 'disabled').val('');
+    } else {
+        console.log('interjournal');
+        $nameconfer.attr('disabled', 'disabled').val('');
+        $location.attr('disabled', 'disabled').val('');
+        
+        $namejournal.removeAttr('disabled');
+        $vol.removeAttr('disabled');
+        $issue.removeAttr('disabled');
+        $article.removeAttr('disabled');
+    }
+  }).trigger('change'); // added trigger to calculate initial state
+});
+</script>
+<script>
+
+
   var array = [];
   var rowind = 1;
   function deleteRow(row)
@@ -76,13 +112,49 @@
                         <label for="inputType" class="col-md-2 control-label">Publication Type : </label>
                         <div class="col-md-4">
                        
-                          <select class="form-control"  name="typepublic">
+                          <select class="form-control" id="typepublic" name="typepublic">
                                       <option value="intercon">International Conference</option>
                                       <option value="interjunal">International Jounals</option>                                     
                           </select> 
                         </div>
                </div>   
-            
+               <label for="inputType" class="col-md-2 control-label">Name Conference : </label>
+                  <div class="col-md-4">
+                        <input type="text" class="form-control" id="nameconfer" name="nameconfer" id="inputType">
+                  </div> 
+              <label for="inputType" class="col-md-2 control-label">Name Journals : </label>
+                  <div class="col-md-4">
+                        <input type="text" class="form-control" id="namejournal" name="namejournal" id="inputType">
+                  </div> 
+             <!--additional information   --> 
+              <label for="inputType" class="col-md-2 control-label">Location : </label>
+                  <div class="col-md-4">
+                        <input type="text" class="form-control" id="location" name="location" id="inputType">
+                  </div>    
+              <label for="inputType" class="col-md-2 control-label">Vol : </label>
+                <div class="col-md-4">
+                      <input type="text" class="form-control" style="width:100px" id="vol" name="vol" id="inputType">
+              </div> 
+                  
+              <label for="inputType" class="col-md-2 control-label">Date : </label>
+                    <div class="col-md-4">
+                          <input type="text" placeholder="Month,Year" class="form-control" id="date" name="date" id="inputType">
+                    </div> 
+              
+               
+              <label for="inputType" class="col-md-2 control-label">Issue : </label>
+                <div class="col-md-4">
+                      <input type="text" class="form-control" style="width:100px" id="issue" name="issue" id="inputType">
+                </div>     
+               <label for="inputType" class="col-md-2 control-label">Page : </label>
+                <div class="col-md-4">
+                      <input type="text" class="form-control" id="page" name="page" id="inputType">
+                </div>
+                <label for="inputType" class="col-md-2 control-label">Article : </label>
+                <div class="col-md-4">
+                      <input type="text" class="form-control" style="width:100px" id="article" name="article" id="inputType">
+                </div>     
+          
                     <div id="tab_2"><table id="userTable" class="table muffin table-striped table-hover margin-bottom0">
                       <thead>
                           <tr>

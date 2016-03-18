@@ -2581,6 +2581,217 @@ module.exports = function(app, passport, schemas) {
         });
 	});
 
+	app.post('/addpublication',isLoggedIn,function(req,res){
+		console.log("Posttt Add Publication");
+		console.log(req.body.username);
+		console.log(req.body.namepublic);
+		console.log(req.body.program);
+		console.log(req.body.acyear);
+		console.log(req.body.typepublic)
+		console.log(req.body.nameconfer);
+		console.log(req.body.namejournal);
+		console.log(req.body.location);
+		console.log(req.body.vol);
+		console.log(req.body.date);
+		console.log(req.body.issue);
+		console.log(req.body.page);
+
+		console.log(req.body.arrlen);
+		console.log(req.body.nameuser);
+		console.log(req.body.roleuser);
+		console.log(req.body.article);
+				
+		var strlen = req.body.arrlen;	
+		var userarr = [];
+	    var array = [];	 
+	    //work object
+	    if(req.body.typepublic == 'intercon'){
+	    	var publicobj = { 
+		    		'_type' : 'publicResearch',	
+		    		'namepublic': req.body.namepublic,	
+		    		'typepublic' : req.body.typepublic,
+		    		'page' : req.body.page,
+		    		'datenum' : req.body.datenum, 
+		    		'nameconfer' : req.body.nameconfer,
+		    		'location' : req.body.location,	    		
+		    }
+	    }else{
+	    	var publicobj = { 
+		    		'_type' : 'publicResearch',	
+		    		'namepublic': req.body.namepublic,	
+		    		'typepublic' : req.body.typepublic,
+		    		'page' : req.body.page,
+		    		'datenum' : req.body.datenum,
+		    		'namejournal' : req.body.namejournal,
+		    		'vol' : req.body.vol,		    		
+		    		'issue' : req.body.issue,
+		    		'article' : req.body.article,	    		
+		    }
+	    } 
+	    //advisee
+	    for(var i=0;i< strlen;i++){
+	    	if(strlen==1){
+	    		var userobj = {
+	    			'iduser': req.body.nameuser,
+	    			'typeuser' : req.body.roleuser
+	    		}
+	    		if(req.body.roleuser == 'advisee'){
+		    		var obj ={ 
+	           	    	'_id' : req.body.nameuser,
+	           	    	'education': [],
+	           	    	'local': {
+	           	    	'username': req.body.nameuser,
+			    		'name': req.body.nameuser,
+			    		'program' : "",
+			    		'role': "student"},
+			    		}						    		
+			   	}else{
+		    		var obj = { 
+	           	    	'_id' : req.body.nameuser,
+	           	    	'education': [],
+	           	    	'local': {
+	           	    	'username': req.body.nameuser,
+			    		'name': req.body.nameuser,
+			    		'program' : "",
+			    		'role': "staff"},	
+			    		}					    		
+		    	}
+	    	}else{
+	    		var userobj = {
+	    			'iduser': req.body.nameuser[i],
+	    			'typeuser' : req.body.roleuser[i]
+	    		}
+	    		if(req.body.roleuser[i] == 'advisee'){
+		    		var obj ={ 
+	           	    	'_id' : req.body.nameuser[i],
+	           	    	'education': [],
+	           	    	'local': {
+	           	    	'username': req.body.nameuser[i],
+			    		'name': req.body.nameuser[i],
+			    		'program' : "",
+			    		'role': "student"},
+			    		}						    		
+		   		}else{
+		    		var obj = { 
+	           	    	'_id' : req.body.nameuser[i],
+	           	    	'education': [],
+	           	    	'local': {
+	           	    	'username': req.body.nameuser[i],
+			    		'name': req.body.nameuser[i],
+			    		'program' : "",
+			    		'role': "staff"},	
+			    		}					    		
+		    	}
+	    	}
+	    	userarr.push(userobj);	    	
+	    	array.push(obj);
+	    }
+	     
+		console.log(userarr);
+		console.log(array);	
+	    Acyear.findOne({ 
+			$and: [
+		             { 'program_name' :  req.body.program  },
+		             { 'academic_year' : req.body.acyear }
+		           ]
+			
+		}, function(err, ac) {
+        
+        if (err){
+			console.log("Error ...1");
+		}
+        // check to see if theres already a user with that email
+        if (ac!= null) {
+			console.log("There have table(s) to show");
+			console.log(ac);
+			Work.findOne( { 
+			$and: [
+		             { '_type' :  'publicResearch' },
+		             { 'nametitle' : req.body.namepublic }
+		           ]
+			
+		}, function (err, rows) {
+	        	if(err){
+	        		console.log("Find Publication err"+err);
+	        	}
+	        	if(rows != null){
+	        		console.log("This work have already");
+	        		console.log(rows);
+	        		//if user have already, set ref of id user to subject        		
+	        	}
+	        	else{
+	    		//if there is no user 
+	       	    // create the work
+
+	       	    var workobj = { 
+		    		'nametitle': req.body.name,
+		    		'_type' : 'advisingProject',		    		
+		    		'acyear' :  ac._id,
+		    		'user' : userarr
+		    		
+		    		}
+		    	//also add subject code to user
+	            var newthesis       = new Work.Project(workobj);		                
+	            // save the user
+	            newthesis.save(function(err,thesis) {
+	                if (err){console.log('new Thesis save'+err);}
+	                else {
+	                	console.log("Save new thesis already"+thesis);
+	                	//set id of work to each user
+	                		async.eachSeries(array,function(item,callback) { 
+							 User.findOne({'_id': item._id},function(err,user){
+							 	if(err){console.log("user can't find"+err);}
+							 	if(user != null){
+							 		user.advisingProject.push(thesis._id); //save id of project to user
+									user.save(function(err,user) {
+					                    if (err){console.log('user cant update work id'+err);}  
+					                    else{
+					                    	console.log("Update advisingProject succesful");
+					                    	callback(err);	
+					                    	                 	
+					                    }			                    
+					                });  
+							 	}
+							 	else{
+							 		//can't find user, create new
+							 		 // create the user
+					           	   
+							    	//also add subject code to user
+							    	console.log(item);
+					                var newUser        = new User(item);
+					                newUser.advisingProject.push(thesis._id);		                
+					                // save the user
+					                newUser.save(function(err,user) {
+					                    if (err){console.log('Cant save new user'+err);}
+					                    else {
+					                    	console.log("Insert new User already");
+					                    	callback(err);		   
+					                    	}
+							                    
+							            });
+					                }
+					             });						 						  	
+						        	
+						    },function(err) {
+						        if (err) console.log('Async enroll err');
+						        res.redirect('/thesisinf?name='+req.body.username);
+						        console.log("done");
+						    });
+	                	}
+	                });
+	            
+	        		
+	        	}
+	        	
+	        });  
+			
+        } else {
+           console.log("There not have table to show,make new");
+           
+       	 }
+       	});
+		
+     });       
 
 
 
