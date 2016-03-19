@@ -2592,7 +2592,7 @@ module.exports = function(app, passport, schemas) {
 		console.log("namejournal"+req.body.namejournal);
 		console.log("location"+req.body.location);
 		console.log("vol"+req.body.vol);
-		console.log("date"+req.body.date);
+		console.log("datenum"+req.body.datenum);
 		console.log("issue"+req.body.issue);
 		console.log("page"+req.body.page);
 		console.log("article"+req.body.article);

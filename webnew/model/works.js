@@ -37,6 +37,7 @@ var publicResearchSchema = mongoose.Schema({
     vol : String,
     datenum : String,
     issue : String,
+    article : String,
     page : String,
     //user advisor,advisee
     user : [{
