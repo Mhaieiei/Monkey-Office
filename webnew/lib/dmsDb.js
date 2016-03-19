@@ -3,7 +3,7 @@ Singleton connection to DMS
 Taking advantage of module caching
 */
 
-var dmsDBConfig = require('../config/dbconfig');
+var dmsDBConfig = require('../config/databaseconfig');
 var mongoose = require('mongoose');
 
 var conn2db = function() {
