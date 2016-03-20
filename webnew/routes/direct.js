@@ -2434,7 +2434,7 @@ module.exports = function(app, passport, schemas) {
 	        if (!err) {
 	            console.log(programs._id);
 	            //referenceCurriculumSchema.find();
-	            FacilityAndInfrastruture.find({}, function (err, docs) {
+	            FacilityAndInfrastruture.find({ 'programAndAcYear': programs._id }, function (err, docs) {
 
 	                console.log("REFFFF---->>>", docs);
 
