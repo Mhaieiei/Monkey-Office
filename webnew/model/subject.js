@@ -10,7 +10,21 @@ var subjectSchema = mongoose.Schema({
 	sub_code : String,
 	sub_name	: String,
 	sub_credit	: Number,
-	sub_lecter : [{type: String,ref:'User'}]		
+	sub_lecter : [{type: String,ref:'User'}],	
+    sub_type: String, //compulsory sub, thesis sub
+    ELO: [{
+    supportLevel: String,
+    ELO: { type: mongoose.Schema.Types.ObjectId, ref: 'ELO' }
+
+}]
+
+});
+
+var ELOSchema = mongoose.Schema({
+
+    title: String,
+    description: String,
+    number:Number
 
 });
 
@@ -35,7 +49,10 @@ subjectSchema.methods.editSubject = function(request, response){
 };
 
 // create the model for users and expose it to our app
-module.exports = subjectSchema;
+module.exports = {
+    Subject: subjectSchema,
+    ELO: ELOSchema
+}
 
 
 

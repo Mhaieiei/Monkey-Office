@@ -47,6 +47,20 @@ var publicResearchSchema = mongoose.Schema({
    
 });
 
+var trainingSchema = mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    trainingCourse: String,
+    hour: Number,
+    academicYear: String
+});
+
+var careerDevelopmentSchema = mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    activity: String,
+    hour: Number,
+    academicYear: String
+});
+
 // var Work = mongoose.model('Work', workSchema, 'works');
 // var exports = module.exports = Work;
 // Work.Project = mongoose.model('Project', projectSchema, 'works');
@@ -54,7 +68,9 @@ var publicResearchSchema = mongoose.Schema({
 module.exports = {
     Work: workSchema,
     Project: projectSchema,
-    Public: publicResearchSchema,    
+    Public: publicResearchSchema,
+    Training: trainingSchema,
+    CareerDevelopment: careerDevelopmentSchema,
 };
 
 

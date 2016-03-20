@@ -7,8 +7,32 @@ var bcrypt   = require('bcrypt-nodejs');
 var facSchema = mongoose.Schema({
 
 	programname: String,
-	sub_program: [String]
-	
+	sub_program: [String],
+	stakeholder: [{ type: mongoose.Schema.Types.ObjectId, ref: 'stakeholder' }],
+	evaluation: [{
+	    stakeholder: { type: mongoose.Schema.Types.ObjectId, ref: 'stakeholder' },
+	    EvaluationMethod: [{ type: mongoose.Schema.Types.ObjectId, ref: 'EvaluationMethod' }]
+
+	}],
+	assesmentTool: [{ type: mongoose.Schema.Types.ObjectId, ref: 'assesmentToolSchema' }],
+	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }]
+
+
+});
+
+var EvaluationMethodSchema = mongoose.Schema({
+
+    methodName: String,
+    frequency: String
+});
+
+var StakeholderSchema = mongoose.Schema({
+
+    type: String,
+    title: String,
+    requirement: [String],
+    ELO: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ELO' }]
+
 });
 
 
@@ -31,9 +55,14 @@ facSchema.methods.editProgram = function(request, response){
 
 
 // create the model for users and expose it to our app
-module.exports = facSchema;
+module.exports = {
 
 
+    Faculty: facSchema,
+    Evaluateion: EvaluationMethodSchema,
+    Stakeholder: StakeholderSchema
+
+}
 
 
 

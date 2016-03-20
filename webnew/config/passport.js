@@ -100,6 +100,7 @@ module.exports = function(passport, schemas) {
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
+        console.log("YES >> " + email);
         User.findOne({ 'local.username' :  email }, function(err, user) {
             // if there are any errors, return the error before anything else
 
