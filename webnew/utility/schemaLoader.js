@@ -30,7 +30,7 @@ module.exports = function(database) {
 	models.StudentEnroll    = database.model('Stdenroll', require('../model/student_enroll'));
 	models.SubjectEnroll = database.model('Subenroll', require('../model/subject_enroll'));
 	models.AssesmentTool = database.model('assesmentToolSchema', require('../model/assesmentToolSchema'));
-	models.FacilityAndInfrastruture = database.model('lecturerPlaceSchema', require('../model/FacilityAndInfrastrutureSchema'));
+	models.FacilityAndInfrastruture = database.model('lecturerPlaceSchema', require('../model/FacilityAndInfrastrutureSchema'), 'lecturerPlaceSchema');
 
 	models.ReferenceCurriculum = database.model('referenceCurriculum', require('../model/referenceCurriculumSchema').ReferenceCurriculum, 'referenceCurriculumSchema');
 	models.ReferenceCurriculum.Detail = database.model('detail', require('../model/referenceCurriculumSchema').Detail, 'referenceCurriculumSchema');

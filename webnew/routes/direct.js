@@ -51,6 +51,7 @@ module.exports = function(app, passport, schemas) {
 	var Doc = schemas.Document;
 	var Subenroll = schemas.SubjectEnroll;
 	var Stdenroll = schemas.StudentEnroll;
+	var FacilityAndInfrastruture = schemas.FacilityAndInfrastruture;
 
 
 
@@ -2378,6 +2379,42 @@ module.exports = function(app, passport, schemas) {
 	  		
 		  	   
 			});
+
+	});
+
+	app.get('/aun10-1', isLoggedIn, function (req, res) {
+	    console.log("FacilityAndInfrastrutureSchema");
+	    console.log("program :"+req.query.program);
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	            console.log(programs._id);
+	            //referenceCurriculumSchema.find();
+	            FacilityAndInfrastruture.find({}, function (err, docs) {
+
+	                console.log("REFFFF---->>>", docs);
+
+	                res.render('qa/qa-aun10.1.hbs', {
+	                    //    user: req.user,      
+	                    layout: "qaPage",
+
+	                    docs: docs
+	                });
+
+
+
+
+	            });
+
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
 
 	});
 	
