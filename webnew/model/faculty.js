@@ -15,7 +15,10 @@ var facSchema = mongoose.Schema({
 
 	}],
 	assesmentTool: [{ type: mongoose.Schema.Types.ObjectId, ref: 'assesmentToolSchema' }],
-	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }]
+	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }],
+	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
+	Responsibility: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Responsibility' }]
+
 
 
 });

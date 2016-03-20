@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt-nodejs');
 // define the schema for our user model
 var referenceCurriculumSchema = mongoose.Schema({
 
-    programAndAcYear: { type: mongoose.Schema.Types.ObjectId, ref: 'Acyear' },
+    
     detail: [{ type: mongoose.Schema.Types.ObjectId, ref: 'detail' }]
 
 });

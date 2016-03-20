@@ -6,8 +6,8 @@ var bcrypt = require('bcrypt-nodejs');
 var Responsibility = mongoose.Schema({
     category: String,
     description: String,
-    ELO: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ELO' }],
-    programAndAcYear: { type: mongoose.Schema.Types.ObjectId, ref: 'Acyear' } //in case, edit program topic
+    ELO: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ELO' }]
+     //in case, edit program topic
     
 });
 
