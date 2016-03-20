@@ -1,0 +1,44 @@
+<%- include ../header.ejs %>
+	<table style="width:100%" border="0">
+	<tr style="height:50px">
+		<td>
+		</td>
+	</tr>
+	
+
+	</table>
+	<table style="width:100%" border="0">
+		<tr>
+			<td style="width:20%">
+				<div class="text_column1position">
+					<a href = "/qapage"><button type="button" class="btn btn-primary" style="width:180px">QA</button><br>
+					<br>
+					<a href = "workflow"><button type="button" class="btn btn-primary" style="width:180px">WorkFlow</button></a><br><br>
+					<button type="button" class="btn btn-primary" style="width:180px">DBMS</button><br>
+					<br>
+				</div>
+			</td>
+			<td>
+				<button class="btn btn-default"><a href="/tqf21?program=<%= programname %>&year=<%= year %>">2.1</a></button>Program Faculty Members<br/>
+				<button class="btn btn-default"><a href="/tqf22?program=<%= programname %>&year=<%= year %>">2.2</a></button>Lecturer and Instructors<br/>
+				<button class="btn btn-default"><a href="#">2.3</a></button>Thesis Advisor and Thesis Examine<br/>
+				<button class="btn btn-default"><a href="#">2.4</a></button>Publications<br/>
+				<button class="btn btn-default"><a href="#">2.5</a></button>Program Management
+							
+			</td>
+			<!--<td>
+				<div class = "text_column2position">
+					<center>
+						<a href ="/workflowExecution" >Execute workflow</a> 
+					</center>
+					<br>
+					<center>
+						<a href ="/workflowCreation">Create workflow</a>
+					</center>
+				</div>
+			</td>-->
+		</tr>
+	</table>	
+	
+
+<%- include ../footer.ejs %>

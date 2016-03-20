@@ -131,7 +131,7 @@ module.exports = function(app, passport, schemas) {
     // =====================================
 
   app.get('/home', isLoggedIn, function(req, res) {
-<<<<<<< HEAD
+
        	var query = Doc.findByUser(req.user);
        	var date= [];
        	query.exec(function(err, _docs) {
@@ -184,13 +184,13 @@ module.exports = function(app, passport, schemas) {
 			res.render('home.hbs', response);
        	});
 
-=======
+
         console.log("Get home");
 		res.render('home.hbs',{
 			layout:"homePage",
 			user : req.user
 		});
->>>>>>> e0f8e1ee74285b163676f2d48428e63f3233d2c9
+
  	
 
 	
