@@ -7,7 +7,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 module.exports = function(passport, schemas) {
 
     var User = schemas.User;
-    //var Work = schemas.Work;
+    var Work = schemas.Work;
 
     // =========================================================================
     // passport session setup ==================================================
@@ -47,7 +47,7 @@ module.exports = function(passport, schemas) {
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        User.findOne({ 'local.username' :  req.body.nameuser }, function(err, user) {
+        User.findOne({ 'local.username' :  email }, function(err, user) {
             // if there are any errors, return the error
             if (err)
                 return done(err);
@@ -60,22 +60,26 @@ module.exports = function(passport, schemas) {
                 // if there is no user with that email
                 // create the user
                 var newUser            = new User();
-				
+				var newWork 		   = new Work();
                 // set the user's local credentials
-				newUser._id = req.body.nameuser;
-                newUser.local.username    = req.body.nameuser;
+				
+                newUser.local.username    = email;
 				newUser.local.name = req.body.nameuser;
                 newUser.local.password = newUser.generateHash(password);
                 newUser.local.role = 'admin';
                
-				
+				newWork.nameUser		= email;
                 // save the user
                 newUser.save(function(err,user) {
                     if (err)
                         throw err;
                     console.log("Update new User"+user);
                 });
-				
+				newWork.save(function(err) {
+                    if (err)
+                        throw err;
+                    console.log("Update new Work");
+                });
 				return done(null, newUser);
             }
 
@@ -100,21 +104,14 @@ module.exports = function(passport, schemas) {
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        console.log("YES >> " + email);
         User.findOne({ 'local.username' :  email }, function(err, user) {
             // if there are any errors, return the error before anything else
-
-    
             if (err)
                 return done(err);
 
-            console.log("In function >> " + user);
-
             // if no user is found, return the message
-            if (!user){
-                console.log("Error");
-                return done(null, false, req.flash('loginMessage', 'No user found.'));
-            } // req.flash is the way to set flashdata using connect-flash
+            if (!user)
+                return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
 
             // if the user is found but the password is wrong
             if (!user.validPassword(password))
