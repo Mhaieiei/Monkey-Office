@@ -1,6 +1,5 @@
 
 
-                                    
     <div class="container">
         <form class="form-horizontal" role="form"  action="/home" method="post">
                     <h3>Search</h3>
@@ -26,7 +25,6 @@
                                     <option value="done">Done</option>
 
                                 </select>
-
                               
                               </div>
                              </div>
@@ -104,23 +102,23 @@
                                     <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
                                     
                                     </tr>
-                                 
-                                {{#each docs}}
                                     
-                                    <tr>
+                                    
+                                    {{#each docs}}
+                                    <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                  <td>{{this._id}}</td>
-                                  <td><a href="#">{{this.name}}</a></td>
-                                  <td>{{this.author}}</td>
-                                  <td>{{getdate @index}}</td>
-                                  <td><font color="red">{{this.status}}</td>
+                                      <td>{{this._id}}</td>
+                                      <td><a href="#">{{this.name}}</a></td>
+
+                                      <td>{{this.author}}</td>
+                                      <td>{{getdate @index}}</td>
+                                      <td><font color="red">{{this.status}}</td>
 
                                     </tr>
                                   {{/each}}
 
                                 </thead>
                          <!--        <tbody>
->>>>>>> 695122813eb01b3fb96ee45dae71ed125a5dcd1f
                                     <tr>
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
                                     <td> <div class="col-md-5">D01082016T0322</div></td>
@@ -153,11 +151,6 @@
                                     <td> <div class="col-md-5">12/11/2016</div></td>
                                     <td> <div class="col-md-5"><font color="red">CREATED</div></td>
                                     </tr>
-<<<<<<< HEAD
-                                    <tr>
-                                    
-                                </tbody> 
-=======
                                  </tbody>  
                                      -->
                                
@@ -198,11 +191,12 @@
                         
                 
          
-               <!--  <div id="tab2" class="tab">
+                <div id="tab2" class="tab">
                     <p>Tab #2 content goes here!</p>
                     <p>Donec pulvinar neque sed semper lacinia. Curabitur lacinia ullamcorper nibh; quis imperdiet velit eleifend ac. Donec blandit mauris eget aliquet lacinia! Donec pulvinar massa interdum ri.</p>
-                </div> -->
+                </div>
          
 
             </div>
         </div>
+

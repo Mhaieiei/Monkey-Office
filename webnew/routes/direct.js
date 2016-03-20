@@ -139,28 +139,68 @@ module.exports = function(app, passport, schemas) {
     // =====================================
 
   app.get('/home', isLoggedIn, function(req, res) {
+  		
+       	var doc1 = new Doc({
+       		personReceive: req.user,
+       		type: 'doc',
+       		name: 'mydoc1',
+       		author: 'X',
+       		filepath: path.resolve('uploads/document/mydoc1.docx')
+       	});
+       	var doc2 = new Doc({
+       		personReceive: req.user,
+       		type: 'doc',
+       		name: 'mydoc2',
+       		author: 'Y',
+       		filepath: path.resolve('uploads/document/mydoc2.docx')
+       	});
+       	var doc3 = new Doc({
+       		personReceive: req.user,
+       		type: 'doc',
+       		name: 'spiderman',
+       		author: 'lol',
+       		filepath: path.resolve('uploads/document/mydoc3.docx')
+       	});
+       	var doc4 = new Doc({
+       		personReceive: req.user,
+       		type: 'doc',
+       		name: 'deadpool',
+       		author: 'haha',
+       		filepath: path.resolve('uploads/document/mydoc4.docx')
+       	});
+
+       	// doc1.save();
+       	// doc2.save();
+
+       	// doc3.save();
+       	// doc4.save();
+
+
+       	var doclist = [doc1,doc2];
 
        	var query = Doc.findByUser(req.user);
        	var date= [];
-       	query.exec(function(err, docs) {
+       	query.exec(function(err,_docs) {
        		if(err) {
        			console.log(err);
        			res.status(500);
-       			// return next(err);
+       			return next(err);
 
-       		}else if(docs == null){
-       			//if docs == null
-       			console.log("Get home");
-				res.render('home.hbs',{
-					layout:"homePage",
-					user : req.user
-				});
-       		}else{
+       		}
+
+       		var response = {
+       			layout: 'homepage',
+       			docs: _docs,
+       			helpers: {
+	                getdate: function (value) { return date[value]; }
+		            }
+       			
+       		}
        			
 	       			
 	       		
-	       		for(var i = 0 ; i < docs.length ;++i){
-	       			var a = docs[i].dateCreate;
+	       		for(var i = 0 ; i < _docs.length ;++i){
+	       			var a = _docs[i].dateCreate;
 	       			var yy = a.getFullYear();
 	       			var mm = a.getMonth()+1;
 	       			var dd = a.getDate();
@@ -180,14 +220,14 @@ module.exports = function(app, passport, schemas) {
 	       		console.log("update")
 	       		res.render('home.hbs',{
 					layout: 'homepage',
-	       			docs: docs,
+	       			docs: _docs,
 	       		    helpers: {
 	                getdate: function (value) { return date[value]; }
 		            }
 				});
 	       		
 				
-       		}
+       		
        			
        		
        		
