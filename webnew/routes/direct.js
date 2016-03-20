@@ -81,6 +81,9 @@ module.exports = function(app, passport, schemas) {
 	});
 	
     // =====================================
+
+
+
     // LOGIN ===============================
     // =====================================
     // show the login form
@@ -90,6 +93,10 @@ module.exports = function(app, passport, schemas) {
         res.render('index.ejs', { message: req.flash('loginMessage') }); 
     });
 
+    app.get('/login', function(req, res){
+    	res.render('index.ejs', { message: req.flash('loginMessage') }); 
+    });
+
     // process the login form
     // app.post('/login', do all our passport stuff here);
 	app.post('/login', passport.authenticate('local-login', {
@@ -97,11 +104,12 @@ module.exports = function(app, passport, schemas) {
         failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
 		
-		
     }));
     // =====================================
     // LOGOUT ==============================
     // =====================================
+
+
     app.get('/logout', function(req, res) {
 		console.log("Get logout");
         req.logout();
