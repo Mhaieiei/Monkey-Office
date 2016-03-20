@@ -142,62 +142,59 @@ module.exports = function(app, passport, schemas) {
 
        	var query = Doc.findByUser(req.user);
        	var date= [];
-       	query.exec(function(err, _docs) {
+       	query.exec(function(err, docs) {
        		if(err) {
        			console.log(err);
        			res.status(500);
-       			return next(err);
-       		}
-       		
-       		//console.log(_docs);
+       			// return next(err);
 
-       		var response = {
-       			layout: 'homepage',
-       			docs: _docs,
-       		    helpers: {
-                getdate: function (value) { return date[value]; }
-            }
+       		}else if(docs == null){
+       			//if docs == null
+       			console.log("Get home");
+				res.render('home.hbs',{
+					layout:"homePage",
+					user : req.user
+				});
+       		}else{
        			
+	       			
+	       		
+	       		for(var i = 0 ; i < docs.length ;++i){
+	       			var a = docs[i].dateCreate;
+	       			var yy = a.getFullYear();
+	       			var mm = a.getMonth()+1;
+	       			var dd = a.getDate();
+	       			
+	       			if(mm<10){
+	       				mm = "0"+mm;
+	       			}
+	       			if(dd<10){
+	       				dd = "0"+dd;
+	       			}
+	       			
+	       			date[i] = dd+ '/' +mm +'/'+ yy;
+	       		}
+	       		
+	       		//response.docs[0].dateCreate =  a.getYear() + '/' +a.getMonth() +'/'+a.getDay()
+	       		
+	       		console.log("update")
+	       		res.render('home.hbs',{
+					layout: 'homepage',
+	       			docs: docs,
+	       		    helpers: {
+	                getdate: function (value) { return date[value]; }
+		            }
+				});
+	       		
+				
        		}
-       		//response.docs.dateCreate[0] 
-       		//var a = new Date(response.docs[0].dateCreate );
-       		//console.log(response.docs[0].dateCreate.getHours() )
-       		//console.log(ja))
-       		for(var i = 0 ; i < response.docs.length ;++i){
-       			var a = response.docs[i].dateCreate;
-       			var yy = a.getFullYear();
-       			var mm = a.getMonth()+1;
-       			var dd = a.getDate();
        			
-       			if(mm<10){
-       				mm = "0"+mm;
-       			}
-       			if(dd<10){
-       				dd = "0"+dd;
-       			}
-       			
-       			date[i] = dd+ '/' +mm +'/'+ yy;
-       		}
        		
-       		//response.docs[0].dateCreate =  a.getYear() + '/' +a.getMonth() +'/'+a.getDay()
        		
-       		console.log("update")
-       		// console.log(response.docs[0].gun)
-       		// response.docs[0].dateCreate = a
-       		// response.docs.dateCreate[0].toString('ddd MMM yyy h:mm:ss')
-       		
-       		// console.log(esponse.docs.dateCreate[0].toString('ddd MMM yyy h:mm:ss'))
-       		// console.log(response);
-
-			res.render('home.hbs', response);
        	});
 
 
-        console.log("Get home");
-		res.render('home.hbs',{
-			layout:"homePage",
-			user : req.user
-		});
+        
 
  	
 
@@ -2328,7 +2325,10 @@ module.exports = function(app, passport, schemas) {
 		//var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
 		Work.Project.aggregate([
         {
-            $match: { 'acyear' : req.query.acid }           
+            $match: { $and: [
+	            { 'acyear' : req.query.acid },
+	            { '_type' : 'publicResearch' }
+	         ]}            
         },
        { 
        		$unwind: "$user"
@@ -2343,7 +2343,7 @@ module.exports = function(app, passport, schemas) {
 	  		console.log(result);
 	  		console.log(result[0].works);
 	  		console.log(result[1].works);
-	  		Work.Project.populate(result,{path:'_id',model:'User'},function(err,userwork){
+	  		Work.Project.populate(result,[{path:'_id',model:'User'},{path:'works.workid',model:'Work'}],function(err,userwork){
 	  			if(err){console.log("first populate is err"+err);}
 	  			console.log(userwork);
 	  			console.log(userwork[0].works[0].roleuser);
@@ -2358,8 +2358,8 @@ module.exports = function(app, passport, schemas) {
 				    	console.log(works);
 				    	console.log(works[0].nametitle);
 				    	console.log(works[0].user[0].iduser.local.username);
-		    			res.render('qa/tqf23_test.ejs', {
-		    			  //layout: "qaPage",
+		    			res.render('qa/tqf24', {
+		    			  layout: "qaPage",
 						  user : req.user,
 						  examiner : userwork,
 			              Thesis: works,		             
@@ -2380,7 +2380,6 @@ module.exports = function(app, passport, schemas) {
 			});
 
 	});
-
 	
 	
 	//=====================================

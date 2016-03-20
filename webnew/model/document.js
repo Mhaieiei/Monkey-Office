@@ -2,7 +2,7 @@ var Schema = require('mongoose').Schema;
 
 var docSchema = new Schema({
 	personReceive: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'user'
 	},
 
