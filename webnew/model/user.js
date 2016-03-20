@@ -31,12 +31,21 @@ var userSchema = new mongoose.Schema({
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,
     advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
-    publicResearch : [{type: mongoose.Schema.Types.ObjectId,ref:'Public'}],	
+    publicResearch: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Public' }],
+    training: [{ type: mongoose.Schema.Types.ObjectId, ref: 'training' }],
+    careerDevelopment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'careerDevelopment' }]
     
 
 },{strict : false});
 
+var roleOfProgramSchema = mongoose.Schema({
 
+
+    "type": String,//development  committee
+    "position": String//chairman...
+
+
+});
 
 // methods ======================
 // generating a has
@@ -118,5 +127,10 @@ userSchema.methods.editEducation = function(request, response){
 
 };
 
-module.exports = userSchema;
+module.exports = {
+    
+    
+    User: userSchema,
+    roleOfProgram: roleOfProgramSchema
+}
 

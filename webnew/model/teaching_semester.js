@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 //define schema for year study schema
 var semesyearSchema = mongoose.Schema({
 
-	ac_id: String,
+    ac_id: String,
+    plan: { type: mongoose.Schema.Types.ObjectId, ref: 'structure' },
 	Year : Number,
 	semester : Number,
 	subject : [{
@@ -13,7 +14,29 @@ var semesyearSchema = mongoose.Schema({
 	
 });
 
+var structureSchema = mongoose.Schema({
+
+    plan: String,
+    knowledgeBlock: [{ type: mongoose.Schema.Types.ObjectId, ref: 'KnowledgeBlock' }]
+
+
+});
+
+var KnowledgeBlockSchema = mongoose.Schema({
+
+    type: String,
+    creditRequired: Number,
+    subjectType: String
+
+});
+
+
 
 
 // create the model for year and expose it to our app
-module.exports = semesyearSchema;
+module.exports = {
+
+    TeachingSemester: semesyearSchema,
+    KnowledgeBlock: KnowledgeBlockSchema,
+    Structure: structureSchema
+}
