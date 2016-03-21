@@ -8,6 +8,8 @@ var mongoose = require('mongoose');
 var Handlebars = require('handlebars/runtime')['default'];
 var isLoggedIn = require('middleware/loginChecker');
 
+var formController = require('../lib/form');
+
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
         $el.find('[value="' + value + '"]').attr({'selected':'selected'});
@@ -3469,7 +3471,7 @@ module.exports = function(app, passport, schemas) {
 		});
 	});
 
-
+  app.use('/form', formController);
 	app.get('/:id/profile', function(req, res){
 		
 		TemplateWorkflow.findOne( { "_id" : req.params.id }, function(err, result){
