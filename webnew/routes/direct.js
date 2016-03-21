@@ -141,34 +141,35 @@ module.exports = function(app, passport, schemas) {
 
   app.get('/home', isLoggedIn, function(req, res) {
   		
-       	var doc1 = new Doc({
-       		personReceive: req.user,
-       		type: 'doc',
-       		name: 'mydoc1',
-       		author: 'X',
-       		filepath: path.resolve('uploads/document/mydoc1.docx')
-       	});
-       	var doc2 = new Doc({
-       		personReceive: req.user,
-       		type: 'doc',
-       		name: 'mydoc2',
-       		author: 'Y',
-       		filepath: path.resolve('uploads/document/mydoc2.docx')
-       	});
-       	var doc3 = new Doc({
-       		personReceive: req.user,
-       		type: 'doc',
-       		name: 'spiderman',
-       		author: 'lol',
-       		filepath: path.resolve('uploads/document/mydoc3.docx')
-       	});
-       	var doc4 = new Doc({
-       		personReceive: req.user,
-       		type: 'doc',
-       		name: 'deadpool',
-       		author: 'haha',
-       		filepath: path.resolve('uploads/document/mydoc4.docx')
-       	});
+       	// var doc1 = new Doc({
+       	// 	personReceive: req.user,
+       	// 	type: 'doc',
+       	// 	name: 'Harry Potter',
+       	// 	author: 'Tester',
+       	// 	filepath: path.resolve('uploads/document/mydoc1.docx')
+       	// });
+       	// var doc2 = new Doc({
+       	// 	personReceive: req.user,
+       	// 	type: 'doc',
+       	// 	name: 'Deadpool',
+       	// 	author: 'James Bond',
+       	// 	filepath: path.resolve('uploads/document/mydoc2.docx')
+       	// });
+       	// var doc3 = new Doc({
+       	// 	personReceive: req.user,
+       	// 	type: 'Doc',
+       	// 	name: 'Star War',
+       	// 	author: 'Mango',
+       	// 	filepath: path.resolve('uploads/document/mydoc3.docx')
+       	// });
+       	// var doc4 = new Doc({
+       	// 	personReceive: req.user,
+       	// 	type: 'doc',
+       	// 	name: 'Nodejs',
+       	// 	author: 'Alex Ferguson',
+       	// 	filepath: path.resolve('uploads/document/mydoc4.docx')
+       	// });
+
 
        	// doc1.save();
        	// doc2.save();
@@ -177,7 +178,7 @@ module.exports = function(app, passport, schemas) {
        	// doc4.save();
 
 
-       	var doclist = [doc1,doc2];
+       	//var doclist = [doc1,doc2];
 
        	var query = Doc.findByUser(req.user);
        	var date= [];
@@ -307,13 +308,15 @@ module.exports = function(app, passport, schemas) {
 
       if (type == 'own'){
         type1 = true;
-      } else if (type = 'other_type'){ 
+      } else if (type == 'other_type'){ 
         type2 = true;
       }
 
       console.log('s1:'+status1);
       console.log('s2:'+status2);
       console.log('s3:'+status3);
+      console.log('type1:'+type1);
+      console.log('type2:'+type2);
 			var response = {
        			layout: 'homepage',
        			docs: _docs,

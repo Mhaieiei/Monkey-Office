@@ -6,11 +6,11 @@
                     <div class="form-group">
                             <label for="doc_name" class="col-md-2 control-label">Search by name: </label>
                             <div class="col-md-4">
-                                  <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="Document name(more than 3 characters)">
+                                  <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="Document name(more than 3 characters)" value="{{docName}}">
                             </div>
                             <label for="doc_author" class="col-md-2 control-label">Search by author: </label>
                             <div class="col-md-4">
-                                  <input type="text" class="form-control" id="doc_author" name="doc_author"  placeholder="Author name(more than 3 characters)">
+                                  <input type="text" class="form-control" id="doc_author" name="doc_author"  placeholder="Author name(more than 3 characters)" value="{{docAuthor}}">
                             </div>
 
                     </div>
@@ -19,10 +19,32 @@
                               <label for="doc_status" class="col-md-2 control-label">Status : </label>
                               <div class="col-md-4">
                                 <select class="btn btn-primary dropdown-toggle" class="caret" name="doc_status" id="doc_status">
-                                    <option value="all">All</option>
-                                    <option value="create">Created</option>
-                                    <option value="inprogress">Inprogress</option>
-                                    <option value="done">Done</option>
+
+                                    {{#if st1}}
+                                        <option value="all">All</option>
+                                        <option value="create" selected="selected">Created</option>
+                                        <option value="inprogress">Inprogress</option>
+                                        <option value="done">Done</option>
+                                        {{else}}
+                                            {{#if st2}}
+                                            <option value="all">All</option>
+                                            <option value="create">Created</option>
+                                            <option value="inprogress" selected="selected">Inprogress</option>
+                                            <option value="done" >Done</option>
+                                            {{else}}
+                                                {{#if st3}}
+                                                <option value="all" >All</option>
+                                                <option value="create" >Created</option>
+                                                <option value="inprogress">Inprogress</option>
+                                                <option value="done" selected="selected">Done</option>
+                                                {{else}}
+                                                <option value="all" selected="selected">All</option>
+                                                <option value="create" >Created</option>
+                                                <option value="inprogress">Inprogress</option>
+                                                <option value="done" >Done</option>
+                                            {{/if}}
+                                        {{/if}}
+                                    {{/if}}
 
                                 </select>
                               
@@ -32,9 +54,24 @@
                                <label for="doc_type" class="col-md-2 control-label">Type: </label>
                               <div class="col-md-4">
                                   <select class="btn btn-primary dropdown-toggle" class="caret" name="doc_type" id="doc_type">
+
+                                    {{#if type1}}
                                     <option value="all">All</option>
-                                    <option value="own">Own</option>
+                                    <option value="own" selected="selected">Own</option>
                                     <option value="other_type">Other_type</option>
+                                    {{else}}
+                                        {{#if type2}}
+                                        <option value="all">All</option>
+                                        <option value="own" >Own</option>
+                                        <option value="other_type" selected="selected">Other_type</option>
+                                        {{else}}
+                                        <option value="all" selected="selected">All</option>
+                                        <option value="own">Own</option>
+                                        <option value="other_type">Other_type</option>    
+                                        {{/if}}
+                                    {{/if}}
+
+
                                 </select>
                                  
 
@@ -46,12 +83,12 @@
                         <div class="form-group">
                             <label for="fromDate" class="col-md-2 control-label">Date : </label>
                             <div class="col-md-4">
-                                <input type="date" class="form-control" id="fromDate" name="fromDate">
+                                <input type="date" class="form-control" id="fromDate" name="fromDate" value="{{docFromDate}}">
                             </div>
                                   
                             <label class="col-md-2" for="toDate"> To</label>
                                 <div class="col-md-4 ">
-                                    <input for="inputDate" type="date" class="form-control" id="toDate" name="toDate">
+                                    <input for="inputDate" type="date" class="form-control" id="toDate" name="toDate" value="{{docToDate}}">
 
                                 </div>
 
