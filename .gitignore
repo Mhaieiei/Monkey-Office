@@ -3,6 +3,7 @@ PROJECT GITIGNORE
 ####################################
 
 dbconfig.js
+webnew/uploads/document # Document files directory
 
 ####################################
 NODE.JS GITIGNORE TEMPLATE
