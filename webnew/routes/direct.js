@@ -6,6 +6,7 @@ var async = require('async');
 var mongoose = require('mongoose');
 //var busboy = require('connect-busboy');
 var Handlebars = require('handlebars/runtime')['default'];
+var isLoggedIn = require('middleware/loginChecker');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
