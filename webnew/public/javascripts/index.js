@@ -1,8 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-
-
 var $ = require('jquery'),
     BpmnModeler = require('bpmn-js/lib/Modeler');
 
@@ -122,14 +120,19 @@ $(document).on('ready', function() {
   downloadLink.click(function(e) {
 
     e.preventDefault();
+
+    console.log( myElements );
     
+    var saveVariables = []
     saveDiagram(function(err, xml) {
-      alert('ccc');
+     
       var posting = $.post( '/workflow/save', 
         { 
           name: workflowName.val(),
           description: workflowDescription.val(),
-          xml : xml
+          xml: "testXML",
+          variables: myVariables,
+          elements: myElements
         });
 
       posting.done(function( data ) {
@@ -438,7 +441,7 @@ function ensureUnit(val) {
  * @param {Array<didi.Module>} [options.additionalModules] a list of modules to use with the default modules
  */
 function Viewer(options) {
-
+  console.log('Viewer');
   this.options = options = assign({}, DEFAULT_OPTIONS, options || {});
 
   var parent = options.container;
@@ -2983,7 +2986,6 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       canvas = this._canvas;
 
   var actions = {};
-
   if (element.type === 'label') {
     return actions;
   }
@@ -2999,11 +3001,10 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
   }
 
   function getReplaceMenuPosition(element) {
-
     var Y_OFFSET = 5;
 
     var diagramContainer = canvas.getContainer(),
-        pad = contextPad.getPad(element).html;
+        pad = contextPad.getPad(element, 'context-pad').html;
 
     var diagramRect = diagramContainer.getBoundingClientRect(),
         padRect = pad.getBoundingClientRect();
@@ -3023,13 +3024,11 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
   function appendAction(type, className, options) {
 
     function appendListener(event, element) {
-
       var shape = elementFactory.createShape(assign({ type: type }, options));
       create.start(event, shape, element);
     }
 
     var shortType = type.replace(/^bpmn\:/, '');
-
     return {
       group: 'model',
       className: className,
@@ -3198,6 +3197,19 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       }
     });
   }
+
+  assign(actions, {
+    'setting': {
+      group: 'edit',
+      className: 'icon-service',
+      title: 'Setting',
+      action: {
+          click: function(event, element) {
+            bpmnReplace.openChooser(getReplaceMenuPosition(element), element);
+          }
+        }
+    }
+  });
 
   // Delete Element Entry
   assign(actions, {
@@ -6893,13 +6905,14 @@ PaletteProvider.$inject = [ 'palette', 'create', 'elementFactory', 'spaceTool', 
 
 PaletteProvider.prototype.getPaletteEntries = function(element) {
 
+  console.log("PaletteProvider.prototype.getPaletteEntries");
   var actions  = {},
       create = this._create,
       elementFactory = this._elementFactory,
       spaceTool = this._spaceTool,
       lassoTool = this._lassoTool;
 
-
+    console.log(element);
   function createAction(type, group, className, title, options) {
 
     function createListener(event) {
@@ -6913,7 +6926,7 @@ PaletteProvider.prototype.getPaletteEntries = function(element) {
     }
 
     var shortType = type.replace(/^bpmn\:/, '');
-
+    console.log("PaletteProvider createAction : " + shortType);
     return {
       group: group,
       className: className,
@@ -7348,6 +7361,7 @@ function BpmnReplace(bpmnFactory, moddle, popupMenu, replace, selection, modelin
 
     var menuEntries = [];
     var businessObject = element.businessObject;
+    
 
     // start events outside event sub processes
     if (is(businessObject, 'bpmn:StartEvent') && !isEventSubProcess(businessObject.$parent)) {
@@ -7539,6 +7553,7 @@ function BpmnReplace(bpmnFactory, moddle, popupMenu, replace, selection, modelin
    * @param  {Object} element
    */
   this.openChooser = function(position, element) {
+    console.log('openChooser');
     var entries = this.getReplaceOptions(element),
         headerEntries = [];
 
@@ -19893,6 +19908,14 @@ Canvas.prototype._addElement = function(type, element, parent, parentIndex) {
 
   eventBus.fire(type + '.added', { element: element, gfx: gfx });
 
+  console.log( "=== Begin Canvas.addElement ===");
+  var eggElement = {};
+  eggElement.inputMappings = [];
+  eggElement.outputMappings = [];
+  myElements[element.id] = eggElement;
+  console.log(myElements);
+  console.log( "=== End Canvas.addElement ===");
+
   return element;
 };
 
@@ -23121,12 +23144,10 @@ var entrySelector = '.entry';
  * @param {Overlays} overlays
  */
 function ContextPad(eventBus, overlays) {
-
   this._providers = [];
 
   this._eventBus = eventBus;
   this._overlays = overlays;
-
   this._current = null;
 
   this._init();
@@ -23206,7 +23227,8 @@ ContextPad.prototype.trigger = function(action, event, autoActivate) {
       handler,
       originalEvent,
       button = event.delegateTarget || event.target;
-
+  console.log('ContextPad.trigger');
+  console.log(event);
   if (!button) {
     return event.preventDefault();
   }
@@ -23238,8 +23260,55 @@ ContextPad.prototype.trigger = function(action, event, autoActivate) {
  * @param {djs.model.Base} element
  * @param {Boolean} force if true, force reopening the context pad
  */
-ContextPad.prototype.open = function(element, force) {
 
+
+// shoemaker implementation
+ContextPad.prototype.getPopup = function(element){
+  
+  var html = '<p><b>' + element.id + '</b></p>';
+  html += '<p>' + element.type + '</p>';
+  html += '<p>' + element.businessObject.name + '</p>';
+
+  currentElementId = element.id;
+
+
+  if( element.type === 'bpmn:ServiceTask'){
+    html += '<p><b>Service</b>';
+    html += '<div class="selected-service">' + myElements[currentElementId].serviceId + '</div>';
+    html += '<input class="selected-service-id" type="hidden"></input>';
+    html += '<p><b>Setting</b></p>';
+    html += '<button onclick="selectService()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#selectServicePopup">Select service</button>';
+    html += '<a class="btn btn-default btn-sm" href="/service/create" target="_blank">Create new service</a></div>';
+    
+    html += '<div><b>Input Mapping</b><button data-toggle="modal" data-target="#inputMappingPopup">Add new mapping</button></div>';
+    html += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div>';
+  
+    html += '<div><b>Output Mapping</b><button data-toggle="modal" data-target="#outputMappingPopup">Add new mapping</button></div>';
+    html += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
+
+  }
+  else if( element.type === 'bpmn:UserTask'){
+    
+    html += '<p><b>Form</b>';
+    html += '<div class="selected-form">' + myElements[currentElementId].formId + '</div>';
+    html += '<input class="selected-form-id" type="hidden"></input>';
+    html += '<div><button onclick="selectForm()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#selectFormPopup">Select form</button>';
+    html += '<a class="btn btn-default btn-sm" href="/form/create" target="_blank">Create new form</a></div>';
+    
+    html += '<div><b>Input Mapping</b><button data-toggle="modal" data-target="#inputMappingPopup">Add new mapping</button></div>';
+    html += '<div id="input-mapping-list">' + getMappingList(currentElementId, 'inputMappings') + '</div>';
+  
+    html += '<div><b>Output Mapping</b><button data-toggle="modal" data-target="#outputMappingPopup">Add new mapping</button></div>';
+    html += '<div id="output-mapping-list">' + getMappingList(currentElementId, 'outputMappings') + '</div>';
+  }
+
+  return html;
+}
+
+ContextPad.prototype.open = function(element, force) {
+  console.log('ContextPad.open');
+  $('.setting-popup').html( this.getPopup(element) );
+  $('.setting-popup').show();
   if (this._current && this._current.open) {
 
     if (force !== true && this._current.element === element) {
@@ -23253,12 +23322,25 @@ ContextPad.prototype.open = function(element, force) {
   this._updateAndOpen(element);
 };
 
+ContextPad.prototype._setPopup = function(html, element){
+  html.appendChild( 
+    domify(
+      '<div class="box" style="background-color: #777; width: 200px; height: 300px;" draggable="true">'
+      + '<div><button>GOd</button></div>'
+      + '</div>'
+    ) );
+
+}
+
 
 ContextPad.prototype._updateAndOpen = function(element) {
-
+  ///console.log('Start: ContextPad._updateAndOpen');
+  //console.log(this._overlays);
   var entries = this.getEntries(element),
-      pad = this.getPad(element),
-      html = pad.html;
+      pad = this.getPad(element, 'context-pad'),
+      popup = this.getPad(element, 'popup'),
+      html = pad.html,
+      html2 = popup.html;
 
   domClear(html);
 
@@ -23295,24 +23377,29 @@ ContextPad.prototype._updateAndOpen = function(element) {
   this._current = {
     element: element,
     pad: pad,
+    popup: popup,
     entries: entries,
     open: true
   };
 
   this._eventBus.fire('contextPad.open', { current: this._current });
+  //console.log('End: ContextPad._updateAndOpen');
 };
 
-ContextPad.prototype.getPad = function(element) {
+ContextPad.prototype.getPad = function(element, type) {
+
+  //console.log('ContextPad.prototype.getPad');
 
   var self = this;
 
   var overlays = this._overlays,
-      pads = overlays.get({ element: element, type: 'context-pad' });
+      pads = overlays.get({ element: element, type: type });
 
   // create context pad on demand if needed
   if (!pads.length) {
 
     var html = domify('<div class="djs-context-pad"></div>');
+    var html2 = domify('<div class="djs-context-pad"></div>');
 
     domDelegate.bind(html, entrySelector, 'click', function(event) {
       self.trigger('click', event);
@@ -23335,7 +23422,15 @@ ContextPad.prototype.getPad = function(element) {
       html: html
     });
 
-    pads = overlays.get({ element: element, type: 'context-pad' });
+    overlays.add(element, 'popup', {
+      position: {
+        left: -200,
+        top: -60
+      },
+      html: html2
+    });
+
+    pads = overlays.get({ element: element, type: type });
 
     this._eventBus.fire('contextPad.create', { element: element, pad: pads[0] });
   }
@@ -23348,16 +23443,18 @@ ContextPad.prototype.getPad = function(element) {
  * Close the context pad
  */
 ContextPad.prototype.close = function() {
-
-  var html;
+  var html, html2;
 
   if (this._current) {
     if (this._current.open) {
       html = this._current.pad.html;
+      html2 = this._current.popup.html;
       domClasses(html).remove('open');
+      domClasses(html2).remove('open');
     }
 
     this._current.open = false;
+    $('.setting-popup').hide(); 
 
     this._eventBus.fire('contextPad.close', { current: this._current });
   }
@@ -25860,7 +25957,7 @@ module.exports = DeleteElementsHandler;
 
 
 DeleteElementsHandler.prototype.postExecute = function(context) {
-
+  console.log("DeleteElementsHandler.prototype.postExecute");
   var modeling = this._modeling,
       elementRegistry = this._elementRegistry,
       elements = context.elements;
@@ -27814,7 +27911,7 @@ Overlays.prototype.get = function(search) {
  * @return {String}                 id that may be used to reference the overlay for update or removal
  */
 Overlays.prototype.add = function(element, type, overlay) {
-
+  console.log("Overlays.prototype.add");
   if (isObject(type)) {
     overlay = type;
     type = null;
@@ -31610,6 +31707,7 @@ function TouchInteractionEvents(injector, canvas, eventBus, elementRegistry, int
   }
 
   if (palette) {
+    
     eventBus.on('palette.create', function(event) {
       var node = event.html;
 
@@ -35354,7 +35452,7 @@ function computeInputData(manager, input) {
     var pointers = input.pointers;
     var pointersLength = pointers.length;
 
-    // store the first input to calculate the distance and direction
+    // store the first getc to calculate the distance and direction
     if (!session.firstInput) {
         session.firstInput = simpleCloneInputData(input);
     }
