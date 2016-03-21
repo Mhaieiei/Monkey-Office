@@ -38,6 +38,24 @@ var StakeholderSchema = mongoose.Schema({
 
 });
 
+var ProgramManagement = mongoose.Schema({
+
+    result: [{
+        indicator: String,
+        target: String,
+        action: String,
+        result:String
+    
+    }],
+    meetingOfProgramManagementCommittee: [{
+        meetingDate: Date,
+        noOfParticipation: Number,
+        percentageOfParticipation:Number
+
+
+    }]
+});
+
 
 facSchema.methods.editProgram = function(request, response){
 	console.log("Mhai eiei");
@@ -63,7 +81,8 @@ module.exports = {
 
     Faculty: facSchema,
     Evaluateion: EvaluationMethodSchema,
-    Stakeholder: StakeholderSchema
+    Stakeholder: StakeholderSchema,
+    ProgramManagement: ProgramManagement
 
 }
 

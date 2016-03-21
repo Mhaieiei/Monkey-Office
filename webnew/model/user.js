@@ -25,7 +25,7 @@ var userSchema = new mongoose.Schema({
         salary: Number,
         academic_position: String,
         admin_position: String,
-        jobDescription : String,
+        jobDescription : [String],
        },
     roleOfProgram: [{ type: mongoose.Schema.Types.ObjectId, ref: 'roleOfProgram' }],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],

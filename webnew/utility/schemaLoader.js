@@ -3,7 +3,7 @@ module.exports = function(database) {
 	var models = {};
 
 	models.User = database.model('User', require('../model/user').User,'users');
-	models.User.roleOfProgram = database.model('User', require('../model/user').roleOfProgram,'users');
+	models.User.roleOfProgram = database.model('roleOfProgram', require('../model/user').roleOfProgram, 'users');
 
 	models.Work             = database.model('Work', require('../model/works').Work,'works');
 	models.Work.Project     = database.model('Project', require('../model/works').Project,'works');
@@ -16,6 +16,7 @@ module.exports = function(database) {
 	models.Faculty = database.model('Faculty', require('../model/faculty').Faculty, 'faculty');
 	models.Faculty.Evaluateion = database.model('EvaluationMethod', require('../model/faculty').Evaluateion, 'faculty');
 	models.Faculty.Stakeholder = database.model('stakeholder', require('../model/faculty').Stakeholder, 'faculty');
+	models.Faculty.ProgramManagement = database.model('ProgramManagement', require('../model/faculty').ProgramManagement, 'faculty');
 
 	models.Subject = database.model('Subject', require('../model/subject').Subject, 'subject');
 	models.Subject.ELO = database.model('ELO', require('../model/subject').ELO, 'subject');
