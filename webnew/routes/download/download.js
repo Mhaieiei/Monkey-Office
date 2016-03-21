@@ -15,16 +15,18 @@ Check whether user have permission to download a file
 	- User must own that file or the file can be downloaded by any members
 */
 function isGranted(req, res, next) {
-	isMyFile(req, res, next);
+	var isLogin = req.user != undefined;
+	if(!isLogin)
+		return res.redirect('/');
+
+	isMyFile(req.user, req.params.file, res, next);
 }
 
 /*
 Check whether user owns the destinated file
 If user doesn't own the file, redirect to root
 */
-function isMyFile(req, res, next) {
-	var user = req.user;
-	var filename = req.params.file;
+function isMyFile(user, filename, res, next) {
 
 	var query = schemas.Document.findOne({
 		'personReceive': user,
