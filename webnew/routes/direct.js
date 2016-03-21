@@ -50,6 +50,9 @@ module.exports = function(app, passport, schemas) {
 	var Subenroll = schemas.SubjectEnroll;
 	var Stdenroll = schemas.StudentEnroll;
 	var FacilityAndInfrastruture = schemas.FacilityAndInfrastruture;
+	var AssesmentTool = schemas.AssesmentTool;
+	var ReferenceCurriculum = schemas.ReferenceCurriculum;
+
 
 
 
@@ -2518,7 +2521,450 @@ module.exports = function(app, passport, schemas) {
 	    });
 
 	});
+
+	app.get('/aun3-3', isLoggedIn, function (req, res) {
+	    console.log("knowledgeAndSkill");
+
+	    //referenceCurriculumSchema.find();
+
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	            console.log(programs._id);
+	            //referenceCurriculumSchema.find();
+	            Teach.find({
+	                $and: [
+                    { 'ac_id': programs._id },
+	                { 'plan': { $exists: true } }
+	                ]
+	            })
+                .populate('plan')
+                .populate('subject.subcode')
+                .exec(function (err, docs) {
+                    Teach.populate(docs, {
+                        path: 'subject.subcode.ELO.ELO',
+                        model: 'Subject'
+                    },
+                    function (err, subs) {
+
+
+                        console.log("REFFFF---->>>", subs);
+
+                        res.render('qa/qa-aun3.3.hbs', {
+                            //    user: req.user,      
+                            layout: "qaPage",
+
+                            docs: subs
+
+                        });
+
+                        //, function (err, docs) {
+
+
+                    });
+                });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
+
+
+
+
+
+
+	});
+
+	app.get('/aun5-3', isLoggedIn, function (req, res) {
+	    console.log("assesmentTool");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    Fac.findOne({ 'programname': req.query.program }, function (err, docs) {
+	        console.log("REFFFF-DOC--->>>", docs._id);
+
+	        AssesmentTool.aggregate([
+                    {
+                        $match: 
+                           
+                                //{ 'hour': 5 }
+                                { 'programname': docs.id }
+                           
+                        
+                    },
+
+                    { $group: { _id: "$type", assementTool: { $push: "$$ROOT" } } }
+                    
+
+	        ] , function (e, result) {
+
+
+	            console.log("REFFFF---->>>", result);
+                 var index = 0;
+                 res.render('qa/qa-aun5.3.hbs', {
+                     //    user: req.user,      
+                     layout: "qaPage",
+
+                     docs: result,
+                     helpers: {
+                         inc: function (value) { return parseInt(value) + 1; },
+                         getyear:function(value) {return yearac[value];},
+                         getindex:function() {return ++index;}}
+
+                 });
+
+                 });
+	    });
+                 //, function (err, docs) {
+
+
+
+            
+
+
+	});
+
+	//app.get('/structureOfCurriculum', isLoggedIn, function (req, res) {
+	//    console.log("structureOfCurriculum");
+
+	//    //referenceCurriculumSchema.find();
+
+
+	//    Fac.find({ 'programname': "Software" })
+    //         .populate('structureOfCurriculum')
+    //         .exec(function (err, docs) {
+
+    //             teaching_semester.populate(docs, {
+    //                 path: 'structureOfCurriculum.knowledgeBlock',
+    //                 model: 'KnowledgeBlock'
+    //             },
+    //                function (err, subs) {
+
+    //                    console.log("REFFFF---->>>", subs);
+
+    //                    res.render('C:/Monkey-Office-master/webproject/views/qa/test_structureOfCurriculum.hbs', {
+    //                        //    user: req.user,      
+    //                        layout: "workflowMain",
+
+    //                        docs: subs
+
+    //                    });
+
+
+
+    //                });
+    //         });
+
+
+	//});
+
+
+	app.get('/aun2-1', isLoggedIn, function (req, res) {
+	    console.log("aun21-refCurriculum");
+
+	    //Fac.findOne({ 'programname': req.query.program }, function (err, programs) {
+
+	    //    if (!err) {
+	    //        console.log(programs._id);
+	    //        //referenceCurriculumSchema.find();
+	    //        ReferenceCurriculum.find({ 'programname': programs._id })
+        //        .populate('detail')
+        //        .exec(function (err, docs) {
+        //            if (err) return callback(err);
+        //            console.log("REFFFF---->>>", docs);
+        //            var index = 0;
+        //            res.render('qa/qa-aun2.1.hbs', {
+        //                //    user: req.user,      
+        //                layout: "qaPage",
+
+        //                docs: docs,
+        //                helpers: {
+        //                    inc: function (value) { return parseInt(value) + 1; },
+        //                    getyear: function (value) { return yearac[value]; },
+        //                    getindex: function () { return ++index; }
+        //                }
+        //            });
+
+        //        });
+
+	    //    } else {
+	    //        //res.redirect('/fachome');
+	    //        return console.log(err + "mhaieiei");
+	    //    }
+	    //});
+
+	    Fac.find({ 'programname': req.query.program })
+             .populate('referenceCurriculum')
+
+             .exec(function (err, docs) {
+                 Fac.populate(docs, {
+                     path: 'referenceCurriculum.detail',
+                     model: 'detail'
+                 },
+                    function (err, subs) {
+
+
+                        console.log("REFFFF---->>>", subs);
+
+                        var index = 0;
+                                    res.render('qa/qa-aun2.1.hbs', {
+                                        //    user: req.user,      
+                                        layout: "qaPage",
+
+                                        docs: docs,
+                                        helpers: {
+                                            inc: function (value) { return parseInt(value) + 1; },
+                                            getyear: function (value) { return yearac[value]; },
+                                            getindex: function () { return ++index; }
+                                        }
+                                    });
+
+
+                    });
+
+
+             });
+
+	});
+
+	app.get('/aun11-4', isLoggedIn, function (req, res) {
+	    console.log("evaluationMethod");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    Fac.find({ 'programname': req.query.program })
+             .populate('evaluation.stakeholder')
+             .populate('evaluation.EvaluationMethod')
+             .exec(function (err, docs) {
+
+
+
+                 console.log("REFFFF---->>>", docs);
+
+                 res.render('qa/qa-aun11.4.hbs', {
+                     //    user: req.user,      
+                     layout: "qaPage",
+
+                     docs: docs
+
+                 });
+
+
+
+
+             });
+
+
+	});
+
+	app.get('/aun11-1', isLoggedIn, function (req, res) {
+	    console.log("developmentCommittee");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    User.find({
+	        $and: [
+                { 'local.programName': req.query.program },
+                { 'local.role': "Lecturer" },
+
+	        ]
+	    })
+        .populate('roleOfProgram')
+        .exec(function (err, programs) {
+
+            console.log("REFFFF---->>>", programs);
+
+            //res.render('qa/qa-aun11.1.hbs', {
+            //    //    user: req.user,      
+            //    layout: "qaPage",
+
+            //    docs: programs
+
+            //});
+
+
+        });
+
+	});
 	
+	app.get('/aun7', isLoggedIn, function (req, res) {
+	    console.log("listOfSupportStaff");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    User.find({
+	        $and: [
+                { 'local.programName': req.query.program },
+                { 'local.role': "staff" }
+	        ]
+	    }, function (err, programs) {
+
+
+	        console.log("REFFFF---->>>", programs);
+
+	        //res.render('C:/Monkey-Office-master/webproject/views/qa/test_listOfSupportStaff.hbs', {
+	        //    //    user: req.user,      
+	        //    layout: "workflowMain",
+
+	        //    docs: programs
+
+	        //});
+
+
+	    });
+
+	});
+
+	app.get('/aun12-1', isLoggedIn, function (req, res) {
+	    console.log("careerDevelopment");
+
+	    //referenceCurriculumSchema.find();
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+
+	            console.log("REFFFF---->>>", programs.id);
+	            Work.CareerDevelopment.aggregate([
+                    {
+                        $match: {
+                            $and: [
+                                { 'activity': { $exists: true } },
+                                //{ 'hour': 5 }
+                                { 'academicYear': programs.id }
+                            ]
+                        }
+                    },
+
+                    { $group: { _id: "$user", careerDevelopment: { $push: "$$ROOT" } } }
+
+
+	            ], function (e, result) {
+	                console.log("REFFFF--activity-->>>", result);
+
+	                User.populate(result, {
+	                    path: '_id',
+	                    model: 'User'
+	                },
+                         function (err, subs) {
+
+
+
+                             console.log("REFFFF--USERR----activity-->>>", subs);
+
+
+
+
+
+                             //res.render('C:/Monkey-Office-master/webproject/views/qa/test_careerDevelopment.hbs', {
+                             //    //    user: req.user,      
+                             //    layout: "workflowMain",
+
+                             //    docs: subs
+
+                             //});
+
+
+                             });
+	           
+
+	            });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
+
+
+
+	});
+
+	app.get('/aun1-3', isLoggedIn, function (req, res) {
+	    console.log("mapELOAndKnowledge");
+
+	    Fac.find({ 'programname': req.query.program })
+             .populate('Responsibility')
+
+             .exec(function (err, docs) {
+                 Fac.populate(docs, {
+                     path: 'Responsibility.ELO',
+                     model: 'ELO'
+                 },
+                    function (err, subs) {
+
+
+                        console.log("REFFFF---->>>", subs);
+
+                        res.render('qa/qa-aun1.3.hbs', {
+                            //    user: req.user,      
+                            layout: "qaPage",
+
+                            docs: subs,
+                            helpers: {
+                                inc: function (value) { return parseInt(value) + 1; },
+                                getyear: function (value) { return yearac[value]; },
+                                getindex: function () { return ++index; }
+                            }
+                        });
+
+
+                    });
+
+
+             });
+
+	});
+
+	app.get('/aun1-4', isLoggedIn, function (req, res) {
+	    console.log("stakeholderReq");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    Fac.find({ 'programname': req.query.program })
+             .populate('stakeholder')
+
+             .exec(function (err, docs) {
+                 Fac.populate(docs, {
+                     path: 'stakeholder.ELO',
+                     model: 'ELO'
+                 },
+                    function (err, subs) {
+
+
+                        console.log("REFFFF---->>>", subs);
+
+                        res.render('qa/qa-aun1.4.hbs', {
+                            //    user: req.user,      
+                            layout: "qaPage",
+
+                            docs: subs,
+                            helpers: {
+                                inc: function (value) { return parseInt(value) + 1; },
+                                getyear: function (value) { return yearac[value]; },
+                                getindex: function () { return ++index; }
+                            }
+                        });
+
+
+                    });
+
+
+             });
+
+	});
 	
 	//=====================================
     // Get Work Info.(Student) ==============================
