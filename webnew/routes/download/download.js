@@ -15,8 +15,6 @@ Check whether user have permission to download a file
 	- User must own that file or the file can be downloaded by any members
 */
 function isGranted(req, res, next) {
-	var isLoggedIn = require('middleware/loginChecker');
-	isLoggedIn(req, res, next);
 	isMyFile(req, res, next);
 }
 
