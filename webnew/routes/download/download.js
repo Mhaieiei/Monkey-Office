@@ -29,7 +29,7 @@ If user doesn't own the file, redirect to root
 function isMyFile(user, filename, res, next) {
 
 	var query = schemas.Document.findOne({
-		'personReceive': user,
+		'owner': user,
 		'name': filename
 	});
 

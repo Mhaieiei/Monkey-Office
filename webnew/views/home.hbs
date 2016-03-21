@@ -119,8 +119,8 @@
         <div class="tabs">
             <ul class="tab-links">
                 <li class="active"><a href="#tab1" >All</a></li>
-                <li><a href="#tab2">To Do</a></li>
-                
+                <li><a href="#tab2">My Document</a></li>
+                <li><a href="#tab3">Assigned Document</a></li>
             </ul>
  
             <div class="tab-content">
@@ -134,7 +134,7 @@
                                     <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
                                     <th><a href="javascript:table_sort('tab_2',1)">ID</a></th>
                                     <th><a href="javascript:table_sort('tab_2',2)">Document name</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',3)">Author</a></th>
+                                    <th><a href="javascript:table_sort('tab_2',3)">Owner</a></th>
                                     <th><a href="javascript:table_sort('tab_2',4)">Date_created</a></th>
                                     <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
                                     
@@ -146,7 +146,7 @@
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
                                   <td>{{this._id}}</td>
                                   <td><a href="{{this.filepath}}">{{this.name}}</a></td>
-                                  <td>{{this.author}}</td>
+                                  <td>{{this.owner}}</td>
                                   <td>{{this.dateCreate}}</td>
                                   <td><font color="red">{{this.status}}</td>
 
