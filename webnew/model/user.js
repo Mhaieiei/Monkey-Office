@@ -133,5 +133,5 @@ userSchema.methods.editEducation = function(request, response){
 
 module.exports = {
     User: db.model('User', userSchema),
-    roleOfProgram: ('roleOfProgram', roleOfProgramSchema)
+    roleOfProgram: db.model('roleOfProgram', roleOfProgramSchema)
 }
