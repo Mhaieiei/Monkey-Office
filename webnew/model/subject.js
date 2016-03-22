@@ -50,11 +50,13 @@ subjectSchema.methods.editSubject = function(request, response){
 
 };
 
+
 // create the model for users and expose it to our app
 module.exports = {
     Subject: subjectSchema,
     ELO: ELOSchema
 }
+
 
 
 

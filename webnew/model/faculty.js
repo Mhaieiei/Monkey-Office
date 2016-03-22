@@ -78,7 +78,6 @@ facSchema.methods.editProgram = function(request, response){
 // create the model for users and expose it to our app
 module.exports = {
 
-
     Faculty: facSchema,
     Evaluateion: EvaluationMethodSchema,
     Stakeholder: StakeholderSchema,

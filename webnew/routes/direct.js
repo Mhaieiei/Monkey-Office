@@ -6,6 +6,9 @@ var async = require('async');
 var mongoose = require('mongoose');
 //var busboy = require('connect-busboy');
 var Handlebars = require('handlebars/runtime')['default'];
+var isLoggedIn = require('middleware/loginChecker');
+
+var formController = require('../lib/form');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
@@ -32,8 +35,6 @@ var date = new Date();
 var current_year = date.getFullYear();
 var index = 0;
 var nametemp = "";
-
-
 
 
 module.exports = function(app, passport, schemas) {
@@ -141,48 +142,8 @@ module.exports = function(app, passport, schemas) {
 	 // =====================================
     // HOME SECTION =====================
     // =====================================
-
-  app.get('/home', isLoggedIn, function(req, res) {
-  		
-       	// var doc1 = new Doc({
-       	// 	personReceive: req.user,
-       	// 	type: 'doc',
-       	// 	name: 'Harry Potter',
-       	// 	author: 'Tester',
-       	// 	filepath: path.resolve('uploads/document/mydoc1.docx')
-       	// });
-       	// var doc2 = new Doc({
-       	// 	personReceive: req.user,
-       	// 	type: 'doc',
-       	// 	name: 'Deadpool',
-       	// 	author: 'James Bond',
-       	// 	filepath: path.resolve('uploads/document/mydoc2.docx')
-       	// });
-       	// var doc3 = new Doc({
-       	// 	personReceive: req.user,
-       	// 	type: 'Doc',
-       	// 	name: 'Star War',
-       	// 	author: 'Mango',
-       	// 	filepath: path.resolve('uploads/document/mydoc3.docx')
-       	// });
-       	// var doc4 = new Doc({
-       	// 	personReceive: req.user,
-       	// 	type: 'doc',
-       	// 	name: 'Nodejs',
-       	// 	author: 'Alex Ferguson',
-       	// 	filepath: path.resolve('uploads/document/mydoc4.docx')
-       	// });
-
-
-       	// doc1.save();
-       	// doc2.save();
-
-       	// doc3.save();
-       	// doc4.save();
-
-
-       	//var doclist = [doc1,doc2];
-
+       app.get('/home', isLoggedIn, function(req, res) {
+       	
        	var query = Doc.findByUser(req.user);
        	var date= [];
        	query.exec(function(err,_docs) {
@@ -190,7 +151,6 @@ module.exports = function(app, passport, schemas) {
        			console.log(err);
        			res.status(500);
        			return next(err);
-
        		}
 
        		var response = {
@@ -363,6 +323,68 @@ module.exports = function(app, passport, schemas) {
       console.log("Document Information");
       res.render('dms/document.hbs');
     });
+
+       app.post('/home', isLoggedIn, function(req, res) {
+
+       	console.log('AT HOME');
+   		var documentName = req.body.doc_name;
+   		var status = req.body.doc_status;
+   		var fromDate = Date.parse(req.body.fromDate);
+   		var toDate = Date.parse(req.body.toDate);
+   		var type = req.body.doc_type;
+   		var author = req.body.doc_author;
+   		var user = req.user;
+   		console.log(documentName);
+   		console.log(status);
+   		console.log(fromDate);
+   		console.log(toDate);
+   		console.log(type);
+   		console.log(author);
+
+
+   		var subStringRegex = function(subString, isCaseSensitive) {
+   			var mode;
+   			if(isCaseSensitive) mode = 'c';
+   			else mode = 'i';
+
+   			return new RegExp(subString, mode);
+   		};
+   		
+   		var query = Doc.findByUser(user).
+   		where('name').regex(subStringRegex(documentName, false));
+
+   		if(!isNaN(fromDate) && !isNaN(toDate)) {
+   			fromDate = new Date(fromDate);
+   			toDate = new Date(toDate);
+   			query = query.where('dateCreate').gt(fromDate).lt(toDate);
+   		}
+
+   		if(author) {
+   			query = query.where('author').regex(subStringRegex(author, false));
+   		}
+
+   		if(status !== 'all') {
+   			status = status.toLowerCase().trim();
+   			query = query.where('status').equals(status);
+   		}
+   				
+   		query.exec(function(err, _docs) {
+       		if(err) {
+       			console.log(err);
+       			res.status(500);
+       			return next(err);
+   			}
+   			console.log(_docs);
+			var response = {
+       			layout: 'homepage',
+       			docs: _docs
+   			}
+   		
+			res.render('home.hbs', response); 
+   		});
+
+   });
+
       // =====================================
     // PROFILE SECTION =====================
     // =====================================
@@ -3440,7 +3462,7 @@ module.exports = function(app, passport, schemas) {
 		});
 	});
 
-
+  app.use('/form', formController);
 	app.get('/:id/profile', function(req, res){
 		
 		TemplateWorkflow.findOne( { "_id" : req.params.id }, function(err, result){
@@ -3511,16 +3533,6 @@ module.exports = function(app, passport, schemas) {
 
 };
 
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-}
 //route middleware to make sure user is logged in as Admin
 function isAdmin(req,res,next){
 

@@ -130,7 +130,7 @@ $(document).on('ready', function() {
         { 
           name: workflowName.val(),
           description: workflowDescription.val(),
-          xml: "testXML",
+          xml: xml,
           variables: myVariables,
           elements: myElements
         });
@@ -23289,8 +23289,13 @@ ContextPad.prototype.getPopup = function(element){
   }
   else if( element.type === 'bpmn:UserTask'){
     
+    var currentFormName = "none";
+    if( myElements[currentElementId].form !== undefined && myElements[currentElementId].form.name !== undefined){
+      currentFormName = myElements[currentElementId].form.name;
+    }
+
     html += '<p><b>Form</b>';
-    html += '<div class="selected-form">' + myElements[currentElementId].formId + '</div>';
+    html += '<div class="selected-form">' + currentFormName + '</div>';
     html += '<input class="selected-form-id" type="hidden"></input>';
     html += '<div><button onclick="selectForm()" class="btn btn-default btn-sm" data-toggle="modal" data-target="#selectFormPopup">Select form</button>';
     html += '<a class="btn btn-default btn-sm" href="/form/create" target="_blank">Create new form</a></div>';

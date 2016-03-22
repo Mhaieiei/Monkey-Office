@@ -13,4 +13,4 @@ var schema = new mongoose.Schema({
 	elements: mongoose.Schema.Types.Mixed
 }, {strict: false});
 
-module.exports = mongoose.model('TemplateWorkflow', schema);
+module.exports = schema;
