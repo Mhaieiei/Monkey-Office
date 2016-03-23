@@ -1,11 +1,12 @@
 var db;
+var dbConnection;
 
 exports.set = function(database) {
-	if(!db)
-		db = database.createClient();
-	return db;
+	db = database;
 }
 
 exports.db = function() {
-	return db;
+	if(!dbConnection)
+		dbConnection = db.createClient();
+	return dbConnection;
 }
