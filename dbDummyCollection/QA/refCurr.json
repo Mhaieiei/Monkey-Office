@@ -1,0 +1,101 @@
+{
+	"_id": {
+		"$oid": "56ddc137782347200053f1a3"
+	},
+	"programname": "56e282b7cc855cec054efec4",
+	"detail": [
+		"56ddc14bfabb36a622114eb8",
+		"56ddc156fabb36a622114eb9"
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56ddc14bfabb36a622114eb8"
+	},
+	"refProgramName": "Master Program in Computational Engineering Science",
+	"degree": "M.Sc.",
+	"university": "RWTH Achen",
+	"country": "Germany",
+	"website": "www.ces.rwth.com"
+}
+{
+	"_id": {
+		"$oid": "56ddc156fabb36a622114eb9"
+	},
+	"refProgramName": "Graduate Program in Computational Engineering Science",
+	"degree": "M.Sc./M.Eng",
+	"university": "Harvard University",
+	"country": "USA",
+	"website": "www.ces.harvard.com"
+}
+{
+	"_id": {
+		"$oid": "56dea1a48823b84030c2c475"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"detail": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56dea63f0ea5a6080cc7d5cc"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"detail": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e1b73d7b61bff82ff2d3e1"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"detail": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e27fa0f22e19c02e6dc8aa"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"detail": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e2815cd5c2f7d031b9695d"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"detail": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e282b7cc855cec054efec2"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"detail": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e59e2469888f241cf68502"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"detail": [],
+	"__v": 0
+}

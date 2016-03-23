@@ -1,0 +1,547 @@
+{
+	"_id": "56b1beadc870f7d42c22fd2e",
+	"local": {
+		"password": "$2a$08$GT.LwCkuUM6p7jh6WEgdcOcLEapyomRrHXo1EKZu2CluI32Q8z1Tm",
+		"name": "dad",
+		"surname": "sur_dad",
+		"username": "s5090041",
+		"email": "dad@hotmail.com",
+		"title": "Asst.Phd",
+		"role": "Lecturer",
+		"position": "Lecturer",
+		"roleOfFaculty": [
+			{
+				"type": "visiting member",
+				"academicYear": 2014,
+				"TimeOfWork": "Full time"
+			}
+		],
+		"programName": "Software",
+		"roleOfFaculty": "Faculty member",
+		"yearOfTeaching": 20
+	},
+	"roleOfProgram": [
+		"56e59cb307631a77c6df9c49"
+	],
+	"education": [
+		{
+			"level": "Doctoral",
+			"degree": "Ph.D.",
+			"university": "Abc",
+			"year": "2013"
+		},
+		{
+			"level": "MMM",
+			"degree": "MMM",
+			"university": "Abc",
+			"year": "2012"
+		}
+	],
+	"publicResearch": [
+		"56e545446376238a6e3596bb"
+	],
+	"training": [
+		"56e9311a872ad885082e3ca6",
+		"56e93254872ad885082e3ca8"
+	],
+	"careerDevelopment": [
+		"56e93225872ad885082e3ca7",
+		"56e9327b872ad885082e3cab"
+	],
+	"__v": 0
+}
+{
+	"_id": "56b1c032c870f7d42c22fd30",
+	"local": {
+		"password": "$2a$08$3On5W7LIOoZzk0NCZ8nj0uJpTIGkzt7zjwlCpaO7ZvMgol8F1c.Ti",
+		"name": "mom",
+		"surname": "sur_mom",
+		"email": "mom@hotmail.com",
+		"role": "Lecturer",
+		"position": "Lecturer",
+		"roleOfFaculty": [
+			{
+				"type": "Faculty member",
+				"academicYear": 2014,
+				"TimeOfWork": "Full time"
+			}
+		],
+		"programName": "Software",
+		"title": "Asst.Ph.",
+		"yearOfTeaching": 50
+	},
+	"roleOfProgram": [
+		"56e59cb307631a77c6df9c49"
+	],
+	"education": [
+		{
+			"level": "Master",
+			"degree": "Master",
+			"university": "Abc",
+			"year": "2013"
+		},
+		{
+			"level": "Doctoral",
+			"degree": "Dr.-Ing",
+			"university": "Abc",
+			"year": "2013"
+		}
+	],
+	"publicResearch": [
+		"56e545d36376238a6e3596bc"
+	],
+	"training": [
+		"56e9325a872ad885082e3ca9",
+		"56e93266872ad885082e3caa"
+	],
+	"careerDevelopment": [
+		"56e93280872ad885082e3cac",
+		"56e9328a872ad885082e3cad"
+	],
+	"__v": 0
+}
+{
+	"_id": "56ed8c029995e657628fbe12",
+	"local": {
+		"password": "$2a$08$wFrmZCPDYMncv.7dYrTqxOsmhUoaWcYQBkHXqE58hsqOD6qsfE0xq",
+		"name": "admin",
+		"surname": "sur_admin",
+		"username": "admin",
+		"email": "mae@hotmail.com",
+		"role": "admin",
+		"yearAttend": 2014,
+		"ID": "55090019"
+	}
+}
+{
+	"_id": "dad",
+	"careerDevelopment": [],
+	"training": [],
+	"publicResearch": [],
+	"advisingProject": [],
+	"subjects": [
+		{
+			"$oid": "56ee95c55e00862039a3650a"
+		}
+	],
+	"roleOfProgram": [],
+	"local": {
+		"username": "dad",
+		"name": "dad",
+		"program": "",
+		"role": "staff"
+	},
+	"__v": 0
+}
+{
+	"_id": "zzz",
+	"publicResearch": [],
+	"advisingProject": [],
+	"subjects": [],
+	"roleOfProgram": [],
+	"local": {
+		"role": "admin",
+		"password": "$2a$08$PTt//IMbfTmhoHprVprfSOeHWnVWJGLuJ75QuLGsHdLXO4Gp6yjj6",
+		"name": "zzz",
+		"username": "zzz"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56b1beadc870f7d42c22fd2e"
+	},
+	"local": {
+		"password": "$2a$08$GT.LwCkuUM6p7jh6WEgdcOcLEapyomRrHXo1EKZu2CluI32Q8z1Tm",
+		"name": "dad",
+		"surname": "sur_dad",
+		"username": "s5090041",
+		"email": "dad@hotmail.com",
+		"title": "Asst.Phd",
+		"role": "Lecturer",
+		"position": "Lecturer",
+		"roleOfFaculty": [
+			{
+				"type": "visiting member",
+				"academicYear": 2014,
+				"TimeOfWork": "Full time"
+			}
+		],
+		"programName": "Software",
+		"roleOfFaculty": "Faculty member",
+		"yearOfTeaching": 20
+	},
+	"roleOfProgram": [
+		"56e59cb307631a77c6df9c49"
+	],
+	"education": [
+		{
+			"level": "Doctoral",
+			"degree": "Ph.D.",
+			"university": "Abc",
+			"year": "2013"
+		},
+		{
+			"level": "MMM",
+			"degree": "MMM",
+			"university": "Abc",
+			"year": "2012"
+		}
+	],
+	"publicResearch": [
+		"56e545446376238a6e3596bb"
+	],
+	"training": [
+		"56e9311a872ad885082e3ca6",
+		"56e93254872ad885082e3ca8"
+	],
+	"careerDevelopment": [
+		"56e93225872ad885082e3ca7",
+		"56e9327b872ad885082e3cab"
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56b1c032c870f7d42c22fd30"
+	},
+	"local": {
+		"password": "$2a$08$3On5W7LIOoZzk0NCZ8nj0uJpTIGkzt7zjwlCpaO7ZvMgol8F1c.Ti",
+		"name": "mom",
+		"surname": "sur_mom",
+		"email": "mom@hotmail.com",
+		"role": "Lecturer",
+		"position": "Lecturer",
+		"roleOfFaculty": [
+			{
+				"type": "Faculty member",
+				"academicYear": 2014,
+				"TimeOfWork": "Full time"
+			}
+		],
+		"programName": "Software",
+		"title": "Asst.Ph.",
+		"yearOfTeaching": 50
+	},
+	"roleOfProgram": [
+		"56e59cb307631a77c6df9c49"
+	],
+	"education": [
+		{
+			"level": "Master",
+			"degree": "Master",
+			"university": "Abc",
+			"year": "2013"
+		},
+		{
+			"level": "Doctoral",
+			"degree": "Dr.-Ing",
+			"university": "Abc",
+			"year": "2013"
+		}
+	],
+	"publicResearch": [
+		"56e545d36376238a6e3596bc"
+	],
+	"training": [
+		"56e9325a872ad885082e3ca9",
+		"56e93266872ad885082e3caa"
+	],
+	"careerDevelopment": [
+		"56e93280872ad885082e3cac",
+		"56e9328a872ad885082e3cad"
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56b1c041c870f7d42c22fd32"
+	},
+	"local": {
+		"password": "$2a$08$wFrmZCPDYMncv.7dYrTqxOsmhUoaWcYQBkHXqE58hsqOD6qsfE0xq",
+		"name": "mae",
+		"surname": "sur_mae",
+		"email": "mae@hotmail.com",
+		"role": "student",
+		"yearAttend": 2014,
+		"ID": "55090000"
+	},
+	"detail": [
+		{
+			"academicYear": 2014,
+			"status": "Normal"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56b1c051c870f7d42c22fd34"
+	},
+	"local": {
+		"password": "$2a$08$hWUCBcYkDbk1xzG6AACSsu.iLonkYdru21ZIBpM4yw4AqIB2voQKa",
+		"name": "mos",
+		"surname": "sur_mos",
+		"email": "mos@hotmail.com",
+		"role": "student",
+		"yearAttend": 2014,
+		"ID": "55090001",
+		"status": "Normal"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56b33ff899da8440dccda702"
+	},
+	"local": {
+		"password": "$2a$08$GT.LwCkuUM6p7jh6WEgdcOcLEapyomRrHXo1EKZu2CluI32Q8z1Tm",
+		"name": "may",
+		"surname": "sur_may",
+		"email": "may@hotmail.com",
+		"title": "Doc",
+		"role": "Lecturer",
+		"programName": "ABC",
+		"roleOfFaculty": "Faculty member"
+	},
+	"education": [
+		{
+			"level": "Ba",
+			"degree": "B.ENG",
+			"university": "Abc",
+			"year": "2013"
+		}
+	]
+}
+{
+	"_id": {
+		"$oid": "56c1f45c1c26414c1c634b1f"
+	},
+	"local": {
+		"password": "$2a$08$NktP0MHM2hGdtaQaByQx..S./jNuB0HYkcbgp553awh/XvFaOydWC",
+		"name": "temp",
+		"email": "temp@hotmail.com",
+		"role": "staff",
+		"jobDescription": [
+			"descrip of temp"
+		],
+		"position": "Accountance",
+		"programName": "Software"
+	},
+	"training": [
+		"56e9341d872ad885082e3cae"
+	],
+	"education": [
+		{
+			"level": "Ba",
+			"degree": "B.ENG",
+			"university": "Abc - staff",
+			"year": "2013"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56c1f6ee470622202e54dd63"
+	},
+	"local": {
+		"password": "$2a$08$VkK8.ttF8OTOm.xNYrdiku8GwM5wMJ3GYQkMj2Tzlv8eWZlo7vwkG",
+		"name": "we",
+		"email": "we@hotmail.com",
+		"role": "staff",
+		"jobDescription": [
+			"descrip of we"
+		],
+		"position": "Accountance 2",
+		"programName": "Software"
+	},
+	"training": [
+		"56e93429872ad885082e3caf"
+	],
+	"education": [
+		{
+			"level": "Ba",
+			"degree": "B.ENG",
+			"university": "Abc -staff we",
+			"year": "2013"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56c1f831a59a5b8c179ff8c4"
+	},
+	"local": {
+		"password": "$2a$08$lrrehNe/cCOxrvCNtCQ7p.6HZjtii4vdllhSObRWzYDcl2CG0nrCm",
+		"name": "23",
+		"email": "23"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56c1f8e808f7ec14108ba2a9"
+	},
+	"local": {
+		"password": "$2a$08$0VCNgPxR3ON/KREhwZMsR.BjBF7KDaa/4BnTn/amvv5McMCD1rHDa",
+		"name": "12",
+		"email": "12"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56c20e33686bf15c2f270390"
+	},
+	"local": {
+		"password": "$2a$08$JmCtF6CUsAfCaDz/DRV60uIDRWfHCH5us/ERu7cLOe5cd49xINRqG",
+		"name": "q",
+		"email": "q@hotmail.com"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56dd3c1352c7f434219fe00e"
+	},
+	"local": {
+		"password": "$2a$08$hcZBVyImBkbx.UeLhTW6POGJc.PiThm0BEybMemTORNnVC/Iz31OK",
+		"name": "db",
+		"email": "db@hotmail.com"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56dd5d51140f08700aa15d88"
+	},
+	"local": {
+		"password": "$2a$08$ono/tVLnG5zDwKWZsAMZOOD92s3Pi.3PPWaATtBaal34RS0MkaZVC",
+		"name": "s",
+		"email": "s"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56dd5e86b3be8ad012a24bcb"
+	},
+	"local": {
+		"password": "$2a$08$wnV5VIQ3bGNuDwJKKpY8wePmIK0r5Tax5HdLJiWesbUBKLi.l0Bcm",
+		"name": "m",
+		"email": "m"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56ddab5a76ed632833f4d5bc"
+	},
+	"local": {
+		"password": "$2a$08$kCPe02VJ.DflKVzI/zofruaZn.cDzq6EVbvfutz7zs2N7QKadqmEW",
+		"name": "q",
+		"email": "q"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56ddc137782347200053f196"
+	},
+	"local": {
+		"password": "$2a$08$CyIDC7IGu19WvB0vMZEUEembpLlybUkyGdpvrea28E9spE7BH030i",
+		"name": "w",
+		"email": "w"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56dea1a48823b84030c2c468"
+	},
+	"local": {
+		"password": "$2a$08$ftcBllBN.pHXC1YQy4CwbuXrUiPFxgYyCRPMugZlVMa0.eqJHP4NK",
+		"name": "a",
+		"email": "a"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56dea63f0ea5a6080cc7d5bf"
+	},
+	"local": {
+		"password": "$2a$08$oE34XLJWVr4/OLOzhHAqSOfH9wjdiaBerEzZkZx5uTV5IpL0j.Q6m",
+		"name": "y",
+		"email": "y"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e1b73d7b61bff82ff2d3d8"
+	},
+	"local": {
+		"password": "$2a$08$evTyouyjp6AlaXAH/eRmaOOloEHNJiWhadKcq4bVlP7T7BumEVuri",
+		"name": "tt",
+		"email": "tt"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e27fa0f22e19c02e6dc8a1"
+	},
+	"local": {
+		"password": "$2a$08$zJ6EAszaFEvHkcd.IppKkO/KBBS5w4gGUf5m9fIuDdZtmN.vIZ4Vm",
+		"name": "1",
+		"email": "1"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e2815cd5c2f7d031b96954"
+	},
+	"local": {
+		"password": "$2a$08$bHPD8jphu1mohTBv1ipUeeDbKK2ou3cESe7nJC47J7mrk9PoCJ7z6",
+		"name": "4",
+		"email": "4"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e282b7cc855cec054efeb9"
+	},
+	"local": {
+		"password": "$2a$08$iWF0gzqIWDEJBu0HUEjwueWyfR2hXjZliWWhgYxLHF3CbN/8aVGrO",
+		"name": "e",
+		"email": "e"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e59cb307631a77c6df9c49"
+	},
+	"type": "development committee",
+	"position": "chairman"
+}
+{
+	"_id": {
+		"$oid": "56ed8c029995e657628fbe12"
+	},
+	"local": {
+		"password": "$2a$08$wFrmZCPDYMncv.7dYrTqxOsmhUoaWcYQBkHXqE58hsqOD6qsfE0xq",
+		"name": "admin",
+		"surname": "sur_admin",
+		"username": "admin",
+		"email": "mae@hotmail.com",
+		"role": "admin",
+		"yearAttend": 2014,
+		"ID": "55090019"
+	}
+}

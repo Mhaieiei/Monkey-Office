@@ -1,0 +1,25 @@
+{
+	"_id": {
+		"$oid": "56e1b73d7b61bff82ff2d3df"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"roomNo": "IC 06",
+	"floor": 3,
+	"building": "IC building",
+	"numberOfSeat": 10,
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e1bd5197ca5313262746f8"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"roomNo": "IC 04",
+	"floor": 3,
+	"building": "IC building",
+	"numberOfSeat": 10
+}

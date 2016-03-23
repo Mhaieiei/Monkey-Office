@@ -1,0 +1,47 @@
+{
+	"_id": {
+		"$oid": "56e1b73d7b61bff82ff2d3e0"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"tqf": [],
+	"aun": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e27fa0f22e19c02e6dc8a9"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e2815cd5c2f7d031b9695c"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e282b7cc855cec054efec1"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e59e2469888f241cf68501"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"__v": 0
+}

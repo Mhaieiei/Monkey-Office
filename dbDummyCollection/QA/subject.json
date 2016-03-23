@@ -1,0 +1,119 @@
+{
+	"_id": {
+		"$oid": "56e1b73d7b61bff82ff2d3dc"
+	},
+	"sub_name": "Math2",
+	"sub_credit": 3,
+	"sub_code": "m1234",
+	"sub_type": "Elective",
+	"ELO": [
+		{
+			"supportLevel": "high supportive",
+			"ELO": {
+				"$oid": "56e1c41c97ca5313262746fa"
+			}
+		},
+		{
+			"supportLevel": "supportive",
+			"ELO": {
+				"$oid": "56e1c40597ca5313262746f9"
+			}
+		}
+	],
+	"sub_lecter": [
+		"56b1beadc870f7d42c22fd2e",
+		"56b1c032c870f7d42c22fd30"
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e1c40597ca5313262746f9"
+	},
+	"title": "ELO1",
+	"description": "eeeeee",
+	"number": 1
+}
+{
+	"_id": {
+		"$oid": "56e1c41c97ca5313262746fa"
+	},
+	"title": "ELO2",
+	"description": "eeeeee",
+	"number": 2
+}
+{
+	"_id": {
+		"$oid": "56e1c5fc97ca5313262746fb"
+	},
+	"sub_name": "Math3",
+	"sub_credit": 4,
+	"sub_code": "m12345",
+	"ELO": [
+		{
+			"supportLevel": "None",
+			"ELO": {
+				"$oid": "56e1c41c97ca5313262746fa"
+			}
+		},
+		{
+			"supportLevel": "None",
+			"ELO": {
+				"$oid": "56e1c40597ca5313262746f9"
+			}
+		}
+	],
+	"sub_lecter": [
+		"56b1beadc870f7d42c22fd2e",
+		"56b1c032c870f7d42c22fd30"
+	]
+}
+{
+	"_id": {
+		"$oid": "56e27fa0f22e19c02e6dc8a5"
+	},
+	"sub_name": "1",
+	"ELO": [],
+	"sub_lecter": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e2815cd5c2f7d031b96958"
+	},
+	"sub_name": "4",
+	"ELO": [],
+	"sub_lecter": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e282b7cc855cec054efebd"
+	},
+	"sub_name": "e",
+	"ELO": [],
+	"sub_lecter": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e59e2469888f241cf684fd"
+	},
+	"sub_name": "1",
+	"ELO": [],
+	"sub_lecter": [],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56ee95c55e00862039a3650a"
+	},
+	"sub_credit": 11111111,
+	"sub_name": "DB",
+	"sub_code": "000000",
+	"ELO": [],
+	"sub_lecter": [
+		"dad"
+	],
+	"__v": 0
+}
