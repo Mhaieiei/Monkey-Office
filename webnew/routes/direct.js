@@ -43,9 +43,9 @@ module.exports = function(app, passport) {
   var User                     = require('../model/user').User;
   var Work                     = require('../model/works');
   
-  var Fac                      = require('../model/faculty').Faculty;
+  var Fac = require('../model/faculty').Faculty;
   var Subject                  = require('../model/subject').Subject;
-  var Acyear                   = require('../model/academic_year');
+  var Acyear                   = require('../model/academic_year').AcdemicYear;
   var Teach                    = require('../model/teaching_semester').TeachingSemester;
   var TemplateWorkflow         = require('../model/TemplateWorkflow');
   var Doc                      = require('../model/document');
@@ -2149,7 +2149,8 @@ module.exports = function(app, passport) {
 		console.log('Get QA Info(select program)');
 		console.log(years);
 		console.log(years[0]);
-		return Fac.find( function( err, faculty ) {
+		
+		return Fac.find({}, function( err, faculty ) {
         if( !err ) {
 			console.log(faculty);
             res.render("qa/qa.hbs", {

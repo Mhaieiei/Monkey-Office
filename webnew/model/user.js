@@ -46,18 +46,18 @@ var userSchema = new mongoose.Schema({
 var roleOfProgramSchema = mongoose.Schema({
 
 
-    "type": String,//development  committee
-    "position": String//chairman...
-
+    type: String,//development  committee
+    position: String,//chairman...
+    academicYear: String
 
 });
 
 var roleOfFacultySchema = mongoose.Schema({
 
 
-    type: String,
-    academicYear: Number,
-    TimeOfWork: String
+    title: String,
+    TimeOfWork: String,
+    academicYear: String
 
 
 });
@@ -145,5 +145,6 @@ userSchema.methods.editEducation = function(request, response){
 
 module.exports = {
     User: db.model('User', userSchema),
-    roleOfProgram: db.model('roleOfProgram', roleOfProgramSchema)
+    roleOfProgram: db.model('roleOfProgram', roleOfProgramSchema),
+    roleOfFaculty: db.model('roleOfFaculty', roleOfFacultySchema)
 }

@@ -11,4 +11,7 @@ var acyearSchema = mongoose.Schema({
 });
 
 // create the model for year and expose it to our app
-module.exports = db.model('AcademicYear', acyearSchema);
+
+module.exports = {
+    AcdemicYear: db.model('Acyear', acyearSchema)
+}

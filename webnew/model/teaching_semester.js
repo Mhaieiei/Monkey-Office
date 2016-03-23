@@ -32,7 +32,7 @@ var KnowledgeBlockSchema = mongoose.Schema({
 });
 
 module.exports = {
-    TeachingSemester: db.model('TeachingSemester', semesyearSchema),
+    TeachingSemester: db.model('Yearstudy', semesyearSchema),
     KnowledgeBlock: db.model('KnowledgeBlock', KnowledgeBlockSchema),
     Structure: db.model('structure', structureSchema)
 }
