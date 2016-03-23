@@ -1,5 +1,4 @@
 // JavaScript source code
-var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
@@ -12,6 +11,6 @@ var Responsibility = mongoose.Schema({
     
 });
 
-module.exports = db.model('Responsibility', Responsibility);
+module.exports = Responsibility;
 
 

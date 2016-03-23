@@ -1,6 +1,4 @@
-var db = require('../lib/dbclient').db();
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var Schema = require('mongoose').Schema;
 
 var docSchema = new Schema({
 
@@ -62,6 +60,6 @@ docSchema.methods.assignees = function() {
 	return this._assignees;
 };
 
-module.exports = db.model('Document', docSchema);
+module.exports = docSchema;
 
 

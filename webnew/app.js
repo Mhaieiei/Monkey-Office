@@ -18,10 +18,9 @@ module.exports = function(database) {
   var session = require('express-session');
   var exphbs = require('express3-handlebars');  //handle bars
 
-  var db = require('lib/dbclient');
-  db.set(database);
+  var compiledSchemas = require('./utility/schemaLoader')(database);
 
-  require('./config/passport')(passport); // pass passport for configuration
+  require('./config/passport')(passport, compiledSchemas); // pass passport for configuration
   //var routes = require('./routes/index');
   //var users = require('./routes/users');
 
@@ -59,8 +58,8 @@ module.exports = function(database) {
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session
 
+  require('./routes/direct.js')(app, passport, compiledSchemas);
   app.use('/download', require('./routes/download/download'));
-  require('./routes/direct.js')(app, passport);
   //app.use('/', routes);
   //app.use('/users', users);
 
