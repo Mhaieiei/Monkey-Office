@@ -1,4 +1,3 @@
-var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
@@ -13,4 +12,4 @@ var schema = new mongoose.Schema({
 	]
 });
 
-module.exports = db.model('Form', schema);
+module.exports = mongoose.model('Form', schema);

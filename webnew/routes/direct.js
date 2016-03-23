@@ -36,24 +36,28 @@ var current_year = date.getFullYear();
 var index = 0;
 var nametemp = "";
 
-module.exports = function(app, passport) {
+
+module.exports = function(app, passport, schemas) {
  	// =====================================
     // Setting Model Databases ========
     // =====================================
-  var User                     = require('../model/user').User;
-  var Work                     = require('../model/works');
-  
-  var Fac                      = require('../model/faculty').Faculty;
-  var Subject                  = require('../model/subject').Subject;
-  var Acyear                   = require('../model/academic_year');
-  var Teach                    = require('../model/teaching_semester').TeachingSemester;
-  var TemplateWorkflow         = require('../model/TemplateWorkflow');
-  var Doc                      = require('../model/document');
-  var Subenroll                = require('../model/subject_enroll');
-  var Stdenroll                = require('../model/student_enroll');
-  var FacilityAndInfrastruture = require('../model/FacilityAndInfrastrutureSchema');
-  var AssesmentTool            = require('../model/assesmentToolSchema');
-  var ReferenceCurriculum      = require('../model/referenceCurriculumSchema').ReferenceCurriculum;
+	var User  = schemas.User;
+	var Work  = schemas.Work;
+
+	var Fac   = schemas.Faculty;
+	var Subject = schemas.Subject;
+	var Acyear = schemas.AcademicYear;
+	var Teach = schemas.TeachingSemester;
+	var TemplateWorkflow 	= schemas.TemplateWorkflow;
+	var Doc = schemas.Document;
+	var Subenroll = schemas.SubjectEnroll;
+	var Stdenroll = schemas.StudentEnroll;
+	var FacilityAndInfrastruture = schemas.FacilityAndInfrastruture;
+	var AssesmentTool = schemas.AssesmentTool;
+	var ReferenceCurriculum = schemas.ReferenceCurriculum;
+
+
+
 
     // =====================================
     // HOME PAGE (with login links) ========
@@ -2817,48 +2821,17 @@ module.exports = function(app, passport) {
 
 
 
-                             Work.Training.aggregate([
-                    {
-                        $match: {
-                            $and: [
-                                { 'trainingCourse': { $exists: true } },
-                                //{ 'hour': 5 }
-                                { 'academicYear': programs.id }
-                            ]
-                        }
-                    },
-
-                    { $group: { _id: "$user", training: { $push: "$$ROOT" } } }
-                    
-
-                             ] , function (e, result) {
-                                 console.log("REFFFF--TRANNING-->>>", result);
-
-                                 Work.Training.populate(result, {
-                                     path: '_id',
-                                     model: 'User'
-                      
-                                    
-                                 },
-                                      function (err, user) {
-            
 
 
-                                          console.log("REFFFF--USERR-->>>", user);
+                             //res.render('C:/Monkey-Office-master/webproject/views/qa/test_careerDevelopment.hbs', {
+                             //    //    user: req.user,      
+                             //    layout: "workflowMain",
 
-                                          res.render('qa/qa-aun12.1.hbs', {
-                                 //    user: req.user,      
-                                 layout: "workflowMain",
+                             //    docs: subs
 
-                                 docs: subs,
-                                 user: user
-
-                             });
-
-                                      });
+                             //});
 
 
-                             });
                              });
 	           
 
@@ -2945,96 +2918,6 @@ module.exports = function(app, passport) {
 
 
              });
-
-	});
-
-	app.get('/aun6-1', isLoggedIn, function (req, res) {
-	    console.log("listOfLecturer");
-
-	    //referenceCurriculumSchema.find();
-
-
-	    User.find({
-	        $and: [
-                { 'local.programName': req.query.program },
-                { 'local.role': "Lecturer" },
-                { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
-	        ]
-	    })
-        .populate('publicResearch')
-        .exec(function (err, programs) {
-
-
-            //referenceCurriculumSchema.find();
-
-
-
-
-            console.log("REFFFF---->>>", programs);
-
-            //res.render('qa/qa-aun6.1.hbs', {
-            //    //    user: req.user,      
-            //    layout: "qaPage",
-
-            //    docs: programs,
-            //    helpers: {
-            //        inc: function (value) { return parseInt(value) + 1; },
-            //        getyear: function (value) { return yearac[value]; },
-            //        getindex: function () { return ++index; }
-            //    }
-            //});
-
-
-
-
-
-
-        });
-
-	});
-
-	app.get('/aun6-2', isLoggedIn, function (req, res) {
-	    console.log("tab 3.11 rankingOfstaff");
-
-	    //referenceCurriculumSchema.find();
-
-
-	    User.find({
-	        $and: [
-                { 'local.programName': req.query.program },
-                { 'local.role': "Lecturer" },
-                { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
-	        ]
-	    })
-        .populate('publicResearch')
-        .exec(function (err, programs) {
-
-
-            //referenceCurriculumSchema.find();
-
-
-
-
-            console.log("REFFFF---->>>", programs);
-
-            //res.render('qa/qa-aun6.1.hbs', {
-            //    //    user: req.user,      
-            //    layout: "qaPage",
-
-            //    docs: programs,
-            //    helpers: {
-            //        inc: function (value) { return parseInt(value) + 1; },
-            //        getyear: function (value) { return yearac[value]; },
-            //        getindex: function () { return ++index; }
-            //    }
-            //});
-
-
-
-
-
-
-        });
 
 	});
 	
