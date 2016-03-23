@@ -18,7 +18,6 @@ var userSchema = new mongoose.Schema({
         yearattend : Number,
         bankAccount : String,
         email: String,
-        role: String,
         program: String,
         faculty: String,
         status: String,
@@ -28,7 +27,12 @@ var userSchema = new mongoose.Schema({
         academic_position: String,
         admin_position: String,
         jobDescription : [String],
-       },
+	},
+	role: {
+	    title: String,
+        timeOfWork:String
+
+	},
     roleOfProgram: [{ type: mongoose.Schema.Types.ObjectId, ref: 'roleOfProgram' }],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,

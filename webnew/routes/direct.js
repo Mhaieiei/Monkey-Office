@@ -2821,17 +2821,48 @@ module.exports = function(app, passport, schemas) {
 
 
 
+                             Work.Training.aggregate([
+                    {
+                        $match: {
+                            $and: [
+                                { 'trainingCourse': { $exists: true } },
+                                //{ 'hour': 5 }
+                                { 'academicYear': programs.id }
+                            ]
+                        }
+                    },
+
+                    { $group: { _id: "$user", training: { $push: "$$ROOT" } } }
+                    
+
+                             ] , function (e, result) {
+                                 console.log("REFFFF--TRANNING-->>>", result);
+
+                                 Work.Training.populate(result, {
+                                     path: '_id',
+                                     model: 'User'
+                      
+                                    
+                                 },
+                                      function (err, user) {
+            
 
 
-                             //res.render('C:/Monkey-Office-master/webproject/views/qa/test_careerDevelopment.hbs', {
-                             //    //    user: req.user,      
-                             //    layout: "workflowMain",
+                                          console.log("REFFFF--USERR-->>>", user);
 
-                             //    docs: subs
+                                          res.render('qa/qa-aun12.1.hbs', {
+                                 //    user: req.user,      
+                                 layout: "workflowMain",
 
-                             //});
+                                 docs: subs,
+                                 user: user
+
+                             });
+
+                                      });
 
 
+                             });
                              });
 	           
 
