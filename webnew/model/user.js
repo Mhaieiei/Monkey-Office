@@ -24,6 +24,7 @@ var userSchema = new mongoose.Schema({
         status: String,
         yeargrade : String,
         salary: Number,
+        position:String,
         academic_position: String,
         admin_position: String,
         jobDescription : [String],

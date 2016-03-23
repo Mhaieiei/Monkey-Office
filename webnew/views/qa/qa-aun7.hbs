@@ -27,6 +27,7 @@
     });
     </script>
 </head>
+
 <body>
 
     
@@ -38,51 +39,92 @@
            
             <!--<form class="form-horizontal" role="form">-->
                 
-                <h3>AUN 11.4: The curriculum is regurly evaluated at reasonable time periods</h3>
+                <h2>AUN 7: Support Staff Quality</h2>
        
-                <h5>Table : Program evaluation methods and frequencies</h5>
-                <div id="tab_aun11.4">
+                <h5>Table : List of support staffs of International College</h5>
+                <div id="tab_aun7">
                   <table class="tablesorter">
                     <thead align="center">
                         <tr>
                             
                             <th>No.</a></th>
-                            <th>Stakeholders</a></th>
-                            <th>Methods/Tools</a></th>
-                            <th>Frequency</a></th>
-                        </tr>
-                             
+                            <th>Title</a></th>
+                            <th>Name-Surname</a></th>
+                            <th>Position</a></th>
+                            <th>Education</a></th>
+                            <th>Job Description</a></th>
+                            
+                            
 
-                    <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                        </tr>
+                       
+
+                    <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
                     </thead>
 					{{#each docs}}
-					{{#each evaluation}}
                     <tbody>
                         <tr>
                         <td>{{getindex}}</td>
-
-                        <td>{{stakeholder.title}}</td>
-						{{#each EvaluationMethod}}
-                        
-
-						{{#if @first}} 
-                <td>{{methodName}}</td>
-                <td>{{frequency}}</td>
-                </tr>
-			 	
-				{{else}}
-                <tr>
-                <th></th>
-				<th></th>
-                <td>{{methodName}}</td>
-                <td>{{frequency}}</td>
-				{{/if}}
-                        {{/each}}
+                        <td>{{local.title}}</td>
+                        <td>{{local.name}} {{local.surname}}</td>
+                        <td>{{local.position}}</td>
+                        <td></td>
+                        <td>{{local.jobDescription}}</td>
                         </tr>  
                         
                     </tbody>
 					{{/each}}
-					{{/each}}   
+                  </table>
+
+                </div>
+
+                <h5>Table : Termination and retirement information of support staffs</h5>
+                <div id="tab_aun6.9">
+                  <table class="tablesorter">
+                    <thead align="center">
+                        <tr>
+                            
+                            <th>No.</a></th>
+                            <th>Title</a></th>
+                            <th>Name-Surname</a></th>
+                            <th>Age</a></th>
+                            <td colspan=2>Termination</a></td>
+                            <td colspan=2>Retirement</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <td colspan=1></td>
+                            <th> Remaining Times (years)</th>
+                            <th> Academic Years</th>
+                            <th> Remaining Times (years)</th>
+                            <th> Academic Years</th>
+
+                        </tr>
+                       
+
+                    <!-- ใช้ td colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td colspan=8></td>
+                        </tr>
+                      
+                       
+                        <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>  
+                        
+                    </tbody>
+
                   </table>
 
                 </div>

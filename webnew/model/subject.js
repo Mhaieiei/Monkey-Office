@@ -25,8 +25,10 @@ var ELOSchema = mongoose.Schema({
     title: String,
     description: String,
     number:Number
-
+    
 });
+
+
 
 subjectSchema.methods.editSubject = function(request, response){	
 	console.log("Edit subject method");	
