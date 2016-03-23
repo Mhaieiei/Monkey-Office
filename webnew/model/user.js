@@ -26,13 +26,10 @@ var userSchema = new mongoose.Schema({
         position:String,
         academic_position: String,
         admin_position: String,
-        jobDescription : [String],
+        jobDescription: [String],
+        role:String
 	},
-	role: {
-	    title: String,
-        timeOfWork:String
-
-	},
+	roleOfFaculty: [{ type: mongoose.Schema.Types.ObjectId, ref: 'roleOfProgram' }],
     roleOfProgram: [{ type: mongoose.Schema.Types.ObjectId, ref: 'roleOfProgram' }],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,
@@ -52,6 +49,17 @@ var roleOfProgramSchema = mongoose.Schema({
 
 
 });
+
+var roleOfFacultySchema = mongoose.Schema({
+
+
+    type: String,
+    academicYear: Number,
+    TimeOfWork: String
+
+
+});
+
 
 // methods ======================
 // generating a has

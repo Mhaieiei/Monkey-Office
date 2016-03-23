@@ -2951,6 +2951,96 @@ module.exports = function(app, passport, schemas) {
              });
 
 	});
+
+	app.get('/aun6-1', isLoggedIn, function (req, res) {
+	    console.log("listOfLecturer");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    User.find({
+	        $and: [
+                { 'local.programName': req.query.program },
+                { 'local.role': "Lecturer" },
+                { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
+	        ]
+	    })
+        .populate('publicResearch')
+        .exec(function (err, programs) {
+
+
+            //referenceCurriculumSchema.find();
+
+
+
+
+            console.log("REFFFF---->>>", programs);
+
+            //res.render('qa/qa-aun6.1.hbs', {
+            //    //    user: req.user,      
+            //    layout: "qaPage",
+
+            //    docs: programs,
+            //    helpers: {
+            //        inc: function (value) { return parseInt(value) + 1; },
+            //        getyear: function (value) { return yearac[value]; },
+            //        getindex: function () { return ++index; }
+            //    }
+            //});
+
+
+
+
+
+
+        });
+
+	});
+
+	app.get('/aun6-2', isLoggedIn, function (req, res) {
+	    console.log("tab 3.11 rankingOfstaff");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    User.find({
+	        $and: [
+                { 'local.programName': req.query.program },
+                { 'local.role': "Lecturer" },
+                { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
+	        ]
+	    })
+        .populate('publicResearch')
+        .exec(function (err, programs) {
+
+
+            //referenceCurriculumSchema.find();
+
+
+
+
+            console.log("REFFFF---->>>", programs);
+
+            //res.render('qa/qa-aun6.1.hbs', {
+            //    //    user: req.user,      
+            //    layout: "qaPage",
+
+            //    docs: programs,
+            //    helpers: {
+            //        inc: function (value) { return parseInt(value) + 1; },
+            //        getyear: function (value) { return yearac[value]; },
+            //        getindex: function () { return ++index; }
+            //    }
+            //});
+
+
+
+
+
+
+        });
+
+	});
 	
 	//=====================================
     // Get Work Info.(Student) ==============================
