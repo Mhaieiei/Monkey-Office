@@ -27,7 +27,8 @@ var userSchema = new mongoose.Schema({
         position:String,
         academic_position: String,
         admin_position: String,
-        jobDescription : [String],
+        jobDescription: [String],
+        nationality:String //for student - thai, national
        },
     roleOfProgram: [{ type: mongoose.Schema.Types.ObjectId, ref: 'roleOfProgram' }],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
@@ -44,7 +45,18 @@ var roleOfProgramSchema = mongoose.Schema({
 
 
     "type": String,//development  committee
+    "academicYear": String,
     "position": String//chairman...
+
+
+});
+
+var roleOfFacultySchema = mongoose.Schema({
+
+
+    "type": String,
+    "academicYear": String,
+    "TimeOfWork": String
 
 
 });
@@ -133,6 +145,7 @@ module.exports = {
     
     
     User: userSchema,
-    roleOfProgram: roleOfProgramSchema
+    roleOfProgram: roleOfProgramSchema,
+    roleOfFaculty: roleOfFacultySchema
 }
 

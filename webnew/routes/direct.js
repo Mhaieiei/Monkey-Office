@@ -2721,7 +2721,7 @@ module.exports = function(app, passport, schemas) {
 
 	    User.find({
 	        $and: [
-                { 'local.programName': req.query.program },
+                { 'local.program': req.query.program },
                 { 'local.role': "Lecturer" },
 
 	        ]
@@ -2752,7 +2752,7 @@ module.exports = function(app, passport, schemas) {
 
 	    User.find({
 	        $and: [
-                { 'local.programName': req.query.program },
+                { 'local.program': req.query.program },
                 { 'local.role': "staff" }
 	        ]
 	    }, function (err, programs) {
@@ -2918,6 +2918,162 @@ module.exports = function(app, passport, schemas) {
 
 
              });
+
+	});
+
+	app.get('/aun6-1', isLoggedIn, function (req, res) {
+	    console.log("listOfLecturer");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    User.find({
+	        $and: [
+                { 'local.program': req.query.program },
+                { 'local.role': "Lecturer" },
+                { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
+	        ]
+	    })
+        .populate('publicResearch')
+        .exec(function (err, programs) {
+
+
+            //referenceCurriculumSchema.find();
+
+
+
+
+            console.log("REFFFF---->>>", programs);
+
+            //res.render('qa/qa-aun6.1.hbs', {
+            //    //    user: req.user,      
+            //    layout: "qaPage",
+
+            //    docs: programs,
+            //    helpers: {
+            //        inc: function (value) { return parseInt(value) + 1; },
+            //        getyear: function (value) { return yearac[value]; },
+            //        getindex: function () { return ++index; }
+            //    }
+            //});
+
+
+
+
+
+
+        });
+
+	});
+
+	//app.get('/aun6-2', isLoggedIn, function (req, res) {
+	//    console.log("tab 3.11 rankingOfstaff");
+
+	//    //referenceCurriculumSchema.find();
+
+
+	//    User.find({
+	//        $and: [
+    //            { 'local.programName': req.query.program },
+    //            { 'local.role': "Lecturer" },
+    //            { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
+	//        ]
+	//    })
+    //    .populate('publicResearch')
+    //    .exec(function (err, programs) {
+
+
+    //        //referenceCurriculumSchema.find();
+
+
+
+
+    //        console.log("REFFFF---->>>", programs);
+
+    //        //res.render('qa/qa-aun6.1.hbs', {
+    //        //    //    user: req.user,      
+    //        //    layout: "qaPage",
+
+    //        //    docs: programs,
+    //        //    helpers: {
+    //        //        inc: function (value) { return parseInt(value) + 1; },
+    //        //        getyear: function (value) { return yearac[value]; },
+    //        //        getindex: function () { return ++index; }
+    //        //    }
+    //        //});
+
+
+
+
+
+
+    //    });
+
+    //});
+
+	app.get('/aun8-3', isLoggedIn, function (req, res) {
+	    console.log("nationalityOfStudent");
+
+	    //referenceCurriculumSchema.find();
+        
+	    User.aggregate(
+
+            [
+                    {
+                        $match: {
+                            $and: [
+                                { 'local.role': 'student' },
+                                { 'local.program': req.query.program }
+
+                            ]
+
+                        }
+                    },
+
+                    {
+                        $group: {
+                            _id: { yearAttend: "$local.yearAttend", nationality: "$local.nationality" },
+                            count: { $sum: 1 }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: "$_id.yearAttend",
+                            groupOfNationality: { $push: "$$ROOT" },
+                            sunOfYear: {$sum : "$count"}
+                                
+                        }
+                    }
+
+	    ]
+        ,function (err, programs) {
+
+
+            //referenceCurriculumSchema.find();
+
+
+
+
+            console.log("REFFFF---->>>", programs);
+
+            res.render('C:/Monkey-Office-master/webproject/views/qa/test_FacilityAndInfrastruture.hbs', {
+                //    user: req.user,      
+                layout: "qaPage",
+
+                docs: programs,
+                helpers: {
+                    inc: function (value) { return parseInt(value) + 1; },
+                    getyear: function (value) { return yearac[value]; },
+                    getindex: function () { return ++index; }
+                }
+            });
+
+
+
+
+
+
+        });
 
 	});
 	
