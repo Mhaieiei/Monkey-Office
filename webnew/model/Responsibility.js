@@ -12,8 +12,6 @@ var Responsibility = mongoose.Schema({
     
 });
 
-module.exports ={
+module.exports = db.model('Responsibility', Responsibility);
 
-    Responsibility:db.model('Responsibility', Responsibility)
 
-}
