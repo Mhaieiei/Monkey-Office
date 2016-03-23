@@ -1,4 +1,3 @@
-var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 
 //define schema for year study schema
@@ -31,8 +30,13 @@ var KnowledgeBlockSchema = mongoose.Schema({
 
 });
 
+
+
+
+// create the model for year and expose it to our app
 module.exports = {
-    TeachingSemester: db.model('TeachingSemester', semesyearSchema),
-    KnowledgeBlock: db.model('KnowledgeBlock', KnowledgeBlockSchema),
-    Structure: db.model('structure', structureSchema)
+
+    TeachingSemester: semesyearSchema,
+    KnowledgeBlock: KnowledgeBlockSchema,
+    Structure: structureSchema
 }

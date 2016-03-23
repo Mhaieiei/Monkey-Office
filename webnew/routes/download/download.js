@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var router = express.Router();
-var Document = require('model/document');
+var schemas = require('utility/schemaLoader')(require('lib/dmsDb'));
 
 router.get('/document/:file', isGranted, function(req, res) {
 	var file = path.resolve('uploads/document/' + req.params.file);
@@ -28,7 +28,7 @@ If user doesn't own the file, redirect to root
 */
 function isMyFile(user, filename, res, next) {
 
-	var query = Document.findOne({
+	var query = schemas.Document.findOne({
 		'owner': user,
 		'name': filename
 	});

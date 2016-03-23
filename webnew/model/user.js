@@ -1,8 +1,6 @@
 // app/models/user.js
 // load the things we need
-var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
-
 var bcrypt   = require('bcrypt-nodejs');
 
 var userSchema = new mongoose.Schema({
@@ -144,6 +142,9 @@ userSchema.methods.editEducation = function(request, response){
 };
 
 module.exports = {
-    User: db.model('User', userSchema),
-    roleOfProgram: db.model('roleOfProgram', roleOfProgramSchema)
+    
+    
+    User: userSchema,
+    roleOfProgram: roleOfProgramSchema
 }
+

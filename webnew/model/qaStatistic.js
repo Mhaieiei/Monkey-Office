@@ -1,7 +1,6 @@
 // JavaScript source code
 // app/models/faculty.js
 // load the things we need
-var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
@@ -36,8 +35,8 @@ var aunSchema = mongoose.Schema({
     score: Number
 });
 
-module.exports = {
-    qaStatistic: db.model('QaStatistic', qaStatisticSchema, 'qaStatistic'),
-    aun        : db.model('AUN', aunSchema, 'qaStatistic'),
-    tqf        : db.model('TQF', tqfSchema, 'qaStatistic')
-}
+var qaStatistic = mongoose.model('QaStatistic', qaStatisticSchema, 'qaStatistic');
+module.exports = qaStatistic;
+
+qaStatistic.aun = mongoose.model('AUN', aunSchema, 'qaStatistic');
+qaStatistic.tqf = mongoose.model('TQF', tqfSchema, 'qaStatistic');

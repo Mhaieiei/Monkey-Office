@@ -1,4 +1,3 @@
-var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
@@ -14,4 +13,4 @@ var lecturerPlaceSchema = mongoose.Schema({
 
 });
 
-module.exports = db.model('lecturerPlaceSchema', lecturerPlaceSchema);
+module.exports = lecturerPlaceSchema;// JavaScript source code
