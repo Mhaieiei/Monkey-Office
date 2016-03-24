@@ -24,7 +24,7 @@ var userSchema = new mongoose.Schema({
         status: String,
         yeargrade : String,
         salary: Number,
-        position:String,
+        
         academic_position: String,
         admin_position: String,
         jobDescription: [String],
@@ -47,6 +47,16 @@ var roleOfProgramSchema = mongoose.Schema({
     "type": String,//development  committee
     "academicYear": String,
     "position": String//chairman...
+
+
+});
+
+var roleOfStaffSchema = mongoose.Schema({
+
+
+    "type": String,//academic , support staff
+    "academicYear": String,
+    "position": String//lecturer, accountance
 
 
 });
@@ -146,6 +156,7 @@ module.exports = {
     
     User: userSchema,
     roleOfProgram: roleOfProgramSchema,
-    roleOfFaculty: roleOfFacultySchema
+    roleOfFaculty: roleOfFacultySchema,
+    roleOfStaff: roleOfStaffSchema
 }
 

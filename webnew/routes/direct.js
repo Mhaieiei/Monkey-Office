@@ -2722,7 +2722,7 @@ module.exports = function(app, passport, schemas) {
 	    User.find({
 	        $and: [
                 { 'local.program': req.query.program },
-                { 'local.role': "Lecturer" },
+                { 'local.position': "Lecturer" },
 
 	        ]
 	    })
@@ -2753,7 +2753,11 @@ module.exports = function(app, passport, schemas) {
 	    User.find({
 	        $and: [
                 { 'local.program': req.query.program },
-                { 'local.role': "staff" }
+                { 'local.position': { $ne: 'Lecturer' } },
+                { 'local.position': { $ne: 'Assistanct Professor' } },
+                { 'local.position': { $ne: 'Associate Professor' } },
+                { 'local.position': { $ne: 'Professor' } }
+
 	        ]
 	    }, function (err, programs) {
 
@@ -2930,7 +2934,7 @@ module.exports = function(app, passport, schemas) {
 	    User.find({
 	        $and: [
                 { 'local.program': req.query.program },
-                { 'local.role': "Lecturer" },
+                { 'local.position': "Lecturer" },
                 { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
 	        ]
 	    })

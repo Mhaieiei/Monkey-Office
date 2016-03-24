@@ -5,6 +5,7 @@ module.exports = function(database) {
 	models.User = database.model('User', require('../model/user').User,'users');
 	models.User.roleOfProgram = database.model('roleOfProgram', require('../model/user').roleOfProgram, 'users');
 	models.User.roleOfFaculty = database.model('roleOfFaculty', require('../model/user').roleOfFaculty, 'users');
+	models.User.roleOfStaff = database.model('roleOfStaff', require('../model/user').roleOfStaff, 'users');
 
 	models.Work             = database.model('Work', require('../model/works').Work,'works');
 	models.Work.Project     = database.model('Project', require('../model/works').Project,'works');
