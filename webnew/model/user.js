@@ -24,13 +24,11 @@ var userSchema = new mongoose.Schema({
         status: String,
         yeargrade : String,
         salary: Number,
-        
-        academic_position: String,
-        admin_position: String,
         jobDescription: [String],
         nationality:String //for student - thai, national
        },
-    roleOfProgram: [{ type: mongoose.Schema.Types.ObjectId, ref: 'roleOfProgram' }],
+	roleOfProgram: [String],
+	roleOfStaff: [String],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,
     advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
@@ -41,35 +39,6 @@ var userSchema = new mongoose.Schema({
 
 },{strict : false});
 
-var roleOfProgramSchema = mongoose.Schema({
-
-
-    "type": String,//development  committee
-    "academicYear": String,
-    "position": String//chairman...
-
-
-});
-
-var roleOfStaffSchema = mongoose.Schema({
-
-
-    "type": String,//academic , support staff
-    "academicYear": String,
-    "position": String//lecturer, accountance
-
-
-});
-
-var roleOfFacultySchema = mongoose.Schema({
-
-
-    "type": String,
-    "academicYear": String,
-    "TimeOfWork": String
-
-
-});
 
 // methods ======================
 // generating a has
@@ -153,10 +122,6 @@ userSchema.methods.editEducation = function(request, response){
 
 module.exports = {
     
-    
-    User: userSchema,
-    roleOfProgram: roleOfProgramSchema,
-    roleOfFaculty: roleOfFacultySchema,
-    roleOfStaff: roleOfStaffSchema
+    User: userSchema
 }
 

@@ -63,6 +63,7 @@
                     </thead>
 					{{#each docs}}
                     <tbody>
+					{{#each user}}
                         <tr>
                         <td>{{getindex}}</td>
                         <td>{{local.title}}</td>
@@ -71,7 +72,7 @@
                         <td></td>
                         <td>{{local.jobDescription}}</td>
                         </tr>  
-                        
+                        {{/each}}
                     </tbody>
 					{{/each}}
                   </table>

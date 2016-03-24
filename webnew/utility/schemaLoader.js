@@ -2,10 +2,12 @@ module.exports = function(database) {
 
 	var models = {};
 
-	models.User = database.model('User', require('../model/user').User,'users');
-	models.User.roleOfProgram = database.model('roleOfProgram', require('../model/user').roleOfProgram, 'users');
-	models.User.roleOfFaculty = database.model('roleOfFaculty', require('../model/user').roleOfFaculty, 'users');
-	models.User.roleOfStaff = database.model('roleOfStaff', require('../model/user').roleOfStaff, 'users');
+	models.User = database.model('User', require('../model/user').User, 'users');
+
+	models.Role = database.model('role', require('../model/role').role, 'role');
+	models.Role.roleOfProgram = database.model('roleOfProgram', require('../model/role').roleOfProgram, 'role');
+	models.Role.roleOfFaculty = database.model('roleOfFaculty', require('../model/role').roleOfFaculty, 'role');
+	models.Role.roleOfStaff = database.model('roleOfStaff', require('../model/role').roleOfStaff, 'role');
 
 	models.Work             = database.model('Work', require('../model/works').Work,'works');
 	models.Work.Project     = database.model('Project', require('../model/works').Project,'works');

@@ -55,7 +55,7 @@ module.exports = function(app, passport, schemas) {
 	var FacilityAndInfrastruture = schemas.FacilityAndInfrastruture;
 	var AssesmentTool = schemas.AssesmentTool;
 	var ReferenceCurriculum = schemas.ReferenceCurriculum;
-
+	var Role = schemas.Role;
 
 
 
@@ -2717,30 +2717,45 @@ module.exports = function(app, passport, schemas) {
 	    console.log("developmentCommittee");
 
 	    //referenceCurriculumSchema.find();
-
-
-	    User.find({
+	    Acyear.findOne({
 	        $and: [
-                { 'local.program': req.query.program },
-                { 'local.position': "Lecturer" },
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	    Role.roleOfProgram.find({
+	        $and:[{
 
+	            "type": "Development Committee"},
+                { "academicYear": programs._id}
 	        ]
 	    })
-        .populate('roleOfProgram')
-        .exec(function (err, programs) {
+        .populate('user')
+        .exec(function (err, docs) {
 
-            console.log("REFFFF---->>>", programs);
+            console.log("REFFFF---->>>", docs);
+            var index = 0;
+            res.render('qa/qa-aun11.1.hbs', {
+                //    user: req.user,      
+                layout: "qaPage",
 
-            //res.render('qa/qa-aun11.1.hbs', {
-            //    //    user: req.user,      
-            //    layout: "qaPage",
+                docs: docs,
+                helpers: {
+                    inc: function (value) { return parseInt(value) + 1; },
+                    getyear: function (value) { return yearac[value]; },
+                    getindex: function () { return ++index; }
+                }
 
-            //    docs: programs
-
-            //});
+            });
 
 
         });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
 
 	});
 	
@@ -2750,26 +2765,32 @@ module.exports = function(app, passport, schemas) {
 	    //referenceCurriculumSchema.find();
 
 
-	    User.find({
+	    Acyear.findOne({
 	        $and: [
-                { 'local.program': req.query.program },
-                { 'local.position': { $ne: 'Lecturer' } },
-                { 'local.position': { $ne: 'Assistanct Professor' } },
-                { 'local.position': { $ne: 'Associate Professor' } },
-                { 'local.position': { $ne: 'Professor' } }
-
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
 	        ]
 	    }, function (err, programs) {
+	        if (!err) {
+	            Role.roleOfStaff.find({
+	                $and:[{
+
+	                    "type": "Supporting Staff"},
+                        { "academicYear": programs._id}
+	                ]
+	            })
+                .populate('user')
+                .exec(function (err, docs) {
 
 
-	        console.log("REFFFF---->>>", programs);
+                    console.log("REFFFF---->>>", docs);
 
 	        var index = 0;
 	        res.render('qa/qa-aun7.hbs', {
 	            //    user: req.user,      
 	            layout: "qaPage",
 
-	            docs: programs,
+	            docs: docs,
 	            helpers: {
 	                inc: function (value) { return parseInt(value) + 1; },
 	                getyear: function (value) { return yearac[value]; },
@@ -2779,6 +2800,11 @@ module.exports = function(app, passport, schemas) {
 	        });
 
 
+                });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
 	    });
 
 	});
@@ -2929,44 +2955,83 @@ module.exports = function(app, passport, schemas) {
 	    console.log("listOfLecturer");
 
 	    //referenceCurriculumSchema.find();
-
-
-	    User.find({
+	    Acyear.findOne({
 	        $and: [
-                { 'local.program': req.query.program },
-                { 'local.position': "Lecturer" },
-                { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
 	        ]
-	    })
-        .populate('publicResearch')
-        .exec(function (err, programs) {
+	    }, function (err, programs) {
+	        if (!err) {
+	            console.log("REFFFF--programs._id-->>>", programs._id);
+	            Role.roleOfStaff.findOne({
+	                $and:[{
+
+	                    "type": "Academic Staff"},
+                        { "academicYear": programs.id}
+	                ]
+	            },function (err, docs) {
+	                console.log("REFFFF--docs._id-->>>", docs._id);
+	                User.aggregate([
+                        // Get just the docs that contain a shapes element where color is 'red'
+                        { $match: { 'roleOfStaff': docs.id } },
+                        {
+                            $project: {
+                                'education': {
+                                    $filter: {
+                                        //input: '$education',
+                                        //as: 'edu',
+                                        //cond: { $eq: ['$$edu.level','Doctoral'] }
+                                    }
+                                }
+                                
+                                    
+                                
+                            }
+                        }
+	                ]
+	                //User.find(
+                    //          { 'roleOfStaff': docs.id },
+                    //          //{ 'local.program': req.query.program },
+                    //          { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
+                              
+
+	                    
+	                //)
+                    //.populate('publicResearch')
+                    //.exec(function (err, programs) {
+
+                    ,function (err, programs) {
+                        //referenceCurriculumSchema.find();
 
 
-            //referenceCurriculumSchema.find();
 
 
+                        console.log("REFFFF---->>>", programs);
 
+                        //res.render('qa/qa-aun6.1.hbs', {
+                        //    //    user: req.user,      
+                        //    layout: "qaPage",
 
-            console.log("REFFFF---->>>", programs);
-
-            //res.render('qa/qa-aun6.1.hbs', {
-            //    //    user: req.user,      
-            //    layout: "qaPage",
-
-            //    docs: programs,
-            //    helpers: {
-            //        inc: function (value) { return parseInt(value) + 1; },
-            //        getyear: function (value) { return yearac[value]; },
-            //        getindex: function () { return ++index; }
-            //    }
-            //});
+                        //    docs: programs,
+                        //    helpers: {
+                        //        inc: function (value) { return parseInt(value) + 1; },
+                        //        getyear: function (value) { return yearac[value]; },
+                        //        getindex: function () { return ++index; }
+                        //    }
+                        //});
 
 
 
 
 
 
-        });
+                    });
+                });
+                } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+            }
+	    });
 
 	});
 
