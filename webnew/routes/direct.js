@@ -98,15 +98,15 @@ module.exports = function(app, passport, schemas) {
         res.render('index.ejs', { message: req.flash('loginMessage') }); 
     });
 
-    app.get('/login', function(req, res){
-    	res.render('index.ejs', { message: req.flash('loginMessage') }); 
-    });
+    // app.get('/login', function(req, res){
+    // 	res.render('index.ejs', { message: req.flash('loginMessage') }); 
+    // });
 
     // process the login form
     // app.post('/login', do all our passport stuff here);
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect : '/home', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureRedirect : '/', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
 		
     }));
@@ -153,16 +153,7 @@ module.exports = function(app, passport, schemas) {
        			return next(err);
        		}
 
-       		var response = {
-       			layout: 'homepage',
-       			docs: _docs,
-       			helpers: {
-	                getdate: function (value) { return date[value]; }
-		            }
-       			
-       		}
-       			
-	       			
+       	
 	       		
 	       		for(var i = 0 ; i < _docs.length ;++i){
 	       			var a = _docs[i].dateCreate;
@@ -186,7 +177,8 @@ module.exports = function(app, passport, schemas) {
 	       		res.render('home.hbs',{
 					layout: 'homepage',
 	       			docs: _docs,
-	       		    helpers: {
+              role: req.user.local.role,
+	       		  helpers: {
 	                getdate: function (value) { return date[value]; }
 		            }
 				});
@@ -385,27 +377,8 @@ module.exports = function(app, passport, schemas) {
 
    });
 
-      // =====================================
-    // PROFILE SECTION =====================
-    // =====================================
-    app.get('/profile', isLoggedIn, function(req, res) {
-		console.log("Get profile");
-		console.log(req.user.local.name);
-		var name = req.user.local.name;
-		var fac;
-		if(name == "admin")
-			fac = true;
-		else
-			fac = false;
-		res.render('profile/profile.hbs',{
-			layout:"profilePage",
-			user : req.user,
-			fac : fac
-		});
-        // res.render('profile/userprofile.ejs', {
-        //     user : req.user // get the user out of session and pass to template
-        // });
-    });
+    
+      
     // =====================================
     // Get User Info. ==============================
     // =====================================
@@ -1626,8 +1599,6 @@ module.exports = function(app, passport, schemas) {
             	user : req.user,
             	teachsemes: subs,
             	year : years,
-            	program: req.query.program,
-            	acyear : req.query.acyear,
             	acid : req.query.id,
             	helpers: {  
             	setac: function(ac){acyear = ac;},
@@ -1704,7 +1675,7 @@ module.exports = function(app, passport, schemas) {
 	    	array.push(obj);
 	    }
 	    console.log(array);	
-		Subject.findOne({ '_id' :  req.body.sub_code }, function(err, sub) {
+		Subject.findOne({ 'sub_code' :  req.body.sub_code }, function(err, sub) {
             
             if (err){
 				console.log("Error ...1");
@@ -1716,10 +1687,10 @@ module.exports = function(app, passport, schemas) {
                 var newSub        = new Subject();
 
                 // set the user's local credentials
-				newSub._id = req.body.sub_code;
+				newSub.sub_code = req.body.sub_code;
 				newSub.sub_name = req.body.sub_name;
 				newSub.sub_credit = req.body.sub_credit;
-                async.eachSeries(array,function(item,callback) {        	
+      async.eachSeries(array,function(item,callback) {        	
 			     User.findOne( { 'local.name' :  item.sub_lecter }, function (err, rows) {
 			        	if(err){
 			        		console.log("mhai_0err"+err);
