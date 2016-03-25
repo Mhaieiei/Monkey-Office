@@ -1,0 +1,47 @@
+{
+	"_id": {
+		"$oid": "56f3e9452e796b6f0e25b36e"
+	},
+	"type": "Development Committee",
+	"academicYear": "56c20e33686bf15c2f270392",
+	"position": "chairman",
+	"user": [
+		"56b1beadc870f7d42c22fd2e",
+		"56b1c032c870f7d42c22fd30"
+	]
+}
+{
+	"_id": {
+		"$oid": "56f3e9d02e796b6f0e25b36f"
+	},
+	"type": "Supporting Staff",
+	"academicYear": "56c20e33686bf15c2f270392",
+	"position": "Account2",
+	"user": [
+		"56c1f6ee470622202e54dd63"
+	]
+}
+{
+	"_id": {
+		"$oid": "56f3ea572e796b6f0e25b370"
+	},
+	"type": "Academic Staff",
+	"academicYear": "56c20e33686bf15c2f270392",
+	"position": "Lecturer",
+	"user": [
+		"56b1c032c870f7d42c22fd30",
+		"56b1beadc870f7d42c22fd2e"
+	]
+}
+{
+	"_id": {
+		"$oid": "56f4215fb870b5ab99a59ab8"
+	},
+	"type": "Development Committee",
+	"academicYear": "56c20e33686bf15c2f270392",
+	"position": "Member",
+	"user": [
+		"56b1beadc870f7d42c22fd2e",
+		"56b1c032c870f7d42c22fd30"
+	]
+}

@@ -16,12 +16,15 @@
 				"TimeOfWork": "Full time"
 			}
 		],
-		"programName": "Software",
+		"program": "Software",
 		"roleOfFaculty": "Faculty member",
 		"yearOfTeaching": 20
 	},
 	"roleOfProgram": [
-		"56e59cb307631a77c6df9c49"
+		"56f3e9452e796b6f0e25b36e"
+	],
+	"roleOfStaff": [
+		"56f3ea572e796b6f0e25b370"
 	],
 	"education": [
 		{
@@ -66,12 +69,12 @@
 				"TimeOfWork": "Full time"
 			}
 		],
-		"programName": "Software",
+		"program": "Software",
 		"title": "Asst.Ph.",
 		"yearOfTeaching": 50
 	},
-	"roleOfProgram": [
-		"56e59cb307631a77c6df9c49"
+	"roleOfStaff": [
+		"56f3ea572e796b6f0e25b370"
 	],
 	"education": [
 		{
@@ -97,6 +100,93 @@
 	"careerDevelopment": [
 		"56e93280872ad885082e3cac",
 		"56e9328a872ad885082e3cad"
+	],
+	"__v": 0
+}
+{
+	"_id": "56b1c041c870f7d42c22fd32",
+	"local": {
+		"password": "$2a$08$wFrmZCPDYMncv.7dYrTqxOsmhUoaWcYQBkHXqE58hsqOD6qsfE0xq",
+		"name": "mae",
+		"surname": "sur_mae",
+		"email": "mae@hotmail.com",
+		"role": "student",
+		"yearAttend": 2014,
+		"ID": "55090000",
+		"nationality": "Thailand"
+	},
+	"detail": [
+		{
+			"academicYear": 2014,
+			"status": "Normal"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": "56b1c051c870f7d42c22fd34",
+	"local": {
+		"password": "$2a$08$hWUCBcYkDbk1xzG6AACSsu.iLonkYdru21ZIBpM4yw4AqIB2voQKa",
+		"name": "mos",
+		"surname": "sur_mos",
+		"email": "mos@hotmail.com",
+		"role": "student",
+		"yearAttend": 2014,
+		"ID": "55090001",
+		"status": "Normal",
+		"nationality": "Thailand"
+	},
+	"__v": 0
+}
+{
+	"_id": "56c1f45c1c26414c1c634b1f",
+	"local": {
+		"password": "$2a$08$NktP0MHM2hGdtaQaByQx..S./jNuB0HYkcbgp553awh/XvFaOydWC",
+		"name": "temp",
+		"email": "temp@hotmail.com",
+		"role": "staff",
+		"jobDescription": [
+			"descrip of temp"
+		],
+		"position": "Accountance",
+		"programName": "Software"
+	},
+	"training": [
+		"56e9341d872ad885082e3cae"
+	],
+	"education": [
+		{
+			"level": "Ba",
+			"degree": "B.ENG",
+			"university": "Abc - staff",
+			"year": "2013"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": "56c1f6ee470622202e54dd63",
+	"local": {
+		"password": "$2a$08$VkK8.ttF8OTOm.xNYrdiku8GwM5wMJ3GYQkMj2Tzlv8eWZlo7vwkG",
+		"name": "we",
+		"email": "we@hotmail.com",
+		"role": "staff",
+		"jobDescription": [
+			"descrip of we"
+		],
+		"position": "Accountance 2",
+		"programName": "Software"
+	},
+	"training": [
+		"56e93429872ad885082e3caf"
+	],
+	"education": [
+		{
+			"level": "Ba",
+			"degree": "B.ENG",
+			"university": "Abc -staff we",
+			"year": "2013"
+		}
 	],
 	"__v": 0
 }
@@ -264,7 +354,9 @@
 		"email": "mae@hotmail.com",
 		"role": "student",
 		"yearAttend": 2014,
-		"ID": "55090000"
+		"ID": "55090000",
+		"program": "Software",
+		"nationality": "Thailand"
 	},
 	"detail": [
 		{
@@ -286,7 +378,9 @@
 		"role": "student",
 		"yearAttend": 2014,
 		"ID": "55090001",
-		"status": "Normal"
+		"status": "Normal",
+		"program": "Software",
+		"nationality": "Thailand"
 	},
 	"__v": 0
 }
@@ -326,7 +420,7 @@
 			"descrip of temp"
 		],
 		"position": "Accountance",
-		"programName": "Software"
+		"program": "Software"
 	},
 	"training": [
 		"56e9341d872ad885082e3cae"
@@ -354,8 +448,11 @@
 			"descrip of we"
 		],
 		"position": "Accountance 2",
-		"programName": "Software"
+		"program": "Software"
 	},
+	"roleOfStaff": [
+		"56f3e9d02e796b6f0e25b36f"
+	],
 	"training": [
 		"56e93429872ad885082e3caf"
 	],
@@ -544,4 +641,125 @@
 		"yearAttend": 2014,
 		"ID": "55090019"
 	}
+}
+{
+	"_id": {
+		"$oid": "56f271975b0e70751725ab65"
+	},
+	"local": {
+		"password": "$2a$08$GT.LwCkuUM6p7jh6WEgdcOcLEapyomRrHXo1EKZu2CluI32Q8z1Tm",
+		"name": "test1",
+		"surname": "sur_test1",
+		"username": "test1",
+		"email": "dad@hotmail.com",
+		"title": "Asst.Phd",
+		"role": "Lecturer",
+		"position": "Lecturer",
+		"roleOfFaculty": [
+			{
+				"type": "visiting member",
+				"academicYear": 2014,
+				"TimeOfWork": "Full time"
+			}
+		],
+		"programName": "Software",
+		"roleOfFaculty": "Faculty member",
+		"yearOfTeaching": 20
+	},
+	"roleOfProgram": [
+		"56e59cb307631a77c6df9c49"
+	],
+	"education": [
+		{
+			"level": "Doctoral",
+			"degree": "Ph.D.",
+			"university": "Abc",
+			"year": "2013"
+		},
+		{
+			"level": "MMM",
+			"degree": "MMM",
+			"university": "Abc",
+			"year": "2012"
+		}
+	],
+	"publicResearch": [
+		"56e545446376238a6e3596bb"
+	],
+	"training": [
+		"56e9311a872ad885082e3ca6",
+		"56e93254872ad885082e3ca8"
+	],
+	"careerDevelopment": [
+		"56e93225872ad885082e3ca7",
+		"56e9327b872ad885082e3cab"
+	]
+}
+{
+	"_id": {
+		"$oid": "56f2abf1ce9c5c53e87f694f"
+	},
+	"type": "visiting member",
+	"academicYear": 2014,
+	"TimeOfWork": "Full time"
+}
+{
+	"_id": {
+		"$oid": "56f2ac02ce9c5c53e87f6950"
+	},
+	"type": "Faculty member",
+	"academicYear": 2014,
+	"TimeOfWork": "Full time"
+}
+{
+	"_id": {
+		"$oid": "56f2ac17ce9c5c53e87f6951"
+	},
+	"type": "visiting member",
+	"academicYear": 2014,
+	"TimeOfWork": "Full time"
+}
+{
+	"_id": {
+		"$oid": "56f2c72fce9c5c53e87f6952"
+	},
+	"local": {
+		"password": "$2a$08$wFrmZCPDYMncv.7dYrTqxOsmhUoaWcYQBkHXqE58hsqOD6qsfE0xq",
+		"name": "test_nation",
+		"surname": "sur_test_nation",
+		"email": "test_nation@hotmail.com",
+		"role": "student",
+		"yearAttend": 2014,
+		"ID": "55090000",
+		"program": "Software",
+		"nationality": "Lao"
+	},
+	"detail": [
+		{
+			"academicYear": 2014,
+			"status": "Normal"
+		}
+	]
+}
+{
+	"_id": {
+		"$oid": "56f2cc06ce9c5c53e87f6953"
+	},
+	"local": {
+		"password": "$2a$08$wFrmZCPDYMncv.7dYrTqxOsmhUoaWcYQBkHXqE58hsqOD6qsfE0xq",
+		"name": "mae",
+		"surname": "sur_mae",
+		"email": "mae@hotmail.com",
+		"role": "student",
+		"yearAttend": 2015,
+		"ID": "55090000",
+		"program": "Software",
+		"nationality": "Thailand"
+	},
+	"detail": [
+		{
+			"academicYear": 2014,
+			"status": "Normal"
+		}
+	]
 }
