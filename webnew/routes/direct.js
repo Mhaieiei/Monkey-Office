@@ -55,7 +55,8 @@ module.exports = function(app, passport) {
   var AssesmentTool            = require('../model/assesmentToolSchema');
   var ReferenceCurriculum      = require('../model/referenceCurriculumSchema');
   var Role                     = require('../model/role');
-
+  var Responsibility           = require('../model/Responsibility');
+  
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
