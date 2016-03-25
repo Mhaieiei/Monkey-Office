@@ -40,21 +40,21 @@ module.exports = function(app, passport) {
  	// =====================================
     // Setting Model Databases ========
     // =====================================
-  var User                     = require('../model/user').User;
+  var User                     = require('../model/user');
   var Work                     = require('../model/works');
   
-  var Fac                      = require('../model/faculty').Faculty;
-  var Subject                  = require('../model/subject').Subject;
+  var Fac                      = require('../model/faculty');
+  var Subject                  = require('../model/subject');
   var Acyear                   = require('../model/academic_year');
-  var Teach                    = require('../model/teaching_semester').TeachingSemester;
+  var Teach                    = require('../model/teaching_semester');
   var TemplateWorkflow         = require('../model/TemplateWorkflow');
   var Doc                      = require('../model/document');
   var Subenroll                = require('../model/subject_enroll');
   var Stdenroll                = require('../model/student_enroll');
   var FacilityAndInfrastruture = require('../model/FacilityAndInfrastrutureSchema');
   var AssesmentTool            = require('../model/assesmentToolSchema');
-  var ReferenceCurriculum      = require('../model/referenceCurriculumSchema').ReferenceCurriculum;
-  var Role                     = require('../model/role').Role;
+  var ReferenceCurriculum      = require('../model/referenceCurriculumSchema');
+  var Role                     = require('../model/role');
 
     // =====================================
     // HOME PAGE (with login links) ========

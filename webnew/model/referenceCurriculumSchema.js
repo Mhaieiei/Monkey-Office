@@ -21,7 +21,7 @@ var detailSchema = mongoose.Schema({
 
 });
 
-module.exports = {
-    ReferenceCurriculum: db.model('referenceCurriculum', referenceCurriculumSchema, 'referenceCurriculumSchema'),
-    Detail:db.model('detail', detailSchema, 'referenceCurriculumSchema')
-}
+var referenceCurriculum = db.model('referenceCurriculum', referenceCurriculumSchema, 'referenceCurriculumSchema');
+referenceCurriculum.detail = db.model('detail', detailSchema, 'referenceCurriculumSchema');
+
+module.exports = referenceCurriculum;

@@ -41,9 +41,9 @@ var roleOfFacultySchema = mongoose.Schema({
 
 });
 
-module.exports = {
-    role: db.model('role', roleSchema, 'role'),
-    roleOfProgram: db.model('roleOfProgram', roleOfProgramSchema, 'role'),
-    roleOfFaculty: db.model('roleOfFaculty', roleOfFacultySchema, 'role'),
-    roleOfStaff: db.model('roleOfStaff', roleOfStaffSchema, 'role')
-}
+var role = db.model('role', roleSchema, 'role');
+role.roleOfProgram = db.model('roleOfProgram', roleOfProgramSchema, 'role');
+role.roleOfFaculty = db.model('roleOfFaculty', roleOfFacultySchema, 'role');
+role.roleOfStaff = db.model('roleOfStaff', roleOfStaffSchema, 'role');
+
+module.exports = role;

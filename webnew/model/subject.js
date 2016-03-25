@@ -51,7 +51,7 @@ subjectSchema.methods.editSubject = function(request, response){
 
 };
 
-module.exports = {
-    Subject: db.model('Subject', subjectSchema, 'subject'),
-    ELO: db.model('ELO', ELOSchema, 'subject')
-}
+var subject = db.model('Subject', subjectSchema, 'subject');
+subject.ELO = db.model('ELO', ELOSchema, 'subject');
+
+module.exports = subject;

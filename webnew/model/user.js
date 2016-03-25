@@ -122,6 +122,4 @@ userSchema.methods.editEducation = function(request, response){
 
 };
 
-module.exports = {
-    User: db.model('User', userSchema, 'users')
-}
+module.exports = db.model('User', userSchema, 'users');

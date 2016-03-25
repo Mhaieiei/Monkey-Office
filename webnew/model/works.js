@@ -62,10 +62,10 @@ var careerDevelopmentSchema = mongoose.Schema({
     academicYear: String
 });
 
-module.exports = {
-    Work: db.model('Work', workSchema, 'works'),
-    Project: db.model('Project', projectSchema, 'works'),
-    Public: db.model('Public', publicResearchSchema, 'works'),
-    Training: db.model('training', trainingSchema, 'works'),
-    CareerDevelopment: db.model('careerDevelopment', careerDevelopmentSchema, 'works')
-};
+var works = db.model('Work', workSchema, 'works');
+works.Project = db.model('Project', projectSchema, 'works');
+works.Public = db.model('Public', publicResearchSchema, 'works');
+works.Training = db.model('training', trainingSchema, 'works');
+works.CareerDevelopment = db.model('careerDevelopment', careerDevelopmentSchema, 'works');
+
+module.exports = works;

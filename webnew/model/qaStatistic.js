@@ -36,8 +36,8 @@ var aunSchema = mongoose.Schema({
     score: Number
 });
 
-module.exports = {
-    qaStatistic: db.model('QaStatistic', qaStatisticSchema, 'qaStatistic'),
-    aun        : db.model('AUN', aunSchema, 'qaStatistic'),
-    tqf        : db.model('TQF', tqfSchema, 'qaStatistic')
-}
+var qaStatistic = db.model('QaStatistic', qaStatisticSchema, 'qaStatistic');
+qaStatistic.aun = db.model('AUN', aunSchema, 'qaStatistic');
+qaStatistic.tqf = db.model('TQF', tqfSchema, 'qaStatistic');
+
+module.exports = qaStatistic;

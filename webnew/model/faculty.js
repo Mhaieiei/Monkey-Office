@@ -74,9 +74,9 @@ facSchema.methods.editProgram = function(request, response){
 	response.redirect('/programs');
 };
 
-module.exports = {
-    Faculty          : db.model('Faculty', facSchema, 'faculty'),
-    Evaluation       : db.model('EvaluationMethod', EvaluationMethodSchema, 'faculty'),
-    Stakeholder      : db.model('stakeholder', StakeholderSchema, 'faculty'),
-    ProgramManagement: db.model('ProgramManagement', ProgramManagement, 'faculty')
-}
+var faculty = db.model('Faculty', facSchema, 'faculty');
+faculty.Evaluation = db.model('EvaluationMethod', EvaluationMethodSchema, 'faculty');
+faculty.Stakeholder = db.model('stakeholder', StakeholderSchema, 'faculty');
+faculty.ProgramManagement = db.model('ProgramManagement', ProgramManagement, 'faculty');
+
+module.exports = faculty;
