@@ -2942,36 +2942,34 @@ module.exports = function(app, passport, schemas) {
 	                ]
 	            },function (err, docs) {
 	                console.log("REFFFF--docs._id-->>>", docs._id);
-	                User.aggregate([
-                        // Get just the docs that contain a shapes element where color is 'red'
-                        { $match: { 'roleOfStaff': docs.id } },
-                        {
-                            $project: {
-                                'education': {
-                                    $filter: {
-                                        //input: '$education',
-                                        //as: 'edu',
-                                        //cond: { $eq: ['$$edu.level','Doctoral'] }
-                                    }
-                                }
+	                //User.aggregate([
+                    //    // Get just the docs that contain a shapes element where color is 'red'
+                    //    { $match: { 'roleOfStaff': docs.id } },
+                    //    {
+                    //        $project: {
+                    //            'education': {
+                    //                $filter: {
+                    //                    //input: '$education',
+                    //                    //as: 'edu',
+                    //                    //cond: { $eq: ['$$edu.level','Doctoral'] }
+                    //                }
+                    //            }
                                 
                                     
                                 
-                            }
-                        }
-	                ]
-	                //User.find(
-                    //          { 'roleOfStaff': docs.id },
-                    //          //{ 'local.program': req.query.program },
-                    //          { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
+                    //        }
+                    //    }
+	                //]
+	                User.find(
+                              { 'roleOfStaff': docs.id }
                               
 
 	                    
-	                //)
-                    //.populate('publicResearch')
-                    //.exec(function (err, programs) {
+	                )
+                    .populate('publicResearch')
+                    .exec(function (err, programs) {
 
-                    ,function (err, programs) {
+                    //,function (err, programs) {
                         //referenceCurriculumSchema.find();
 
 
