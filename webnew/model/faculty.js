@@ -1,5 +1,6 @@
 // app/models/faculty.js
 // load the things we need
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
@@ -15,7 +16,10 @@ var facSchema = mongoose.Schema({
 
 	}],
 	assesmentTool: [{ type: mongoose.Schema.Types.ObjectId, ref: 'assesmentToolSchema' }],
-	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }]
+	structureOfCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'structure' }],
+	referenceCurriculum: [{ type: mongoose.Schema.Types.ObjectId, ref: 'referenceCurriculum' }],
+	Responsibility: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Responsibility' }]
+
 
 
 });
@@ -35,6 +39,24 @@ var StakeholderSchema = mongoose.Schema({
 
 });
 
+var ProgramManagement = mongoose.Schema({
+
+    result: [{
+        indicator: String,
+        target: String,
+        action: String,
+        result:String
+    
+    }],
+    meetingOfProgramManagementCommittee: [{
+        meetingDate: Date,
+        noOfParticipation: Number,
+        percentageOfParticipation:Number
+
+
+    }]
+});
+
 
 facSchema.methods.editProgram = function(request, response){
 	console.log("Mhai eiei");
@@ -52,25 +74,9 @@ facSchema.methods.editProgram = function(request, response){
 	response.redirect('/programs');
 };
 
+var faculty = db.model('Faculty', facSchema, 'faculty');
+faculty.Evaluation = db.model('EvaluationMethod', EvaluationMethodSchema, 'faculty');
+faculty.Stakeholder = db.model('stakeholder', StakeholderSchema, 'faculty');
+faculty.ProgramManagement = db.model('ProgramManagement', ProgramManagement, 'faculty');
 
-
-// create the model for users and expose it to our app
-module.exports = {
-
-
-    Faculty: facSchema,
-    Evaluateion: EvaluationMethodSchema,
-    Stakeholder: StakeholderSchema
-
-}
-
-
-
-
-
-
-
-
-
-
-
+module.exports = faculty;

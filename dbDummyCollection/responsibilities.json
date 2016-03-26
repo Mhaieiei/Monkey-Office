@@ -1,0 +1,34 @@
+{
+	"_id": {
+		"$oid": "56e1b73d7b61bff82ff2d3e2"
+	},
+	"category": "Generic koewledge",
+	"description": "dest of Generic koewledge",
+	"ELO": [
+		"56e1c40597ca5313262746f9",
+		"56e1c41c97ca5313262746fa"
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e2899c571c460c490755aa"
+	},
+	"category": "Generic skill",
+	"description": "dest of Generic skill",
+	"ELO": [
+		"56e1c40597ca5313262746f9",
+		"56e1c41c97ca5313262746fa"
+	]
+}
+{
+	"_id": {
+		"$oid": "56e289c1571c460c490755ab"
+	},
+	"category": "specific knowledge",
+	"description": "dest of specific knowledge",
+	"ELO": [
+		"56e1c40597ca5313262746f9",
+		"56e1c41c97ca5313262746fa"
+	]
+}

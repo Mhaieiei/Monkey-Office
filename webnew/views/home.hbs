@@ -19,28 +19,29 @@
                               <label for="doc_status" class="col-md-2 control-label">Status : </label>
                               <div class="col-md-4">
                                 <select class="btn btn-primary dropdown-toggle" class="caret" name="doc_status" id="doc_status">
+
                                     {{#if st1}}
-                                    <option value="all">All</option>
-                                    <option value="create" selected="selected">Created</option>
-                                    <option value="inprogress">Inprogress</option>
-                                    <option value="done">Done</option>
-                                    {{else}}
-                                        {{#if st2}}
                                         <option value="all">All</option>
-                                        <option value="create">Created</option>
-                                        <option value="inprogress" selected="selected">Inprogress</option>
-                                        <option value="done" >Done</option>
+                                        <option value="create" selected="selected">Created</option>
+                                        <option value="inprogress">Inprogress</option>
+                                        <option value="done">Done</option>
                                         {{else}}
-                                            {{#if st3}}
-                                            <option value="all" >All</option>
-                                            <option value="create" >Created</option>
-                                            <option value="inprogress">Inprogress</option>
-                                            <option value="done" selected="selected">Done</option>
-                                            {{else}}
-                                            <option value="all" selected="selected">All</option>
-                                            <option value="create" >Created</option>
-                                            <option value="inprogress">Inprogress</option>
+                                            {{#if st2}}
+                                            <option value="all">All</option>
+                                            <option value="create">Created</option>
+                                            <option value="inprogress" selected="selected">Inprogress</option>
                                             <option value="done" >Done</option>
+                                            {{else}}
+                                                {{#if st3}}
+                                                <option value="all" >All</option>
+                                                <option value="create" >Created</option>
+                                                <option value="inprogress">Inprogress</option>
+                                                <option value="done" selected="selected">Done</option>
+                                                {{else}}
+                                                <option value="all" selected="selected">All</option>
+                                                <option value="create" >Created</option>
+                                                <option value="inprogress">Inprogress</option>
+                                                <option value="done" >Done</option>
                                             {{/if}}
                                         {{/if}}
                                     {{/if}}
@@ -53,6 +54,7 @@
                                <label for="doc_type" class="col-md-2 control-label">Type: </label>
                               <div class="col-md-4">
                                   <select class="btn btn-primary dropdown-toggle" class="caret" name="doc_type" id="doc_type">
+
                                     {{#if type1}}
                                     <option value="all">All</option>
                                     <option value="own" selected="selected">Own</option>
@@ -68,6 +70,7 @@
                                         <option value="other_type">Other_type</option>    
                                         {{/if}}
                                     {{/if}}
+
 
                                 </select>
                                  
@@ -86,6 +89,7 @@
                             <label class="col-md-2" for="toDate"> To</label>
                                 <div class="col-md-4 ">
                                     <input for="inputDate" type="date" class="form-control" id="toDate" name="toDate" value="{{docToDate}}">
+
                                 </div>
 
                         </div>
@@ -115,8 +119,8 @@
         <div class="tabs">
             <ul class="tab-links">
                 <li class="active"><a href="#tab1" >All</a></li>
-                <li><a href="#tab2">To Do</a></li>
-                
+                <li><a href="#tab2">My Document</a></li>
+                <li><a href="#tab3">Assigned Document</a></li>
             </ul>
  
             <div class="tab-content">
@@ -130,7 +134,7 @@
                                     <th width="40"><a href="javascript:table_sort('tab_2',0)"></a></th>
                                     <th><a href="javascript:table_sort('tab_2',1)">ID</a></th>
                                     <th><a href="javascript:table_sort('tab_2',2)">Document name</a></th>
-                                    <th><a href="javascript:table_sort('tab_2',3)">Author</a></th>
+                                    <th><a href="javascript:table_sort('tab_2',3)">Owner</a></th>
                                     <th><a href="javascript:table_sort('tab_2',4)">Date_created</a></th>
                                     <th><a href="javascript:table_sort('tab_2',5)">Status</a></th>
                                     
@@ -140,12 +144,11 @@
                                     {{#each docs}}
                                     <tr class="each-doc">
                                     <td><input type="checkbox" class="tab_2_check" data-row="0"></td>
-                                      <td><a href="document">{{this._id}}</td>
-                                      <td>{{this.name}}</a></td>
-
-                                      <td>{{this.author}}</td>
-                                      <td>{{this.date}}</td>
-                                      <td><font color="red">{{this.status}}</td>
+                                  <td>{{this._id}}</td>
+                                  <td><a href="{{this.filepath}}">{{this.name}}</a></td>
+                                  <td>{{this.owner}}</td>
+                                  <td>{{this.dateCreate}}</td>
+                                  <td><font color="red">{{this.status}}</td>
 
                                     </tr>
                                   {{/each}}
@@ -221,6 +224,15 @@
                     </form>
                 </div>
 
-           </div>
+                        
+                
+         
+                <div id="tab2" class="tab">
+                    <p>Tab #2 content goes here!</p>
+                    <p>Donec pulvinar neque sed semper lacinia. Curabitur lacinia ullamcorper nibh; quis imperdiet velit eleifend ac. Donec blandit mauris eget aliquet lacinia! Donec pulvinar massa interdum ri.</p>
+                </div>
+         
+
+            </div>
         </div>
 

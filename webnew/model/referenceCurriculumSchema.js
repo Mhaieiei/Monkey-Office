@@ -1,10 +1,11 @@
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var referenceCurriculumSchema = mongoose.Schema({
 
-    programAndAcYear: { type: mongoose.Schema.Types.ObjectId, ref: 'Acyear' },
+    programname:String,
     detail: [{ type: mongoose.Schema.Types.ObjectId, ref: 'detail' }]
 
 });
@@ -15,16 +16,12 @@ var detailSchema = mongoose.Schema({
     degree: String,
     university: String,
     country: String,
-    website: String
+    website: String,
+    
 
 });
 
+var referenceCurriculum = db.model('referenceCurriculum', referenceCurriculumSchema, 'referenceCurriculumSchema');
+referenceCurriculum.detail = db.model('detail', detailSchema, 'referenceCurriculumSchema');
 
-//var referenceCurriculum = mongoose.model('referenceCurriculum', referenceCurriculumSchema, 'referenceCurriculumSchema');
-//module.exports = referenceCurriculum;
-//referenceCurriculum.detail = mongoose.model('detail', detailSchema, 'referenceCurriculumSchema');
-module.exports = {
-    ReferenceCurriculum: referenceCurriculumSchema,
-
-    Detail:detailSchema
-}
+module.exports = referenceCurriculum;

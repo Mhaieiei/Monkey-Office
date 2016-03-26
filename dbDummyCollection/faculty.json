@@ -1,0 +1,95 @@
+{
+	"_id": {
+		"$oid": "56e282b7cc855cec054efec4"
+	},
+	"programname": "Software",
+	"sub_program": [
+		"Software",
+		"Moblie"
+	],
+	"Responsibility": [
+		"56e1b73d7b61bff82ff2d3e2",
+		"56e2899c571c460c490755aa",
+		"56e289c1571c460c490755ab"
+	],
+	"referenceCurriculum": [
+		"56ddc137782347200053f1a3"
+	],
+	"assesmentTool": [
+		"56e27fa0f22e19c02e6dc8a7",
+		"56dd5e86b3be8ad012a24bd1"
+	],
+	"structureOfCurriculum": [
+		"56e28347571c460c490755a6",
+		"56e2841f571c460c490755a9"
+	],
+	"evaluation": [
+		{
+			"stakeholder": "56e4577631749754ba6b7019",
+			"EvaluationMethod": [
+				"56e4568831749754ba6b7016",
+				"56e456a431749754ba6b7017"
+			]
+		},
+		{
+			"stakeholder": "56e4578f31749754ba6b701a",
+			"EvaluationMethod": [
+				"56e456b831749754ba6b7018"
+			]
+		}
+	],
+	"stakeholder": [
+		"56e4577631749754ba6b7019",
+		"56e4578f31749754ba6b701a"
+	]
+}
+{
+	"_id": {
+		"$oid": "56e4568831749754ba6b7016"
+	},
+	"methodName": "Course Evaluation",
+	"frequency": "Every Semester"
+}
+{
+	"_id": {
+		"$oid": "56e456a431749754ba6b7017"
+	},
+	"methodName": "Curriculum Evaluation",
+	"frequency": "Every Semester"
+}
+{
+	"_id": {
+		"$oid": "56e456b831749754ba6b7018"
+	},
+	"methodName": "Program management Evaluation",
+	"frequency": "Every Semester"
+}
+{
+	"_id": {
+		"$oid": "56e4577631749754ba6b7019"
+	},
+	"title": "Current Sutdent",
+	"type": "Internal",
+	"requirement": [
+		"Achievements",
+		"support"
+	],
+	"ELO": [
+		"56e1c40597ca5313262746f9",
+		"56e1c41c97ca5313262746fa"
+	]
+}
+{
+	"_id": {
+		"$oid": "56e4578f31749754ba6b701a"
+	},
+	"title": "Academic Staff",
+	"type": "Internal",
+	"requirement": [
+		"Smooth functioning"
+	],
+	"ELO": [
+		"56e1c40597ca5313262746f9",
+		"56e1c41c97ca5313262746fa"
+	]
+}

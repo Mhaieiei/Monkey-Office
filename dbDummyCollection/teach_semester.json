@@ -1,0 +1,106 @@
+{
+	"_id": {
+		"$oid": "56e27fa0f22e19c02e6dc8a6"
+	},
+	"ac_id": "56c20e33686bf15c2f270392",
+	"plan": "56e28347571c460c490755a6",
+	"Year": 2,
+	"subject": [
+		{
+			"subcode": {
+				"$oid": "56e1b73d7b61bff82ff2d3dc"
+			}
+		}
+	]
+}
+{
+	"_id": {
+		"$oid": "56e2815cd5c2f7d031b96959"
+	},
+	"ac_id": "56c20e33686bf15c2f270392",
+	"plan": "56e2841f571c460c490755a9",
+	"Year": 1,
+	"subject": [
+		{
+			"subcode": {
+				"$oid": "56e1c5fc97ca5313262746fb"
+			}
+		},
+		{
+			"subcode": {
+				"$oid": "56ee95c55e00862039a3650a"
+			},
+			"enroll_num": {
+				"year4": 0,
+				"year3": 0,
+				"year2": 0,
+				"year1": 0
+			},
+			"_id": {
+				"$oid": "56ee95c55e00862039a3650d"
+			}
+		}
+	]
+}
+{
+	"_id": {
+		"$oid": "56e28347571c460c490755a6"
+	},
+	"plan": "Plan A",
+	"program": "56e282b7cc855cec054efec4",
+	"knowledgeBlock": [
+		"56e2838b571c460c490755a7",
+		"56e28390571c460c490755a8"
+	]
+}
+{
+	"_id": {
+		"$oid": "56e2838b571c460c490755a7"
+	},
+	"type": "internal",
+	"subjectType": "Elective",
+	"creditRequired": 3
+}
+{
+	"_id": {
+		"$oid": "56e28390571c460c490755a8"
+	},
+	"type": "internal",
+	"subjectType": "Composory",
+	"creditRequired": 3
+}
+{
+	"_id": {
+		"$oid": "56e2841f571c460c490755a9"
+	},
+	"plan": "Plan B",
+	"program": "56e282b7cc855cec054efec4",
+	"knowledgeBlock": [
+		"56e2838b571c460c490755a7",
+		"56e28390571c460c490755a8"
+	]
+}
+{
+	"_id": {
+		"$oid": "56ee95c55e00862039a3650c"
+	},
+	"semester": 1,
+	"Year": 1,
+	"ac_id": "56c20e33686bf15c2f270392",
+	"subject": [
+		{
+			"subcode": {
+				"$oid": "56ee95c55e00862039a3650a"
+			},
+			"enroll_num": {
+				"year4": 0,
+				"year3": 0,
+				"year2": 0,
+				"year1": 0
+			},
+			"_id": {
+				"$oid": "56ee95c55e00862039a3650d"
+			}
+		}
+	]
+}

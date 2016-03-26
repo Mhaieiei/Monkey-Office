@@ -1,0 +1,128 @@
+{
+	"_id": {
+		"$oid": "56e545446376238a6e3596bb"
+	},
+	"Lecturer": "56b1beadc870f7d42c22fd2e",
+	"researchName": "public11",
+	"academicYear": "56c20e33686bf15c2f270392",
+	"type": "national conference",
+	"nameOfConferenceJournal": "Elective..NY",
+	"partner": [
+		"partner11",
+		"partner12"
+	],
+	"referenced": [
+		{
+			"type": "1"
+		}
+	]
+}
+{
+	"_id": {
+		"$oid": "56e545d36376238a6e3596bc"
+	},
+	"Lecturer": "56b1c032c870f7d42c22fd30",
+	"researchName": "public22",
+	"academicYear": "56c20e33686bf15c2f270392",
+	"type": "national conference",
+	"nameOfConferenceJournal": "Elective..NY",
+	"partner": [
+		"partner21",
+		"partner22"
+	],
+	"referenced": [
+		{
+			"type": "2"
+		}
+	]
+}
+{
+	"_id": {
+		"$oid": "56e9311a872ad885082e3ca6"
+	},
+	"trainingCourse": "training 1",
+	"hour": 10,
+	"academicYear": "56c20e33686bf15c2f270392",
+	"user": "56b1beadc870f7d42c22fd2e"
+}
+{
+	"_id": {
+		"$oid": "56e93225872ad885082e3ca7"
+	},
+	"activity": "activity 1",
+	"hour": 10,
+	"academicYear": "56c20e33686bf15c2f270392",
+	"user": "56b1beadc870f7d42c22fd2e"
+}
+{
+	"_id": {
+		"$oid": "56e93254872ad885082e3ca8"
+	},
+	"trainingCourse": "training 2",
+	"hour": 5,
+	"academicYear": "aaa",
+	"user": "56b1beadc870f7d42c22fd2e"
+}
+{
+	"_id": {
+		"$oid": "56e9325a872ad885082e3ca9"
+	},
+	"trainingCourse": "training 3",
+	"hour": 10,
+	"academicYear": "56c20e33686bf15c2f270392",
+	"user": "56c1f45c1c26414c1c634b1f"
+}
+{
+	"_id": {
+		"$oid": "56e93266872ad885082e3caa"
+	},
+	"trainingCourse": "training 4",
+	"hour": 10,
+	"academicYear": "56c20e33686bf15c2f270392",
+	"user": "56b1c032c870f7d42c22fd30"
+}
+{
+	"_id": {
+		"$oid": "56e9327b872ad885082e3cab"
+	},
+	"activity": "activity 2",
+	"hour": 10,
+	"academicYear": "56c20e33686bf15c2f270392",
+	"user": "56b1beadc870f7d42c22fd2e"
+}
+{
+	"_id": {
+		"$oid": "56e93280872ad885082e3cac"
+	},
+	"activity": "activity 3",
+	"hour": 10,
+	"academicYear": "56c20e33686bf15c2f270392",
+	"user": "56b1c032c870f7d42c22fd30"
+}
+{
+	"_id": {
+		"$oid": "56e9328a872ad885082e3cad"
+	},
+	"activity": "activity 4",
+	"hour": 10,
+	"academicYear": "aaa",
+	"user": "56b1c032c870f7d42c22fd30"
+}
+{
+	"_id": {
+		"$oid": "56e9341d872ad885082e3cae"
+	},
+	"trainingCourse": "training 1 - staff",
+	"hour": 10,
+	"academicYear": "56c20e33686bf15c2f270392",
+	"user": "56c1f45c1c26414c1c634b1f"
+}
+{
+	"_id": {
+		"$oid": "56e93429872ad885082e3caf"
+	},
+	"trainingCourse": "training 2 - staff",
+	"hour": 10,
+	"academicYear": "56c20e33686bf15c2f270392",
+	"user": "56c1f6ee470622202e54dd63"
+}

@@ -1,9 +1,12 @@
 // app/models/user.js
 // load the things we need
+var db = require('../lib/dbclient').db();
 var mongoose = require('mongoose');
+
 var bcrypt   = require('bcrypt-nodejs');
 
 var userSchema = new mongoose.Schema({
+
 	_id : String,
 	local: {
 		title: String,
@@ -17,17 +20,19 @@ var userSchema = new mongoose.Schema({
         yearattend : Number,
         bankAccount : String,
         email: String,
-        role: String,
+        role: String,   //staff,student,external
+        careerOrHigherStudying: String, //for external user
+        graduatedIn: Number,            //for external user
         program: String,
         faculty: String,
         status: String,
         yeargrade : String,
         salary: Number,
-        academic_position: String,
-        admin_position: String,
-        jobDescription : String,
+        jobDescription: [String],
+        nationality:String //for student - thai, national
        },
-    roleOfProgram: [{ type: mongoose.Schema.Types.ObjectId, ref: 'roleOfProgram' }],
+	roleOfProgram: [String],
+	roleOfStaff: [String],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],
     education: mongoose.Schema.Types.Mixed,
     advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
@@ -38,14 +43,6 @@ var userSchema = new mongoose.Schema({
 
 },{strict : false});
 
-var roleOfProgramSchema = mongoose.Schema({
-
-
-    "type": String,//development  committee
-    "position": String//chairman...
-
-
-});
 
 // methods ======================
 // generating a has
@@ -127,10 +124,4 @@ userSchema.methods.editEducation = function(request, response){
 
 };
 
-module.exports = {
-    
-    
-    User: userSchema,
-    roleOfProgram: roleOfProgramSchema
-}
-
+module.exports = db.model('User', userSchema, 'users');

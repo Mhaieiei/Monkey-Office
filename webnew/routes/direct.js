@@ -6,6 +6,9 @@ var async = require('async');
 var mongoose = require('mongoose');
 //var busboy = require('connect-busboy');
 var Handlebars = require('handlebars/runtime')['default'];
+var isLoggedIn = require('middleware/loginChecker');
+
+var formController = require('../lib/form');
 
 Handlebars.registerHelper('select', function( value, options ){
         var $el = $('<select />').html( options.fn(this) );
@@ -33,27 +36,27 @@ var current_year = date.getFullYear();
 var index = 0;
 var nametemp = "";
 
-
-
-
-module.exports = function(app, passport, schemas) {
+module.exports = function(app, passport) {
  	// =====================================
     // Setting Model Databases ========
     // =====================================
-	var User  = schemas.User;
-	var Work  = schemas.Work;
-
-	var Fac   = schemas.Faculty;
-	var Subject = schemas.Subject;
-	var Acyear = schemas.AcademicYear;
-	var Teach = schemas.TeachingSemester;
-	var TemplateWorkflow 	= schemas.TemplateWorkflow;
-	var Doc = schemas.Document;
-	var Subenroll = schemas.SubjectEnroll;
-	var Stdenroll = schemas.StudentEnroll;
-
-
-
+  var User                     = require('../model/user');
+  var Work                     = require('../model/works');
+  
+  var Fac                      = require('../model/faculty');
+  var Subject                  = require('../model/subject');
+  var Acyear                   = require('../model/academic_year');
+  var Teach                    = require('../model/teaching_semester');
+  var TemplateWorkflow         = require('../model/TemplateWorkflow');
+  var Doc                      = require('../model/document');
+  var Subenroll                = require('../model/subject_enroll');
+  var Stdenroll                = require('../model/student_enroll');
+  var FacilityAndInfrastruture = require('../model/FacilityAndInfrastrutureSchema');
+  var AssesmentTool            = require('../model/assesmentToolSchema');
+  var ReferenceCurriculum      = require('../model/referenceCurriculumSchema');
+  var Role                     = require('../model/role');
+  var Responsibility           = require('../model/Responsibility');
+  
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
@@ -93,15 +96,15 @@ module.exports = function(app, passport, schemas) {
         res.render('index.ejs', { message: req.flash('loginMessage') }); 
     });
 
-    app.get('/login', function(req, res){
-    	res.render('index.ejs', { message: req.flash('loginMessage') }); 
-    });
+    // app.get('/login', function(req, res){
+    // 	res.render('index.ejs', { message: req.flash('loginMessage') }); 
+    // });
 
     // process the login form
     // app.post('/login', do all our passport stuff here);
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect : '/home', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureRedirect : '/', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
 		
     }));
@@ -137,67 +140,56 @@ module.exports = function(app, passport, schemas) {
 	 // =====================================
     // HOME SECTION =====================
     // =====================================
-
-  app.get('/home', isLoggedIn, function(req, res) {
-
+       app.get('/home', isLoggedIn, function(req, res) {
+       	
        	var query = Doc.findByUser(req.user);
        	var date= [];
-       	query.exec(function(err, _docs) {
+       	query.exec(function(err,_docs) {
        		if(err) {
        			console.log(err);
        			res.status(500);
        			return next(err);
        		}
-       		
-       		//console.log(_docs);
 
-       		var response = {
-       			layout: 'homepage',
-       			docs: _docs,
-       		    helpers: {
-                getdate: function (value) { return date[value]; }
-            }
-       			
-       		}
-       		//response.docs.dateCreate[0] 
-       		//var a = new Date(response.docs[0].dateCreate );
-       		//console.log(response.docs[0].dateCreate.getHours() )
-       		//console.log(ja))
-       		for(var i = 0 ; i < response.docs.length ;++i){
-       			var a = response.docs[i].dateCreate;
-       			var yy = a.getFullYear();
-       			var mm = a.getMonth()+1;
-       			var dd = a.getDate();
-       			
-       			if(mm<10){
-       				mm = "0"+mm;
-       			}
-       			if(dd<10){
-       				dd = "0"+dd;
-       			}
-       			
-       			date[i] = dd+ '/' +mm +'/'+ yy;
-       		}
+       	
+	       		
+	       		for(var i = 0 ; i < _docs.length ;++i){
+	       			var a = _docs[i].dateCreate;
+	       			var yy = a.getFullYear();
+	       			var mm = a.getMonth()+1;
+	       			var dd = a.getDate();
+	       			
+	       			if(mm<10){
+	       				mm = "0"+mm;
+	       			}
+	       			if(dd<10){
+	       				dd = "0"+dd;
+	       			}
+	       			
+	       			date[i] = dd+ '/' +mm +'/'+ yy;
+	       		}
+	       		
+	       		//response.docs[0].dateCreate =  a.getYear() + '/' +a.getMonth() +'/'+a.getDay()
+	       		
+	       		console.log("update")
+	       		res.render('home.hbs',{
+					layout: 'homepage',
+	       			docs: _docs,
+              role: req.user.local.role,
+	       		  helpers: {
+	                getdate: function (value) { return date[value]; }
+		            }
+				});
+	       		
+				
        		
-       		//response.docs[0].dateCreate =  a.getYear() + '/' +a.getMonth() +'/'+a.getDay()
+       			
        		
-       		console.log("update")
-       		// console.log(response.docs[0].gun)
-       		// response.docs[0].dateCreate = a
-       		// response.docs.dateCreate[0].toString('ddd MMM yyy h:mm:ss')
        		
-       		// console.log(esponse.docs.dateCreate[0].toString('ddd MMM yyy h:mm:ss'))
-       		// console.log(response);
-
-			res.render('home.hbs', response);
        	});
 
 
-        console.log("Get home");
-		res.render('home.hbs',{
-			layout:"homePage",
-			user : req.user
-		});
+        
 
  	
 
@@ -269,13 +261,15 @@ module.exports = function(app, passport, schemas) {
 
       if (type == 'own'){
         type1 = true;
-      } else if (type = 'other_type'){ 
+      } else if (type == 'other_type'){ 
         type2 = true;
       }
 
       console.log('s1:'+status1);
       console.log('s2:'+status2);
       console.log('s3:'+status3);
+      console.log('type1:'+type1);
+      console.log('type2:'+type2);
 			var response = {
        			layout: 'homepage',
        			docs: _docs,
@@ -319,27 +313,70 @@ module.exports = function(app, passport, schemas) {
       console.log("Document Information");
       res.render('dms/document.hbs');
     });
-      // =====================================
-    // PROFILE SECTION =====================
-    // =====================================
-    app.get('/profile', isLoggedIn, function(req, res) {
-		console.log("Get profile");
-		console.log(req.user.local.name);
-		var name = req.user.local.name;
-		var fac;
-		if(name == "admin")
-			fac = true;
-		else
-			fac = false;
-		res.render('profile/profile.hbs',{
-			layout:"profilePage",
-			user : req.user,
-			fac : fac
-		});
-        // res.render('profile/userprofile.ejs', {
-        //     user : req.user // get the user out of session and pass to template
-        // });
-    });
+
+       app.post('/home', isLoggedIn, function(req, res) {
+
+       	console.log('AT HOME');
+   		var documentName = req.body.doc_name;
+   		var status = req.body.doc_status;
+   		var fromDate = Date.parse(req.body.fromDate);
+   		var toDate = Date.parse(req.body.toDate);
+   		var type = req.body.doc_type;
+   		var author = req.body.doc_author;
+   		var user = req.user;
+   		console.log(documentName);
+   		console.log(status);
+   		console.log(fromDate);
+   		console.log(toDate);
+   		console.log(type);
+   		console.log(author);
+
+
+   		var subStringRegex = function(subString, isCaseSensitive) {
+   			var mode;
+   			if(isCaseSensitive) mode = 'c';
+   			else mode = 'i';
+
+   			return new RegExp(subString, mode);
+   		};
+   		
+   		var query = Doc.findByUser(user).
+   		where('name').regex(subStringRegex(documentName, false));
+
+   		if(!isNaN(fromDate) && !isNaN(toDate)) {
+   			fromDate = new Date(fromDate);
+   			toDate = new Date(toDate);
+   			query = query.where('dateCreate').gt(fromDate).lt(toDate);
+   		}
+
+   		if(author) {
+   			query = query.where('author').regex(subStringRegex(author, false));
+   		}
+
+   		if(status !== 'all') {
+   			status = status.toLowerCase().trim();
+   			query = query.where('status').equals(status);
+   		}
+   				
+   		query.exec(function(err, _docs) {
+       		if(err) {
+       			console.log(err);
+       			res.status(500);
+       			return next(err);
+   			}
+   			console.log(_docs);
+			var response = {
+       			layout: 'homepage',
+       			docs: _docs
+   			}
+   		
+			res.render('home.hbs', response); 
+   		});
+
+   });
+
+    
+      
     // =====================================
     // Get User Info. ==============================
     // =====================================
@@ -1560,8 +1597,6 @@ module.exports = function(app, passport, schemas) {
             	user : req.user,
             	teachsemes: subs,
             	year : years,
-            	program: req.query.program,
-            	acyear : req.query.acyear,
             	acid : req.query.id,
             	helpers: {  
             	setac: function(ac){acyear = ac;},
@@ -1638,7 +1673,7 @@ module.exports = function(app, passport, schemas) {
 	    	array.push(obj);
 	    }
 	    console.log(array);	
-		Subject.findOne({ '_id' :  req.body.sub_code }, function(err, sub) {
+		Subject.findOne({ 'sub_code' :  req.body.sub_code }, function(err, sub) {
             
             if (err){
 				console.log("Error ...1");
@@ -1650,10 +1685,10 @@ module.exports = function(app, passport, schemas) {
                 var newSub        = new Subject();
 
                 // set the user's local credentials
-				newSub._id = req.body.sub_code;
+				newSub.sub_code = req.body.sub_code;
 				newSub.sub_name = req.body.sub_name;
 				newSub.sub_credit = req.body.sub_credit;
-                async.eachSeries(array,function(item,callback) {        	
+      async.eachSeries(array,function(item,callback) {        	
 			     User.findOne( { 'local.name' :  item.sub_lecter }, function (err, rows) {
 			        	if(err){
 			        		console.log("mhai_0err"+err);
@@ -2328,7 +2363,10 @@ module.exports = function(app, passport, schemas) {
 		//var id = mongoose.Types.ObjectId('56d14d1c8393baa816709274');
 		Work.Project.aggregate([
         {
-            $match: { 'acyear' : req.query.acid }           
+            $match: { $and: [
+	            { 'acyear' : req.query.acid },
+	            { '_type' : 'publicResearch' }
+	         ]}            
         },
        { 
        		$unwind: "$user"
@@ -2343,7 +2381,7 @@ module.exports = function(app, passport, schemas) {
 	  		console.log(result);
 	  		console.log(result[0].works);
 	  		console.log(result[1].works);
-	  		Work.Project.populate(result,{path:'_id',model:'User'},function(err,userwork){
+	  		Work.Project.populate(result,[{path:'_id',model:'User'},{path:'works.workid',model:'Work'}],function(err,userwork){
 	  			if(err){console.log("first populate is err"+err);}
 	  			console.log(userwork);
 	  			console.log(userwork[0].works[0].roleuser);
@@ -2358,8 +2396,8 @@ module.exports = function(app, passport, schemas) {
 				    	console.log(works);
 				    	console.log(works[0].nametitle);
 				    	console.log(works[0].user[0].iduser.local.username);
-		    			res.render('qa/tqf23_test.ejs', {
-		    			  //layout: "qaPage",
+		    			res.render('qa/tqf24', {
+		    			  layout: "qaPage",
 						  user : req.user,
 						  examiner : userwork,
 			              Thesis: works,		             
@@ -2381,7 +2419,868 @@ module.exports = function(app, passport, schemas) {
 
 	});
 
+	app.get('/aun10-1', isLoggedIn, function (req, res) {
+	    console.log("FacilityAndInfrastrutureSchema");
+	    console.log("program :"+req.query.program);
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	            console.log(programs._id);
+	            //referenceCurriculumSchema.find();
+	            FacilityAndInfrastruture.find({ 'programAndAcYear': programs._id }, function (err, docs) {
+
+	                console.log("REFFFF---->>>", docs);
+
+	                res.render('qa/qa-aun10.1.hbs', {
+	                    //    user: req.user,      
+	                    layout: "qaPage",
+
+	                    docs: docs
+	                });
+
+
+
+
+	            });
+
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
+
+	});
+
+	app.get('/aun3-3', isLoggedIn, function (req, res) {
+	    console.log("knowledgeAndSkill");
+
+	    //referenceCurriculumSchema.find();
+
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	            console.log(programs._id);
+	            //referenceCurriculumSchema.find();
+	            Teach.find({
+	                $and: [
+                    { 'ac_id': programs._id },
+	                { 'plan': { $exists: true } }
+	                ]
+	            })
+                .populate('plan')
+                .populate('subject.subcode')
+                .exec(function (err, docs) {
+                    Teach.populate(docs, {
+                        path: 'subject.subcode.ELO.ELO',
+                        model: 'Subject'
+                    },
+                    function (err, subs) {
+
+
+                        console.log("REFFFF---->>>", subs);
+
+                        res.render('qa/qa-aun3.3.hbs', {
+                            //    user: req.user,      
+                            layout: "qaPage",
+
+                            docs: subs
+
+                        });
+
+                        //, function (err, docs) {
+
+
+                    });
+                });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
+
+
+
+
+
+
+	});
+
+	app.get('/aun5-3', isLoggedIn, function (req, res) {
+	    console.log("assesmentTool");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    Fac.findOne({ 'programname': req.query.program }, function (err, docs) {
+	        console.log("REFFFF-DOC--->>>", docs._id);
+
+	        AssesmentTool.aggregate([
+                    {
+                        $match: 
+                           
+                                //{ 'hour': 5 }
+                                { 'programname': docs.id }
+                           
+                        
+                    },
+
+                    { $group: { _id: "$type", assementTool: { $push: "$$ROOT" } } }
+                    
+
+	        ] , function (e, result) {
+
+
+	            console.log("REFFFF---->>>", result);
+                 var index = 0;
+                 res.render('qa/qa-aun5.3.hbs', {
+                     //    user: req.user,      
+                     layout: "qaPage",
+
+                     docs: result,
+                     helpers: {
+                         inc: function (value) { return parseInt(value) + 1; },
+                         getyear:function(value) {return yearac[value];},
+                         getindex:function() {return ++index;}}
+
+                 });
+
+                 });
+	    });
+                 //, function (err, docs) {
+
+
+
+            
+
+
+	});
+
 	
+
+	app.get('/aun2-1', isLoggedIn, function (req, res) {
+	    console.log("aun21-refCurriculum");
+
+	    
+
+	    Fac.find({ 'programname': req.query.program })
+             .populate('referenceCurriculum')
+            .populate('structureOfCurriculum')
+             .exec(function (err, docs) {
+                 Fac.populate(docs, [{
+                     path: 'referenceCurriculum.detail',
+                     model: 'detail'
+                 },
+                 {
+                     path: 'structureOfCurriculum.knowledgeBlock',
+                     model: 'KnowledgeBlock'
+                 }
+                 ],
+                    function (err, subs) {
+
+
+                        console.log("REFFFF---->>>", subs);
+
+
+                        Acyear.findOne({
+                            $and: [
+                                   { 'program_name': req.query.program },
+                                   { 'academic_year': req.query.year }
+                            ]
+                        }, function (err, programs) {
+                            if (!err) {
+                                console.log(programs._id);
+                                //referenceCurriculumSchema.find();
+                                Teach.find({ 'ac_id': programs._id }).sort({ "Year": 1 })
+                                .populate('plan')
+                                .populate('subject.subcode')
+                                .exec(function (err, docs) {
+                                    Teach.populate(docs, {
+                                        path: 'subject.subcode',
+                                        model: 'Subject'
+                                    },
+                                    function (err, subs2) {
+
+
+                                        console.log("REFFFF--2-->>>", subs2);
+
+                                        var index = 0;
+                                        res.render('qa/qa-aun2.1.hbs', {
+                                            //    user: req.user,      
+                                            layout: "qaPage",
+
+                                            docs: subs,
+                                            subs:subs2,
+                                            helpers: {
+                                                inc: function (value) { return parseInt(value) + 1; },
+                                                getyear: function (value) { return yearac[value]; },
+                                                getindex: function () { return ++index; }
+                                            }
+                                        });
+
+
+                                        //, function (err, docs) {
+
+
+                                    });
+                                });
+                            } else {
+                                //res.redirect('/fachome');
+                                return console.log(err + "mhaieiei");
+                            }
+                        });
+
+                        
+
+                    });
+
+
+             });
+
+	});
+
+	app.get('/aun11-4', isLoggedIn, function (req, res) {
+	    console.log("evaluationMethod");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    Fac.find({ 'programname': req.query.program })
+             .populate('evaluation.stakeholder')
+             .populate('evaluation.EvaluationMethod')
+             .exec(function (err, docs) {
+
+
+
+                 console.log("REFFFF---->>>", docs);
+                 var index = 0;
+                 res.render('qa/qa-aun11.4.hbs', {
+                     //    user: req.user,      
+                     layout: "qaPage",
+
+                     docs: docs,
+                     helpers: {
+                         inc: function (value) { return parseInt(value) + 1; },
+                         getyear: function (value) { return yearac[value]; },
+                         getindex: function () { return ++index; }
+                     }
+
+                 });
+
+
+
+
+             });
+
+
+	});
+
+	app.get('/aun11-1', isLoggedIn, function (req, res) {
+	    console.log("developmentCommittee");
+
+	    //referenceCurriculumSchema.find();
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	    Role.roleOfProgram.find({
+	        $and:[{
+
+	            "type": "Development Committee"},
+                { "academicYear": programs._id}
+	        ]
+	    })
+        .populate('user')
+        .exec(function (err, docs) {
+
+            console.log("REFFFF---->>>", docs);
+            var index = 0;
+            res.render('qa/qa-aun11.1.hbs', {
+                //    user: req.user,      
+                layout: "qaPage",
+
+                docs: docs,
+                helpers: {
+                    inc: function (value) { return parseInt(value) + 1; },
+                    getyear: function (value) { return yearac[value]; },
+                    getindex: function () { return ++index; }
+                }
+
+            });
+
+
+        });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
+
+	});
+	
+	app.get('/aun7', isLoggedIn, function (req, res) {
+	    console.log("listOfSupportStaff");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	            Role.roleOfStaff.find({
+	                $and:[{
+
+	                    "type": "Supporting Staff"},
+                        { "academicYear": programs._id}
+	                ]
+	            })
+                .populate('user')
+                .exec(function (err, docs) {
+
+
+                    console.log("REFFFF---->>>", docs);
+
+	        var index = 0;
+	        res.render('qa/qa-aun7.hbs', {
+	            //    user: req.user,      
+	            layout: "qaPage",
+
+	            docs: docs,
+	            helpers: {
+	                inc: function (value) { return parseInt(value) + 1; },
+	                getyear: function (value) { return yearac[value]; },
+	                getindex: function () { return ++index; }
+	            }
+
+	        });
+
+
+                });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
+
+	});
+
+	app.get('/aun12-1', isLoggedIn, function (req, res) {
+	    console.log("careerDevelopment");
+
+	    //referenceCurriculumSchema.find();
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+
+	            console.log("REFFFF---->>>", programs.id);
+	            Work.CareerDevelopment.aggregate([
+                    {
+                        $match: {
+                            $and: [
+                                { 'activity': { $exists: true } },
+                                //{ 'hour': 5 }
+                                { 'academicYear': programs.id }
+                            ]
+                        }
+                    },
+
+                    { $group: { _id: "$user", careerDevelopment: { $push: "$$ROOT" } } }
+
+
+	            ], function (e, result) {
+	                console.log("REFFFF--activity-->>>", result);
+
+	                User.populate(result, {
+	                    path: '_id',
+	                    model: 'User'
+	                },
+                         function (err, subs) {
+
+
+
+                             console.log("REFFFF--USERR----activity-->>>", subs);
+
+
+
+
+
+                             //res.render('C:/Monkey-Office-master/webproject/views/qa/test_careerDevelopment.hbs', {
+                             //    //    user: req.user,      
+                             //    layout: "workflowMain",
+
+                             //    docs: subs
+
+                             //});
+
+
+                             });
+	           
+
+	            });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
+
+
+
+	});
+
+	app.get('/aun1-3', isLoggedIn, function (req, res) {
+	    console.log("mapELOAndKnowledge");
+
+	    Fac.find({ 'programname': req.query.program })
+             .populate('Responsibility')
+
+             .exec(function (err, docs) {
+                 Fac.populate(docs, {
+                     path: 'Responsibility.ELO',
+                     model: 'ELO'
+                 },
+                    function (err, subs) {
+
+
+                        console.log("REFFFF---->>>", subs);
+
+                        res.render('qa/qa-aun1.3.hbs', {
+                            //    user: req.user,      
+                            layout: "qaPage",
+
+                            docs: subs,
+                            helpers: {
+                                inc: function (value) { return parseInt(value) + 1; },
+                                getyear: function (value) { return yearac[value]; },
+                                getindex: function () { return ++index; }
+                            }
+                        });
+
+
+                    });
+
+
+             });
+
+	});
+
+	app.get('/aun1-4', isLoggedIn, function (req, res) {
+	    console.log("stakeholderReq");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    Fac.find({ 'programname': req.query.program })
+             .populate('stakeholder')
+
+             .exec(function (err, docs) {
+                 Fac.populate(docs, {
+                     path: 'stakeholder.ELO',
+                     model: 'ELO'
+                 },
+                    function (err, subs) {
+
+
+                        console.log("REFFFF---->>>", subs);
+
+                        res.render('qa/qa-aun1.4.hbs', {
+                            //    user: req.user,      
+                            layout: "qaPage",
+
+                            docs: subs,
+                            helpers: {
+                                inc: function (value) { return parseInt(value) + 1; },
+                                getyear: function (value) { return yearac[value]; },
+                                getindex: function () { return ++index; }
+                            }
+                        });
+
+
+                    });
+
+
+             });
+
+	});
+
+	app.get('/aun6-1', isLoggedIn, function (req, res) {
+	    console.log("listOfLecturer");
+
+	    //referenceCurriculumSchema.find();
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	            console.log("REFFFF--programs._id-->>>", programs._id);
+	            Role.roleOfStaff.findOne({
+	                $and:[{
+
+	                    "type": "Academic Staff"},
+                        { "academicYear": programs.id}
+	                ]
+	            },function (err, docs) {
+	                console.log("REFFFF--docs._id-->>>", docs._id);
+	                //User.aggregate([
+                    //    // Get just the docs that contain a shapes element where color is 'red'
+                    //    { $match: { 'roleOfStaff': docs.id } },
+                    //    {
+                    //        $project: {
+                    //            'education': {
+                    //                $filter: {
+                    //                    //input: '$education',
+                    //                    //as: 'edu',
+                    //                    //cond: { $eq: ['$$edu.level','Doctoral'] }
+                    //                }
+                    //            }
+                                
+                                    
+                                
+                    //        }
+                    //    }
+	                //]
+	                User.find(
+                              { 'roleOfStaff': docs.id }
+                              
+
+	                    
+	                )
+                    .populate('publicResearch')
+                    .exec(function (err, programs) {
+
+                    //,function (err, programs) {
+                        //referenceCurriculumSchema.find();
+
+
+
+
+                        console.log("REFFFF---->>>", programs);
+
+                        //res.render('qa/qa-aun6.1.hbs', {
+                        //    //    user: req.user,      
+                        //    layout: "qaPage",
+
+                        //    docs: programs,
+                        //    helpers: {
+                        //        inc: function (value) { return parseInt(value) + 1; },
+                        //        getyear: function (value) { return yearac[value]; },
+                        //        getindex: function () { return ++index; }
+                        //    }
+                        //});
+
+
+
+
+
+
+                    });
+                });
+                } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+            }
+	    });
+
+	});
+
+	app.get('/aun6-2', isLoggedIn, function (req, res) {
+	    console.log("tab 3.11 rankingOfstaff");
+
+	    //referenceCurriculumSchema.find();
+
+
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	            console.log("REFFFF--programs._id-->>>", programs._id);
+	            Role.roleOfFaculty.findOne({
+	                $and: [
+                        { "type": "Faculty member" },
+                        { "academicYear": programs.id }
+	                ]
+	            }, function (err, docs) {
+	                console.log("REFFFF--docs._id-->>>", docs._id);
+	                
+	                Role.roleOfStaff.aggregate(
+	                    [
+                    {
+                        $match: {
+                            $and: [
+                                { "type": "Academic Staff" },
+                                { 'roleOfFaculty': docs.id }
+
+                            ]
+
+                        }
+                    },
+
+                    {
+                        $project: {
+                            "position": 1,
+                            countUser: { $size: "$user" }
+                        }
+                    }
+                    
+
+	                ]
+	                , function (err, staff) {
+                   
+	                    console.log("REFFFF-staff1--->>>", staff);
+	                    Role.roleOfFaculty.findOne({
+	                        $and: [
+                                { "type": "Visiting Lecturer" },
+                                { "academicYear": programs.id }
+	                        ]
+	                    }, function (err, docs2) {
+	                        console.log("REFFFF--docs._id-->>>", docs2._id);
+	                
+	                        Role.roleOfStaff.aggregate(
+                                [
+                            {
+                                $match: {
+                                    $and: [
+                                        { "type": "Academic Staff" },
+                                        { 'roleOfFaculty': docs2.id }
+
+                                    ]
+
+                                }
+                            },
+
+                            {
+                                $project: {
+                                    "position": 1,
+                                    countUser: { $size: "$user" }
+                                }
+                            }
+                            ]
+                            , function (err, staff2) {
+                                console.log("REFFFF-staff2--->>>", staff2);
+
+                                Role.roleOfFaculty.aggregate(
+                                [
+                            {
+                                $match: {
+                                    $and: [
+                                        { "TimeOfWork": { $exists: true } },
+                                        { 'program': req.query.program }
+
+                                    ]
+
+                                }
+
+                            },
+                            
+
+                            {
+                                $unwind:  "$user"    
+                            },
+                                {
+                                    $group: {
+                                        _id: {academicYear:"$academicYear", type: "$type" },
+                                        count: { $sum: 1 }
+                                   
+                                   
+                                }
+                                },
+                                {
+                                    $group: {
+                                        _id: "$_id.academicYear",
+                                        groupOftype: { $push: "$$ROOT" },
+                                        sunOfYear: { $sum: "$count" }
+
+                                    }
+                                }
+
+                            
+                                ]
+                            , function (err, user) {
+
+                                console.log("REFFFF---user--->>>", user);
+                        //res.render('qa/qa-aun6.1.hbs', {
+                        //    //    user: req.user,      
+                        //    layout: "qaPage",
+
+                        //    docs: programs,
+                        //    helpers: {
+                        //        inc: function (value) { return parseInt(value) + 1; },
+                        //        getyear: function (value) { return yearac[value]; },
+                        //        getindex: function () { return ++index; }
+                        //    }
+                        //});
+
+
+                            });
+
+                            });
+	                    });
+
+                    });
+	            });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
+
+    });
+
+	app.get('/aun8-3', isLoggedIn, function (req, res) {
+	    console.log("nationalityOfStudent");
+
+	    //referenceCurriculumSchema.find();
+        
+	    User.aggregate(
+
+            [
+                    {
+                        $match: {
+                            $and: [
+                                { 'local.role': 'student' },
+                                { 'local.program': req.query.program }
+
+                            ]
+
+                        }
+                    },
+
+                    {
+                        $group: {
+                            _id: { yearAttend: "$local.yearAttend", nationality: "$local.nationality" },
+                            count: { $sum: 1 }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: "$_id.yearAttend",
+                            groupOfNationality: { $push: "$$ROOT" },
+                            sunOfYear: {$sum : "$count"}
+                                
+                        }
+                    }
+
+	    ]
+        ,function (err, programs) {
+
+
+            //referenceCurriculumSchema.find();
+
+
+
+
+            console.log("REFFFF---->>>", programs);
+
+            res.render('C:/Monkey-Office-master/webproject/views/qa/test_FacilityAndInfrastruture.hbs', {
+                //    user: req.user,      
+                layout: "qaPage",
+
+                docs: programs,
+                helpers: {
+                    inc: function (value) { return parseInt(value) + 1; },
+                    getyear: function (value) { return yearac[value]; },
+                    getindex: function () { return ++index; }
+                }
+            });
+
+
+
+
+
+
+        });
+
+	});
+
+	app.get('/aun13-2', isLoggedIn, function (req, res) {
+	    console.log("surveyAlumni");
+
+	    //referenceCurriculumSchema.find();
+
+	    User.aggregate(
+
+            [
+                    {
+                        $match: {
+                            $and: [
+                                { 'local.role': 'External User' },
+                                { 'local.program': req.query.program }
+
+                            ]
+
+                        }
+                    },
+
+                    {
+                        $group: {
+                            _id: { graduatedIn: "$local.graduatedIn", careerOrHigherStudying: "$local.careerOrHigherStudying" },
+                            count: { $sum: 1 }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: "$_id.graduatedIn",
+                            groupOfCareerOrHigherStudying: { $push: "$$ROOT" },
+                            sumOfYear: { $sum: "$count" }
+
+                        }
+                    }
+
+            ]
+        , function (err, programs) {
+
+
+            //referenceCurriculumSchema.find();
+
+
+
+
+            console.log("REFFFF---->>>", programs);
+
+            //res.render('C:/Monkey-Office-master/webproject/views/qa/test_FacilityAndInfrastruture.hbs', {
+            //    //    user: req.user,      
+            //    layout: "qaPage",
+
+            //    docs: programs,
+            //    helpers: {
+            //        inc: function (value) { return parseInt(value) + 1; },
+            //        getyear: function (value) { return yearac[value]; },
+            //        getindex: function () { return ++index; }
+            //    }
+            //});
+
+
+
+
+
+
+        });
+
+	});
+
+
 	
 	//=====================================
     // Get Work Info.(Student) ==============================
@@ -2924,7 +3823,7 @@ module.exports = function(app, passport, schemas) {
 		});
 	});
 
-
+  app.use('/form', formController);
 	app.get('/:id/profile', function(req, res){
 		
 		TemplateWorkflow.findOne( { "_id" : req.params.id }, function(err, result){
@@ -2995,16 +3894,6 @@ module.exports = function(app, passport, schemas) {
 
 };
 
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-}
 //route middleware to make sure user is logged in as Admin
 function isAdmin(req,res,next){
 

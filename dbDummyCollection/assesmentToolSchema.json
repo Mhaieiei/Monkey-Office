@@ -1,0 +1,104 @@
+{
+	"_id": {
+		"$oid": "56dd5e86b3be8ad012a24bd1"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"assesmentTool": "Asignment",
+	"type": "direct",
+	"programname": "56e282b7cc855cec054efec4",
+	"subject": [
+		{
+			"subjectType": "Elective",
+			"followingReq": "high supportive"
+		},
+		{
+			"subjectType": "Compulsory",
+			"followingReq": "supportive"
+		},
+		{
+			"subjectType": "Thesis",
+			"followingReq": "Non"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56e27fa0f22e19c02e6dc8a7"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"assesmentTool": "Assignment2",
+	"type": "direct",
+	"programname": "56e282b7cc855cec054efec4",
+	"subject": [
+		{
+			"subjectType": "Elective",
+			"followingReq": "None"
+		},
+		{
+			"subjectType": "Compulsory",
+			"followingReq": "None"
+		},
+		{
+			"subjectType": "Thesis",
+			"followingReq": "None"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56efee938eaa861ff9d3d1c8"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"assesmentTool": "Asignment3",
+	"type": "direct",
+	"programname": "56e282b7cc855cec054efec4",
+	"subject": [
+		{
+			"subjectType": "Elective",
+			"followingReq": "high supportive"
+		},
+		{
+			"subjectType": "Compulsory",
+			"followingReq": "supportive"
+		},
+		{
+			"subjectType": "Thesis",
+			"followingReq": "Non"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "56efeea38eaa861ff9d3d1c9"
+	},
+	"programAndAcYear": {
+		"$oid": "56c20e33686bf15c2f270392"
+	},
+	"assesmentTool": "Asignment4",
+	"type": "Indirect",
+	"programname": "56e282b7cc855cec054efec4",
+	"subject": [
+		{
+			"subjectType": "Elective",
+			"followingReq": "high supportive"
+		},
+		{
+			"subjectType": "Compulsory",
+			"followingReq": "supportive"
+		},
+		{
+			"subjectType": "Thesis",
+			"followingReq": "Non"
+		}
+	],
+	"__v": 0
+}
