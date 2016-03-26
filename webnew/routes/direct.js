@@ -2763,7 +2763,11 @@ module.exports = function(app, passport) {
 	            helpers: {
 	                inc: function (value) { return parseInt(value) + 1; },
 	                getyear: function (value) { return yearac[value]; },
-	                getindex: function () { return ++index; }
+	                getindex: function () { return ++index; },
+	                getRetired: function (value) { return 60 - parseInt(value); },
+	                getAcYearOfRetired: function (value) { return parseInt(req.query.year) + (60 - parseInt(value)); },
+	                getTerminate: function (value) { return parseInt(value) - parseInt(req.query.year); }
+	        
 	            }
 
 	        });
@@ -3211,6 +3215,64 @@ module.exports = function(app, passport) {
 
 
         });
+
+	});
+
+	app.get('/aun6-9', isLoggedIn, function (req, res) {
+	    console.log("termination of lecturer");
+
+	    //referenceCurriculumSchema.find();
+
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	            Role.roleOfFaculty.find({
+	                $and: [
+                        { "type": "Faculty member" },
+                        { "academicYear": programs._id }
+	                ]
+	            })
+                .populate('user')
+                .exec(function (err, lec) {
+
+                    Role.roleOfFaculty.find({
+                        $and: [
+                            { "type": "Visiting Lecturer" },
+                            { "academicYear": programs._id }
+                        ]
+                    })
+                .populate('user')
+                .exec(function (err, visiting) {
+
+
+                    console.log("REFFFF---->>>", visiting);
+                    var index = 0;
+                    res.render('qa/qa-aun-test.hbs', {
+                        //    user: req.user,      
+                        layout: "qaPage",
+
+                        docs: lec,
+                        visiting:visiting,
+                        helpers: {
+                            getRetired: function (value) { return 60-parseInt(value); },
+                            getAcYearOfRetired: function (value) { return parseInt(req.query.year) + (60 - parseInt(value)); },
+                            getindex: function () { return ++index; },
+                            getTerminate: function (value) { return parseInt(value) - parseInt(req.query.year); }
+                        }
+
+                    });
+                });
+
+                });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
 
 	});
 

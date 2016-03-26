@@ -29,7 +29,9 @@ var userSchema = new mongoose.Schema({
         yeargrade : String,
         salary: Number,
         jobDescription: [String],
-        nationality:String //for student - thai, national
+        nationality: String, //for student - thai, national,
+        age: Number,
+        terminationYear:Number //academicYear of termination //only for some staff who want to terminate herself
        },
 	roleOfProgram: [String],
 	roleOfStaff: [String],
