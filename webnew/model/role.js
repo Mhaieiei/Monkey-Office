@@ -26,15 +26,17 @@ var roleOfStaffSchema = mongoose.Schema({
     "academicYear": String,
     "position": String,//lecturer, accountance
     "advancementOfCareer":String,
-    "user": [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    "user": [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    "roleOfFaculty": { type: mongoose.Schema.Types.ObjectId, ref: 'roleOfFaculty' }
 
 });
 
-var roleOfFacultySchema = mongoose.Schema({
+var roleOfFacultySchema = mongoose.Schema({ 
 
-
+    "roleOfStaff": [{ type: mongoose.Schema.Types.ObjectId, ref: 'roleOfStaff' }], //only academic staff
     "type": String,
     "academicYear": String,
+    "program":String,
     "TimeOfWork": String,
     "user": [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 

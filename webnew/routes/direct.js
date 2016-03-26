@@ -3002,50 +3002,151 @@ module.exports = function(app, passport) {
 
 	});
 
-	//app.get('/aun6-2', isLoggedIn, function (req, res) {
-	//    console.log("tab 3.11 rankingOfstaff");
+	app.get('/aun6-2', isLoggedIn, function (req, res) {
+	    console.log("tab 3.11 rankingOfstaff");
 
-	//    //referenceCurriculumSchema.find();
-
-
-	//    User.find({
-	//        $and: [
-    //            { 'local.programName': req.query.program },
-    //            { 'local.role': "Lecturer" },
-    //            { 'education': { $elemMatch: { 'level': 'Doctoral' } } }
-	//        ]
-	//    })
-    //    .populate('publicResearch')
-    //    .exec(function (err, programs) {
+	    //referenceCurriculumSchema.find();
 
 
-    //        //referenceCurriculumSchema.find();
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+	        if (!err) {
+	            console.log("REFFFF--programs._id-->>>", programs._id);
+	            Role.roleOfFaculty.findOne({
+	                $and: [
+                        { "type": "Faculty member" },
+                        { "academicYear": programs.id }
+	                ]
+	            }, function (err, docs) {
+	                console.log("REFFFF--docs._id-->>>", docs._id);
+	                
+	                Role.roleOfStaff.aggregate(
+	                    [
+                    {
+                        $match: {
+                            $and: [
+                                { "type": "Academic Staff" },
+                                { 'roleOfFaculty': docs.id }
+
+                            ]
+
+                        }
+                    },
+
+                    {
+                        $project: {
+                            "position": 1,
+                            countUser: { $size: "$user" }
+                        }
+                    }
+                    
+
+	                ]
+	                , function (err, staff) {
+                   
+	                    console.log("REFFFF-staff1--->>>", staff);
+	                    Role.roleOfFaculty.findOne({
+	                        $and: [
+                                { "type": "Visiting Lecturer" },
+                                { "academicYear": programs.id }
+	                        ]
+	                    }, function (err, docs2) {
+	                        console.log("REFFFF--docs._id-->>>", docs2._id);
+	                
+	                        Role.roleOfStaff.aggregate(
+                                [
+                            {
+                                $match: {
+                                    $and: [
+                                        { "type": "Academic Staff" },
+                                        { 'roleOfFaculty': docs2.id }
+
+                                    ]
+
+                                }
+                            },
+
+                            {
+                                $project: {
+                                    "position": 1,
+                                    countUser: { $size: "$user" }
+                                }
+                            }
+                            ]
+                            , function (err, staff2) {
+                                console.log("REFFFF-staff2--->>>", staff2);
+
+                                Role.roleOfFaculty.aggregate(
+                                [
+                            {
+                                $match: {
+                                    $and: [
+                                        { "TimeOfWork": { $exists: true } },
+                                        { 'program': req.query.program }
+
+                                    ]
+
+                                }
+
+                            },
+                            
+
+                            {
+                                $unwind:  "$user"    
+                            },
+                                {
+                                    $group: {
+                                        _id: {academicYear:"$academicYear", type: "$type" },
+                                        count: { $sum: 1 }
+                                   
+                                   
+                                }
+                                },
+                                {
+                                    $group: {
+                                        _id: "$_id.academicYear",
+                                        groupOftype: { $push: "$$ROOT" },
+                                        sunOfYear: { $sum: "$count" }
+
+                                    }
+                                }
+
+                            
+                                ]
+                            , function (err, user) {
+
+                                console.log("REFFFF---user--->>>", user);
+                        //res.render('qa/qa-aun6.1.hbs', {
+                        //    //    user: req.user,      
+                        //    layout: "qaPage",
+
+                        //    docs: programs,
+                        //    helpers: {
+                        //        inc: function (value) { return parseInt(value) + 1; },
+                        //        getyear: function (value) { return yearac[value]; },
+                        //        getindex: function () { return ++index; }
+                        //    }
+                        //});
 
 
+                            });
 
+                            });
+	                    });
 
-    //        console.log("REFFFF---->>>", programs);
+                    });
+	            });
+	        } else {
+	            //res.redirect('/fachome');
+	            return console.log(err + "mhaieiei");
+	        }
+	    });
 
-    //        //res.render('qa/qa-aun6.1.hbs', {
-    //        //    //    user: req.user,      
-    //        //    layout: "qaPage",
-
-    //        //    docs: programs,
-    //        //    helpers: {
-    //        //        inc: function (value) { return parseInt(value) + 1; },
-    //        //        getyear: function (value) { return yearac[value]; },
-    //        //        getindex: function () { return ++index; }
-    //        //    }
-    //        //});
-
-
-
-
-
-
-    //    });
-
-    //});
+    });
 
 	app.get('/aun8-3', isLoggedIn, function (req, res) {
 	    console.log("nationalityOfStudent");
@@ -3112,6 +3213,74 @@ module.exports = function(app, passport) {
         });
 
 	});
+
+	app.get('/aun13-2', isLoggedIn, function (req, res) {
+	    console.log("surveyAlumni");
+
+	    //referenceCurriculumSchema.find();
+
+	    User.aggregate(
+
+            [
+                    {
+                        $match: {
+                            $and: [
+                                { 'local.role': 'External User' },
+                                { 'local.program': req.query.program }
+
+                            ]
+
+                        }
+                    },
+
+                    {
+                        $group: {
+                            _id: { graduatedIn: "$local.graduatedIn", careerOrHigherStudying: "$local.careerOrHigherStudying" },
+                            count: { $sum: 1 }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: "$_id.graduatedIn",
+                            groupOfCareerOrHigherStudying: { $push: "$$ROOT" },
+                            sumOfYear: { $sum: "$count" }
+
+                        }
+                    }
+
+            ]
+        , function (err, programs) {
+
+
+            //referenceCurriculumSchema.find();
+
+
+
+
+            console.log("REFFFF---->>>", programs);
+
+            //res.render('C:/Monkey-Office-master/webproject/views/qa/test_FacilityAndInfrastruture.hbs', {
+            //    //    user: req.user,      
+            //    layout: "qaPage",
+
+            //    docs: programs,
+            //    helpers: {
+            //        inc: function (value) { return parseInt(value) + 1; },
+            //        getyear: function (value) { return yearac[value]; },
+            //        getindex: function () { return ++index; }
+            //    }
+            //});
+
+
+
+
+
+
+        });
+
+	});
+
+
 	
 	//=====================================
     // Get Work Info.(Student) ==============================
