@@ -141,18 +141,15 @@ module.exports = function(app, passport) {
     // HOME SECTION =====================
     // =====================================
        app.get('/home', isLoggedIn, function(req, res) {
-       	
-       	var query = Doc.findByUser(req.user);
+
+       	var query = Doc.findByUser(req.user.local.username);
        	var date= [];
        	query.exec(function(err,_docs) {
        		if(err) {
        			console.log(err);
        			res.status(500);
        			return next(err);
-       		}
-
-       	
-	       		
+       		}    		
 	       		for(var i = 0 ; i < _docs.length ;++i){
 	       			var a = _docs[i].dateCreate;
 	       			var yy = a.getFullYear();
@@ -180,20 +177,7 @@ module.exports = function(app, passport) {
 	                getdate: function (value) { return date[value]; }
 		            }
 				});
-	       		
-				
-       		
-       			
-       		
-       		
        	});
-
-
-        
-
- 	
-
-	
     });
 
     app.post('/home', isLoggedIn, function(req, res) {
@@ -207,7 +191,7 @@ module.exports = function(app, passport) {
       var tDate = req.body.toDate;
    		var type = req.body.doc_type;
    		var author = req.body.doc_author;
-   		var user = req.user;
+   		var user = req.user.local.username;
 
    		var subStringRegex = function(subString, isCaseSensitive) {
    			var mode;
@@ -314,69 +298,6 @@ module.exports = function(app, passport) {
       res.render('dms/document.hbs');
     });
 
-       app.post('/home', isLoggedIn, function(req, res) {
-
-       	console.log('AT HOME');
-   		var documentName = req.body.doc_name;
-   		var status = req.body.doc_status;
-   		var fromDate = Date.parse(req.body.fromDate);
-   		var toDate = Date.parse(req.body.toDate);
-   		var type = req.body.doc_type;
-   		var author = req.body.doc_author;
-   		var user = req.user;
-   		console.log(documentName);
-   		console.log(status);
-   		console.log(fromDate);
-   		console.log(toDate);
-   		console.log(type);
-   		console.log(author);
-
-
-   		var subStringRegex = function(subString, isCaseSensitive) {
-   			var mode;
-   			if(isCaseSensitive) mode = 'c';
-   			else mode = 'i';
-
-   			return new RegExp(subString, mode);
-   		};
-   		
-   		var query = Doc.findByUser(user).
-   		where('name').regex(subStringRegex(documentName, false));
-
-   		if(!isNaN(fromDate) && !isNaN(toDate)) {
-   			fromDate = new Date(fromDate);
-   			toDate = new Date(toDate);
-   			query = query.where('dateCreate').gt(fromDate).lt(toDate);
-   		}
-
-   		if(author) {
-   			query = query.where('author').regex(subStringRegex(author, false));
-   		}
-
-   		if(status !== 'all') {
-   			status = status.toLowerCase().trim();
-   			query = query.where('status').equals(status);
-   		}
-   				
-   		query.exec(function(err, _docs) {
-       		if(err) {
-       			console.log(err);
-       			res.status(500);
-       			return next(err);
-   			}
-   			console.log(_docs);
-			var response = {
-       			layout: 'homepage',
-       			docs: _docs
-   			}
-   		
-			res.render('home.hbs', response); 
-   		});
-
-   });
-
-    
-      
     // =====================================
     // Get User Info. ==============================
     // =====================================
