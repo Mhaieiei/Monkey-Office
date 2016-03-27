@@ -40,7 +40,8 @@ var userSchema = new mongoose.Schema({
     advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
     publicResearch: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Public' }],
     training: [{ type: mongoose.Schema.Types.ObjectId, ref: 'training' }],
-    careerDevelopment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'careerDevelopment' }]
+    careerDevelopment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'careerDevelopment' }],
+    specialTitle: [{ type: mongoose.Schema.Types.ObjectId, ref: 'specialTitle' }]
     
 
 },{strict : false});

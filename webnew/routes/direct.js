@@ -2784,6 +2784,7 @@ module.exports = function(app, passport) {
 
 	app.get('/aun12-1', isLoggedIn, function (req, res) {
 	    console.log("careerDevelopment");
+	    console.log("Academictitle");
 
 	    //referenceCurriculumSchema.find();
 	    Acyear.findOne({
@@ -2822,9 +2823,48 @@ module.exports = function(app, passport) {
 
                              console.log("REFFFF--USERR----activity-->>>", subs);
 
+                             Fac.aggregate(
+                                [
+                            {
+                                $match: { "program": req.query.program }
+                            },
 
+                            {
+                                $project: {
+                                    "program": 1,
+                                    countstaff: { $size: "$staff" }
+                                }
+                            }
+                                ],
+                         function (err, noOfProgarm) {
 
+                             console.log("REFFFF--USERR----noOfProgarm-->>>", noOfProgarm);
 
+                             Role.aggregate(
+                                [
+                            {
+                                $match: {
+                                    $and: [
+                                    { 'type': 'Academic title' },
+                                    { 'program': req.query.program }
+
+                                    ]
+                                }
+                            },
+
+                            {
+                                $project: {
+                                    "program": 1,
+                                    "type": 1,
+                                    "title":1,
+                                    "academicYear":1,
+                                    countstaff: { $size: "$user" }
+                                }
+                            }
+                                ],
+                         function (err, noOfAcademicTitle) {
+
+                             console.log("REFFFF--USERR----noOfAcademicTitle-->>>", noOfAcademicTitle);
 
                              //res.render('C:/Monkey-Office-master/webproject/views/qa/test_careerDevelopment.hbs', {
                              //    //    user: req.user,      
@@ -2835,9 +2875,10 @@ module.exports = function(app, passport) {
                              //});
 
 
-                             });
+                         });
+                         });
 	           
-
+                         });
 	            });
 	        } else {
 	            //res.redirect('/fachome');
