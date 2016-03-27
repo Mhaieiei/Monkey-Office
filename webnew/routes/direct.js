@@ -2732,7 +2732,7 @@ module.exports = function(app, passport) {
 
 
 	            ], function (e, result) {
-	                console.log("REFFFF--activity-->>>", result);
+	                //console.log("REFFFF--activity-->>>", result);
 
 	                User.populate(result, {
 	                    path: '_id',
@@ -2747,12 +2747,19 @@ module.exports = function(app, passport) {
                              Fac.aggregate(
                                 [
                             {
-                                $match: { "program": req.query.program }
+                                $match: {
+                                    $and: [
+                                    { 'program': req.query.program },
+                                    //{ 'hour': 5 }
+                                    { 'type': "Academic Staff" }
+                                    ]
+                                }
                             },
 
                             {
                                 $project: {
                                     "program": 1,
+                                    "type":1,
                                     countstaff: { $size: "$staff" }
                                 }
                             }
@@ -2786,7 +2793,64 @@ module.exports = function(app, passport) {
                          function (err, noOfAcademicTitle) {
 
                              console.log("REFFFF--USERR----noOfAcademicTitle-->>>", noOfAcademicTitle);
+                             
+                                     console.log("REFFFF--programs._id-->>>", programs._id);
+                                     Role.roleOfFaculty.findOne({
+                                         $and: [
+                                             { "type": "Faculty member" },
+                                             { "academicYear": programs.id }
+                                         ]
+                                     }, function (err, docs) {
+                                         console.log("REFFFF--docs._id-->>>", docs._id);
 
+                                         Role.roleOfStaff.aggregate(
+                                             [
+                                         {
+                                             $match: {
+                                                 $and: [
+                                                     { "type": "Academic Staff" },
+                                                     { 'roleOfFaculty': docs.id }
+
+                                                 ]
+
+                                             }
+                                         }]
+                                         , function (err, staff) {
+                                             Fac.populate(staff, {
+                                                 path: 'user',
+                                                 model: 'User'
+                                             },
+                                         function (err, user) {
+
+                                             Fac.populate(user, {
+                                                 path: 'user.training',
+                                                 model: 'training'
+                                             }, function (err, usertraining) {
+                                                 console.log("REFFFF----Faculty----Academic Staff--usertraining->>>", usertraining);
+
+                                                 
+                                                             
+
+                                                             //res.render('qa/qa-aun6.1.hbs', {
+                                                             //    //    user: req.user,      
+                                                             //    layout: "qaPage",
+
+                                                             //    docs: programs,
+                                                             //    helpers: {
+                                                             //        inc: function (value) { return parseInt(value) + 1; },
+                                                             //        getyear: function (value) { return yearac[value]; },
+                                                             //        getindex: function () { return ++index; }
+                                                             //    }
+                                                             //});
+
+
+                                                         
+                                             });
+                                         });
+                                         });
+                                    
+                                 
+                             });
                              //res.render('C:/Monkey-Office-master/webproject/views/qa/test_careerDevelopment.hbs', {
                              //    //    user: req.user,      
                              //    layout: "workflowMain",
@@ -2807,6 +2871,109 @@ module.exports = function(app, passport) {
 	        }
 	    });
 
+
+
+	});
+
+	app.get('/aun12-2', isLoggedIn, function (req, res) {
+	    console.log("careerDevelopment");
+	    console.log("Academictitle");
+
+	    //referenceCurriculumSchema.find();
+	    Fac.aggregate(
+                                [
+                            {
+                                $match: {
+                                    $and: [
+                                    { 'program': req.query.program },
+                                    //{ 'hour': 5 }
+                                    { 'type': "Supporting Staff" }
+                                    ]
+                                }
+                            },
+
+                            {
+                                $project: {
+                                    "program": 1,
+                                    "type":1,
+                                    countstaff: { $size: "$staff" }
+                                }
+                            }
+                                ],
+                         function (err, noOfProgarm) {
+
+                             console.log("REFFFF--Staff----noOfProgarm-->>>", noOfProgarm);
+
+                             Role.aggregate(
+                                [
+                            {
+                                $match: {
+                                    $and: [
+                                    { 'type': 'Advancement of career title' },
+                                    { 'program': req.query.program }
+
+                                    ]
+                                }
+                            },
+
+                            {
+                                $project: {
+                                    "program": 1,
+                                    "type": 1,
+                                    "title":1,
+                                    "academicYear":1,
+                                    countstaff: { $size: "$user" }
+                                }
+                            }
+                                ],
+                         function (err, noOfStaffTitle) {
+
+                             console.log("REFFFF--Staff----noOfProgarm-->>>", noOfStaffTitle);
+
+                             Acyear.findOne({
+                                 $and: [
+                                        { 'program_name': req.query.program },
+                                        { 'academic_year': req.query.year }
+                                 ]
+                             }, function (err, programs) {
+                             Role.roleOfStaff.aggregate(
+                                             [
+                                         {
+                                             $match: {
+                                                 $and: [
+                                                     { "type": "Supporting Staff" },
+                                                    
+                                                     { 'academicYear': programs.id }
+
+                                                 ]
+
+                                             }
+                                         }]
+                                         , function (err, staff) {
+                                             Fac.populate(staff, {
+                                                 path: 'user',
+                                                 model: 'User'
+                                             },
+                                         function (err, user) {
+
+                                             Fac.populate(user, {
+                                                 path: 'user.training',
+                                                 model: 'training'
+                                             }, function (err, usertraining) {
+                                                 console.log("REFFFF----Faculty----Academic Staff--usertraining->>>", usertraining);
+
+
+
+
+
+                                             });
+                                         });
+
+
+                                         });
+                             });
+                         });
+                         });
 
 
 	});
@@ -2898,72 +3065,97 @@ module.exports = function(app, passport) {
 	    }, function (err, programs) {
 	        if (!err) {
 	            console.log("REFFFF--programs._id-->>>", programs._id);
-	            Role.roleOfStaff.findOne({
-	                $and:[{
-
-	                    "type": "Academic Staff"},
-                        { "academicYear": programs.id}
+	            Role.roleOfFaculty.findOne({
+	                $and: [
+                        { "type": "Faculty member" },
+                        { "academicYear": programs.id }
 	                ]
-	            },function (err, docs) {
+	            }, function (err, docs) {
 	                console.log("REFFFF--docs._id-->>>", docs._id);
-	                //User.aggregate([
-                    //    // Get just the docs that contain a shapes element where color is 'red'
-                    //    { $match: { 'roleOfStaff': docs.id } },
-                    //    {
-                    //        $project: {
-                    //            'education': {
-                    //                $filter: {
-                    //                    //input: '$education',
-                    //                    //as: 'edu',
-                    //                    //cond: { $eq: ['$$edu.level','Doctoral'] }
-                    //                }
-                    //            }
+
+	                Role.roleOfStaff.aggregate(
+	                    [
+                    {
+                        $match: {
+                            $and: [
+                                { "type": "Academic Staff" },
+                                { 'roleOfFaculty': docs.id }
+
+                            ]
+
+                        }
+                    }]
+	                , function (err, staff) {
+	                    Fac.populate(staff, {
+	                        path: 'user',
+	                        model: 'User'
+	                    },
+                    function (err, user) {
+
+                        Fac.populate(user, {
+                            path: 'user.publicResearch',
+                            model: 'Public'
+                        },function (err, userPublic) {
+                            console.log("REFFFF----Faculty----Academic Staff--userPublic->>>", userPublic);
+
+	                        Role.roleOfFaculty.findOne({
+	                            $and: [
+                                    { "type": "Visiting Lecturer" },
+                                    { "academicYear": programs.id }
+	                            ]
+	                        }, function (err, docs2) {
+	                            console.log("REFFFF--docs._id-->>>", docs2._id);
+
+	                            Role.roleOfStaff.aggregate([
+                                {
+                                    $match: {
+                                        $and: [
+                                            { "type": "Academic Staff" },
+                                            { 'roleOfFaculty': docs2.id }
+
+                                        ]
+
+                                    }
+                                }], function (err, staff2) {
+                        Fac.populate(staff2, {
+                            path: 'user',
+                            model: 'User'
+                        },
+                    function (err, user2) {
+                        
+
+                        Fac.populate(user2, {
+                            path: 'user.publicResearch',
+                            model: 'Public'
+                        },function (err, userPublic2) {
+                            console.log("REFFFF-Visiting Lecturer--->>>", userPublic2);
                                 
-                                    
-                                
-                    //        }
-                    //    }
-	                //]
-	                User.find(
-                              { 'roleOfStaff': docs.id }
-                              
+                                //res.render('qa/qa-aun6.1.hbs', {
+                                //    //    user: req.user,      
+                                //    layout: "qaPage",
 
-	                    
-	                )
-                    .populate('publicResearch')
-                    .exec(function (err, programs) {
-
-                    //,function (err, programs) {
-                        //referenceCurriculumSchema.find();
+                                //    docs: programs,
+                                //    helpers: {
+                                //        inc: function (value) { return parseInt(value) + 1; },
+                                //        getyear: function (value) { return yearac[value]; },
+                                //        getindex: function () { return ++index; }
+                                //    }
+                                //});
 
 
-
-
-                        console.log("REFFFF---->>>", programs);
-
-                        //res.render('qa/qa-aun6.1.hbs', {
-                        //    //    user: req.user,      
-                        //    layout: "qaPage",
-
-                        //    docs: programs,
-                        //    helpers: {
-                        //        inc: function (value) { return parseInt(value) + 1; },
-                        //        getyear: function (value) { return yearac[value]; },
-                        //        getindex: function () { return ++index; }
-                        //    }
-                        //});
-
-
-
-
-
-
+                        });
                     });
-                });
-                } else {
+
+                            });
+	                    });
+                    });
+                    });
+	                });
+	            });
+	        } else {
 	            //res.redirect('/fachome');
 	            return console.log(err + "mhaieiei");
-            }
+	        }
 	    });
 
 	});

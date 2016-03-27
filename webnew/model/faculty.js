@@ -29,7 +29,8 @@ var noOfStaffSchema = mongoose.Schema({
 
     staff: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     academicYear: String,
-    program:String
+    program: String,
+    type:String //academic staff, support staff
 });
 
 var EvaluationMethodSchema = mongoose.Schema({
