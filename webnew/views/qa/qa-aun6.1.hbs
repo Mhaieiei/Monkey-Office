@@ -55,27 +55,37 @@
                             <th>Publications</a></th>
                             
                             
-a
+
                         </tr>
                        
 
                     <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
                     </thead>
                     <tbody>
+                    
                         <tr>
                         <th colspan=6></th>
                         </tr>
-                      
+                       
+                       {{#each docs}}
                        
                         <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        </tr>  
+                        <td>{{_id}}</td>
+                       
+
+                        {{#each user}}
                         
+                        <td>{{local.title}}</td>             
+                        <td>{{local.name}} {{local.surname}}</td>
+                        {{#each education}}
+                        <td>{{level}}</td>
+                        {{/each}}
+                        <td>{{local.yearOfTeaching}}</td>
+                        <td></td>
+                       
+                        {{/each}}
+                        </tr>  
+                        {{/each}}
                     </tbody>
 
                   </table>

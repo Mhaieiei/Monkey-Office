@@ -39,9 +39,9 @@
            
             <!--<form class="form-horizontal" role="form">-->
                 
-                <h3>AUN 6.1: The staff are competent for their tasks</h3>
+                <h3>AUN 6.9: Termination and retirement are planned and well implemented</h3>
        
-                <h5>Table : Termination and retirement are planned and well implemented</h5>
+                <h5>Table : Termination and retirement information of lecturer in program</h5>
                 <div id="tab_aun6.9">
                   <table class="tablesorter">
                     <thead align="center">
@@ -73,19 +73,22 @@
                         <tr>
                         <td colspan=8></td>
                         </tr>
-                      
+                      {{#each docs}}
                        
+                       {{#each user}}
                         <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{getindex}}</td>
+                        <td>{{local.title}}</td>
+
+                        <td>{{local.name}} {{local.surname}}</td>
+                        <td>{{local.age}}</td>
+                        <td>{{getTerminate local.terminationYear}}</td>
+                        <td>{{local.terminationYear}}</td>
+                        <td>{{getRetired local.age}}</td>
+                        <td>{{getAcYearOfRetired local.age}}</td>
                         </tr>  
-                        
+                        {{/each}}
+                        {{/each}}
                     </tbody>
 
                   </table>

@@ -14,7 +14,7 @@
                 <h3>AUN 10.1: The lecture facilities(lecture halls, small course rooms) are adequate</h3>
        
                 <h5>Table : Lecture rooms for CiEs students</h5>
-                <div id="tab_tqf2"><table class="table muffin">
+                <div id="tab_tqf2"><table class="tablesorter">
                   
                     <thead align="center">
                         <tr>
@@ -25,19 +25,25 @@
                             <th>No. of seats</a></th>
                             
                         </tr>
+                        
+                       
+					   
+	
+	
+
+                    
                     </thead>
-					
+					{{#each docs}}
                     <tbody>
-                        {{#each docs}}
                         <tr>
                         <td>{{roomNo}}</td>
                         <td>{{floor}}</td>
                         <td>{{building}}</td>
                         <td>{{numberOfSeat}}</td>
                         </tr>  
-                        {{/each}}   
+                        
                     </tbody>
-					
+					{{/each}}
                   </table>
 
                 </div>

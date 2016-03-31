@@ -28,7 +28,7 @@ var userSchema = new mongoose.Schema({
         status: String,
         yeargrade : String,
         salary: Number,
-        jobDescription: [String],
+        //jobDescription: [String],
         nationality: String, //for student - thai, national,
         age: Number,
         terminationYear:Number //academicYear of termination //only for some staff who want to terminate herself
