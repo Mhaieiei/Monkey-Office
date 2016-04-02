@@ -28,7 +28,7 @@ var userSchema = new mongoose.Schema({
         status: String,
         yeargrade : String,
         salary: Number,
-        jobDescription: [String],
+        //jobDescription: [String],
         nationality: String, //for student - thai, national,
         age: Number,
         terminationYear:Number //academicYear of termination //only for some staff who want to terminate herself
@@ -40,7 +40,8 @@ var userSchema = new mongoose.Schema({
     advisingProject : [{type: mongoose.Schema.Types.ObjectId,ref:'Project'}],
     publicResearch: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Public' }],
     training: [{ type: mongoose.Schema.Types.ObjectId, ref: 'training' }],
-    careerDevelopment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'careerDevelopment' }]
+    careerDevelopment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'careerDevelopment' }],
+    specialTitle: [{ type: mongoose.Schema.Types.ObjectId, ref: 'specialTitle' }]
     
 
 },{strict : false});
