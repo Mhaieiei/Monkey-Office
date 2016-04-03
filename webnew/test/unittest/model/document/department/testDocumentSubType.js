@@ -5,7 +5,7 @@ const assert = require('assert');
 var dbMock = require('test/dbTestConfig');
 var app = require('app')(dbMock);
 
-module.exports = function() {
+module.exports = function(SubTypeDoc) {
 
 	it('documentID should start at 1', function(done) {
 		createDoc(function(doc) {
@@ -22,8 +22,7 @@ module.exports = function() {
 	})
 
 	function createDoc(then) {
-		var AcademicAdminDoc = require('model/document/department/DocumentFactory').academicAdministration;
-		doc = new AcademicAdminDoc();
+		var doc = new SubTypeDoc();
 		doc.save(function(err) {
 			assert.ifError(err);
 			then(doc);
