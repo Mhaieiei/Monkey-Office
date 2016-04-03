@@ -5,7 +5,7 @@ const assert = require('assert');
 var dbMock = require('test/dbTestConfig');
 var app = require('app')(dbMock);
 
-describe('Document Sub Type', function() {
+module.exports = function() {
 
 	var doc1;
 
@@ -23,4 +23,4 @@ describe('Document Sub Type', function() {
 	it('documentID should start at 1', function() {
 		expect(doc1.docNum).to.equals(1);
 	});
-})
+};
