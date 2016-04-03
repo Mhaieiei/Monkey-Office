@@ -1,11 +1,8 @@
 var rootpath = require('rootpath')();
 var expect = require('chai').expect;
+var assert = require('assert');
 
-var dbMock = require('test/dbTestConfig');
-var app = require('app')(dbMock);
-
-
-describe('Test document model', function() {
+module.exports = function() {
 
 	var User, Doc;
 	var doc1, doc2, doc3, doc4;
@@ -29,9 +26,7 @@ describe('Test document model', function() {
 			}
 		});
 		userDoe.save(done);
-	});
 
-	before(function() {
 		// add dummy data
 		doc1 = new Doc({
 			'owner': userJoe,
@@ -43,13 +38,8 @@ describe('Test document model', function() {
 			'name': 'x_doc2',
 		});
 
-		doc1.save(errorCallback);
-		doc2.save(errorCallback);
-		this.timeout(dbMock.dbTimeout);
-	})
-
-	after(function(done) {
-		dbMock.dropDb(done);
+		doc1.save(function(err){assert.ifError(err);});
+		doc2.save(function(err){assert.ifError(err);});
 	});
 
 	describe('static methods', function() {
@@ -75,7 +65,7 @@ describe('Test document model', function() {
 
 		before(function(done) {
 			Doc.findOne({owner: userJoe}).exec(function(err, doc) {
-				errorCallback(err);
+				assert.ifError(err);
 
 				if(!doc)
 					throw 'Document not found';
@@ -100,19 +90,4 @@ describe('Test document model', function() {
 			expect(document.getStatus()).to.equal('done');
 		});
 	});
-});
-
-function expectAuthorToHaveDoc(query, docs, done) {
-	query.exec(function(err, docs) {
-		if(err)
-			throw err;
-		
-		expect(docs.length).to.equal(docs.length);
-		done();
-	});	
-}
-
-var errorCallback = function(err) {
-	if(err)
-		throw err;
-}
+};
