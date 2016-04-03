@@ -7,20 +7,20 @@ var app = require('app')(dbMock);
 
 module.exports = function() {
 
-	var doc1;
+	it('documentID should start at 1', function() {
+		createDoc(function(doc) {
+			expect(doc.docNum).to.equals(1);
+		});
+	});
 
-	before(function(done) {
-		AcademicAdminDoc = require('model/document/department/academic/academicAdministration');
-		doc1 = new AcademicAdminDoc({
+	function createDoc(then) {
+		var AcademicAdminDoc = require('model/document/department/academic/academicAdministration');
+		doc = new AcademicAdminDoc({
 			name: 'AcademicAdminDoc'
 		});
-		doc1.save(function(err) {
+		doc.save(function(err) {
 			assert.ifError(err);
-			done();
-		});
-	})
-
-	it('documentID should start at 1', function() {
-		expect(doc1.docNum).to.equals(1);
-	});
+			then(doc);
+		});	
+	}
 };
