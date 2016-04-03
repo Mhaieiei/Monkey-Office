@@ -10,7 +10,7 @@ describe('Database Collections Entity Testing', function() {
 	})
 
 	makeSuite('Document Model', require('./testDocumentModel'));
-	makeSuite('Document Sub Type', require('./document/testDocumentSubType'));
+	makeSuite('Document Sub Type', require('./document/department/testDocumentSubType'));
 })
 
 function makeSuite(name, tests) {
