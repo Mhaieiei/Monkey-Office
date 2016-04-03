@@ -7,11 +7,19 @@ var app = require('app')(dbMock);
 
 module.exports = function() {
 
-	it('documentID should start at 1', function() {
+	it('documentID should start at 1', function(done) {
 		createDoc(function(doc) {
 			expect(doc.docNum).to.equals(1);
+			done();
 		});
 	});
+
+	it('documentID should increment by 1', function(done) {
+		createDoc(function(doc) {
+			expect(doc.docNum).to.equals(2);
+			done();
+		});		
+	})
 
 	function createDoc(then) {
 		var AcademicAdminDoc = require('model/document/department/academic/academicAdministration');
