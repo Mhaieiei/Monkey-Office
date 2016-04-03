@@ -23,9 +23,7 @@ module.exports = function() {
 
 	function createDoc(then) {
 		var AcademicAdminDoc = require('model/document/department/academic/academicAdministration');
-		doc = new AcademicAdminDoc({
-			name: 'AcademicAdminDoc'
-		});
+		doc = new AcademicAdminDoc();
 		doc.save(function(err) {
 			assert.ifError(err);
 			then(doc);
