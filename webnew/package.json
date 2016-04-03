@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon server.js",
-    "test": "./node_modules/.bin/mocha \"test/**/*.js\" --reporter spec"
+    "test": "./node_modules/.bin/mocha \"test/**/*.js\" --reporter spec --timeout 8000"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
