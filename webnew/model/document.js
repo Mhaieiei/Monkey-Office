@@ -9,7 +9,8 @@ var docSchema = new Schema({
 		ref: 'user'
 	},
 
-	type: String,
+	department: String,
+
 	dateCreate: {
 		type: Date,
 		default: Date.now
