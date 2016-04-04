@@ -2824,8 +2824,16 @@ module.exports = function(app, passport) {
                                                  path: 'user.training',
                                                  model: 'training'
                                              }, function (err, usertraining) {
-                                                 console.log("REFFFF----Faculty----Academic Staff--usertraining->>>", usertraining);
 
+                                             	Fac.populate(usertraining, {
+                                                 path: 'user.training.academicYear',
+                                                 model: 'Acyear'
+                                             }, function (err, usertraining_acYear) {
+                                                 console.log("REFFFF----Faculty----Academic Staff--usertraining->>>", usertraining_acYear);
+
+
+
+												
                                                  
                                                              
 
@@ -2842,20 +2850,14 @@ module.exports = function(app, passport) {
                                                              //});
 
 
-                                                         
+                                                   });      
                                           
                                          });
                                          });
                                     
                                  
                              });
-                             //res.render('C:/Monkey-Office-master/webproject/views/qa/test_careerDevelopment.hbs', {
-                             //    //    user: req.user,      
-                             //    layout: "workflowMain",
-
-                             //    docs: subs
-
-                             //});
+                             
 
 
                          });
@@ -2894,6 +2896,7 @@ module.exports = function(app, passport) {
                                 $project: {
                                     "program": 1,
                                     "type":1,
+                                    "academicYear":1,
                                     countstaff: { $size: "$staff" }
                                 }
                             }
@@ -2958,12 +2961,30 @@ module.exports = function(app, passport) {
                                                  path: 'user.training',
                                                  model: 'training'
                                              }, function (err, usertraining) {
-                                                 console.log("REFFFF----Faculty----Academic Staff--usertraining->>>", usertraining);
+                                                 Fac.populate(usertraining, {
+                                                 path: 'user.training.academicYear',
+                                                 model: 'Acyear'
+                                             }, function (err, usertraining_acYear) {
+                                                 console.log("REFFFF----Faculty----Supporting Staff--usertraining->>>", usertraining_acYear);
+                                                 var index = 0;
+                                                 res.render('qa/qa-aun12.2.hbs', {
+					                                //    user: req.user,      
+					                                layout: "qaPage",
+
+					                                docs: usertraining_acYear,
+					                                noOfStaffTitle:noOfStaffTitle,
+					                                noOfStaff:noOfProgarm,
+					                                helpers: {
+						                                inc: function (value) { return parseInt(value) + 1; },
+						                                getyear: function (value) { return yearac[value]; },
+						                                getindex: function () { return ++index; }
+						                            }
+
+					                             });
 
 
 
-
-
+												});
                                              });
                                          });
 
@@ -3077,7 +3098,16 @@ module.exports = function(app, passport) {
 
                         }
                     },
-                    { $group : { _id : "$position" , user: { $push: "$user" }}}
+                    {
+                        $unwind:  "$user"    
+                    },
+                    { 
+                    	$group : { 
+                    		_id : "$position" ,
+                    		user: { $push: "$user" }
+                    	}
+
+                	}
 
                     ]
 	                , function (err, staff) {
@@ -3453,6 +3483,176 @@ module.exports = function(app, passport) {
         });
 
 	});
+
+
+	app.get('/aun14-1', isLoggedIn, function (req, res) {
+	    console.log("no of student status");
+
+	    //referenceCurriculumSchema.find();
+
+	    User.aggregate(
+
+            [
+                    {
+                        $match: {
+                            $and: [
+                                { 'local.role': 'student' },
+                                { 'local.program': req.query.program }
+
+                            ]
+
+                        }
+                    },
+
+                    {
+                        $group: {
+                            _id: { studentDetail: "$detail.status", academicYear: "$detail.academicYear" },
+                            count: { $sum: 1 }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: "$_id.academicYear",
+                            root: { $push: "$$ROOT" },
+                            sumOfYear: { $sum: "$count" }
+
+                        }
+                    }
+
+            ]
+        , function (err, studentStatus) {
+
+
+            //referenceCurriculumSchema.find();
+
+
+
+
+            console.log("REFFFF---->>>", studentStatus);
+
+            res.render('qa/qa-aun14.1.hbs', {
+               //    user: req.user,      
+               layout: "qaPage",
+
+               docs: studentStatus,
+               helpers: {
+                   inc: function (value) { return parseInt(value) + 1; },
+                   getyear: function (value) { return yearac[value]; },
+                   getindex: function () { return ++index; }
+               }
+            });
+
+
+
+
+
+
+        });
+
+	});
+
+
+	app.get('/aun14-4', isLoggedIn, function (req, res) {
+	    console.log("14-4");
+
+	    //referenceCurriculumSchema.find();
+
+	    Acyear.findOne({
+	        $and: [
+                   { 'program_name': req.query.program },
+                   { 'academic_year': req.query.year }
+	        ]
+	    }, function (err, programs) {
+
+	    	console.log("programs.id: "+programs._id);
+
+		    Role.roleOfStaff.aggregate(
+
+	            [
+	                    {
+	                        $match: {
+	                            $and: [{
+	                                
+	                                $or: [
+	                                {"type": "Academic Staff"},
+	                        		{"type": "Student"}
+	                            ]},
+	                        		{"academicYear": programs.id}
+
+	                            ]
+
+	                        }
+	                    },
+
+	                    {
+                        $unwind:  "$user"    
+	                    },
+	                    { 
+	                    	$group : { 
+	                    		_id : {type:"$type", position:"$position"} ,
+	                    		user: { $push: "$user" },
+	                    		count:{$sum:1}
+	                    	}
+
+	                	}
+	                    // {
+	                    //     $group: {
+	                    //         _id: "$_id.academicYear",
+	                    //         root: { $push: "$$ROOT" },
+	                    //         sumOfYear: { $sum: "$count" }
+
+	                    //     }
+	                    // }
+
+	            ]
+	        , function (err, staffAndPublication) {
+
+
+	            //referenceCurriculumSchema.find();
+
+	            User.populate(staffAndPublication, {
+	            	 path: 'user',		
+				     model: 'User'   
+				},function(err, user) {
+
+
+					User.populate(user, {
+	            	 path: 'user.publicResearch',		
+				     model: 'Public'   
+				},function(err, public) {
+
+					User.populate(public, {
+	            	 path: 'user.publicResearch.academicYear',		
+				     model: 'Acyear'   
+				},function(err, academicYear) {
+
+
+	            console.log("REFFFF--academic staff publication in 2014-->>>", academicYear);
+
+	            res.render('qa/qa-aunAcademicStaffPublic2014.hbs', {
+	               //    user: req.user,      
+	               layout: "qaPage",
+
+	               docs: staffAndPublication,
+	               helpers: {
+	                   inc: function (value) { return parseInt(value) + 1; },
+	                   getyear: function (value) { return yearac[value]; },
+	                   getindex: function () { return ++index; }
+	               }
+	            });
+
+});
+});
+
+				});
+
+	        });
+        });
+
+	});
+
+
+
 
 
 	

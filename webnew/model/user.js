@@ -28,11 +28,18 @@ var userSchema = new mongoose.Schema({
         status: String,
         yeargrade : String,
         salary: Number,
+        yearOfTeaching:Number,
         //jobDescription: [String],
         nationality: String, //for student - thai, national,
         age: Number,
         terminationYear:Number //academicYear of termination //only for some staff who want to terminate herself
        },
+       detail:[{
+
+       	status : String,  //drop out, on-time graduation, carry on, delayed graduaion
+       	academicYear:String
+
+       }],
 	roleOfProgram: [String],
 	roleOfStaff: [String],
     subjects : [{type: mongoose.Schema.Types.ObjectId,ref:'Subject'}],

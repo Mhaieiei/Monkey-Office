@@ -1,0 +1,14 @@
+{{#each docs}}
+
+	position :{{_id.position}}
+	{{#each user}}
+		name: {{local.name}},
+		{{#each publicResearch}}
+		public type: {{typepublic}}
+
+		{{/each}}
+
+
+
+	{{/each}}
+{{/each}}

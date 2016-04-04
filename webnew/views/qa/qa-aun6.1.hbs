@@ -47,7 +47,7 @@
                     <thead align="center">
                         <tr>
                             
-                            <th>No.</a></th>
+                            <th>Type</a></th>
                             <th>Title</a></th>
                             <th>Name-Surname</a></th>
                             <th>Highest Holding Degree</a></th>
@@ -72,17 +72,64 @@
                         <tr>
                         <td>{{_id}}</td>
                        
-
+                        <!-- {{#if @first}} 
+                <td>{{subjectType}}</td>
+                <td>{{followingReq}}</td>
+                </tr>
+                
+                {{else}}
+                <tr>
+                <th></th>
+                <th></th>
+                <td>{{subjectType}}</td>
+                <td>{{followingReq}}</td>
+                {{/if}} -->
                         {{#each user}}
-                        
+                        {{#if @first}} 
                         <td>{{local.title}}</td>             
                         <td>{{local.name}} {{local.surname}}</td>
-                        {{#each education}}
-                        <td>{{level}}</td>
-                        {{/each}}
+                        
+                        <td>{{education.0.level}}</td>
+                        
                         <td>{{local.yearOfTeaching}}</td>
-                        <td></td>
-                       
+                        {{#each publicResearch}}
+                        {{#if @first}} 
+                        <td>{{typepublic}}</td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <<td>{{typepublic}}</td>
+                        {{/if}}
+                        {{/each}}
+                        </tr>
+                       {{else}}
+                <tr>
+                <th></th>
+                
+                <td>{{local.title}}</td>             
+                        <td>{{local.name}} {{local.surname}}</td>
+                        <td>{{education.0.level}}</td>
+                        <td>{{local.yearOfTeaching}}</td>
+                        {{#each publicResearch}}
+                        {{#if @first}} 
+                        <td>{{typepublic}}</td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <<td>{{typepublic}}</td>
+                        {{/if}}
+                        {{/each}}
+                {{/if}}
                         {{/each}}
                         </tr>  
                         {{/each}}
