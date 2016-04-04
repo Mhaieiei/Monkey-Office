@@ -163,19 +163,13 @@ module.exports = function(app, passport) {
 	       				dd = "0"+dd;
 	       			}
 	       			
-	       			date[i] = dd+ '/' +mm +'/'+ yy;
+	       			_docs[i].ddmmyyyy = dd+ '/' +mm +'/'+ yy;
 	       		}
 	       		
-	       		//response.docs[0].dateCreate =  a.getYear() + '/' +a.getMonth() +'/'+a.getDay()
-	       		
-	       		console.log("update")
 	       		res.render('home.hbs',{
 					layout: 'homepage',
 	       			docs: _docs,
               role: req.user.local.role,
-	       		  helpers: {
-	                getdate: function (value) { return date[value]; }
-		            }
 				});
        	});
     });
@@ -268,12 +262,9 @@ module.exports = function(app, passport) {
             st3: status3,
             type1: type1,
             type2: type2,
-             helpers: {
-                getdate: function (value) { return date[value]; }
-            }
    			}
    			
-       		for(var i = 0 ; i < response.docs.length ;++i){
+       		for(var i = 0 ; i < _docs.length ;++i){
        			var a = response.docs[i].dateCreate;
        			var yy = a.getFullYear();
        			var mm = a.getMonth()+1;
@@ -286,7 +277,7 @@ module.exports = function(app, passport) {
        				dd = "0"+dd;
        			}
        			
-       			date[i] = dd+ '/' +mm +'/'+ yy;
+       			_docs[i].ddmmyyyy = dd+ '/' +mm +'/'+ yy;
        		}
    		
 			res.render('home.hbs', response); 
