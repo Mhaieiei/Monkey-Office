@@ -11,6 +11,7 @@ describe('Database Collections Entity Testing', function() {
 
 	makeSuite('Document Model', function() {
 		describe('Base Schema', require('./testDocumentModel'));
+		describe('Document Sub Type Template Creator', require('./document/department/testTemplateCreation'));
 		describe('Document Sub Type', function() {
 			var academicAdmin = require('model/document/department/DocumentFactory').academicAdministration;
 			require('./document/department/testDocumentSubType')(academicAdmin);
