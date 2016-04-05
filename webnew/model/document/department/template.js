@@ -11,7 +11,7 @@ module.exports = function(abbriviation, keyValue2Add) {
 	}, {discriminatorKey: 'department'});
 
 	var plugInOptions = {
-		model: Doc.modelName,
+		model: abbriviation,
 		field: 'docNum',
 		startAt: 1,
 		incrementBy: 1
