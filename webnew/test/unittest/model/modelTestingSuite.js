@@ -13,8 +13,14 @@ describe('Database Collections Entity Testing', function() {
 		describe('Base Schema', require('./testDocumentModel'));
 		describe('Document Sub Type Template Creator', require('./document/department/testTemplateCreation'));
 		describe('Document Sub Type', function() {
-			var academicAdmin = require('model/document/department/DocumentFactory').academicAdministration;
-			require('./document/department/testDocumentSubType')(academicAdmin);
+			var DocumentFactory = require('model/document/department/DocumentFactory');
+			var subtypeDocumentTester = require('./document/department/testDocumentSubType');
+
+			for(var subtypeDocument in DocumentFactory) {
+				describe('Subtype Document: ' + subtypeDocument, function() {
+					subtypeDocumentTester(DocumentFactory[subtypeDocument]);
+				})
+			}
 		});
 	});
 })
