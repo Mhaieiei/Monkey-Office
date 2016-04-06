@@ -2752,6 +2752,7 @@ module.exports = function(app, passport) {
                             {
                                 $project: {
                                     "program": 1,
+                                    "academicYear":1,
                                     "type":1,
                                     countstaff: { $size: "$staff" }
                                 }
@@ -2773,16 +2774,28 @@ module.exports = function(app, passport) {
                                     ]
                                 }
                             },
-
                             {
-                                $project: {
-                                    "program": 1,
-                                    "type": 1,
-                                    "title":1,
-                                    "academicYear":1,
-                                    countstaff: { $size: "$user" }
-                                }
-                            }
+                        $unwind:  "$user"    
+                    },
+
+                            { 
+                    	$group : { 
+                    		_id : {academicYear:"$academicYear" ,title:"$title"},
+                    		
+                    		count: { $sum: 1 }
+                    	}
+
+                	},
+                	{ 
+                    	$group : { 
+                    		_id : "$_id.academicYear",
+                    		user: { $push: "$$ROOT" }
+                    		
+                    	}
+
+                	}
+
+                           
                                 ],
                          function (err, noOfAcademicTitle) {
 
@@ -2790,37 +2803,43 @@ module.exports = function(app, passport) {
                              
                                      console.log("REFFFF--programs._id-->>>", programs._id);
                                      
-
-                                         Role.roleOfStaff.aggregate(
+                             Role.roleOfStaff.aggregate(
                                              [
                                          {
                                              $match: {
                                                  $and: [
                                                      { "type": "Academic Staff" },
-                                                     { 'position': 'Faculty Member' },
-                                                     { "academicYear": programs.id }
+                                                    {"position": "Faculty Member"},
+                                                     { 'academicYear': programs.id }
+                                                    
 
                                                  ]
 
                                              }
                                          }]
                                          , function (err, staff) {
+                                         	// console.log("REFFFF----Faculty----Academic Staff>>>", staff);
+
                                              Fac.populate(staff, {
                                                  path: 'user',
                                                  model: 'User'
                                              },
+
                                          function (err, user) {
+
+                                         	// console.log("REFFFF----Faculty----Academic Staff---pop-user>>>", user);
 
                                              Fac.populate(user, {
                                                  path: 'user.training',
                                                  model: 'training'
                                              }, function (err, usertraining) {
 
-                                             	Fac.populate(usertraining, {
+                                             	// console.log("REFFFF----Faculty----Academic Staff--usertraining->>>", usertraining);
+                                                 Fac.populate(usertraining, {
                                                  path: 'user.training.academicYear',
                                                  model: 'Acyear'
                                              }, function (err, usertraining_acYear) {
-                                                 console.log("REFFFF----Faculty----Academic Staff--usertraining->>>", usertraining_acYear);
+                                                 console.log("REFFFF----Faculty----Academic Staff--usertraining---academicYear>>>", usertraining_acYear);
 
 
 
@@ -2828,19 +2847,23 @@ module.exports = function(app, passport) {
                                                  
                                                              
 
-                                                             //res.render('qa/qa-aun6.1.hbs', {
-                                                             //    //    user: req.user,      
-                                                             //    layout: "qaPage",
+                                                             res.render('qa/qa-aun12.1.ejs', {
+                                                                //    user: req.user,      
+                                                                layout: "qaPage",
 
-                                                             //    docs: programs,
-                                                             //    helpers: {
-                                                             //        inc: function (value) { return parseInt(value) + 1; },
-                                                             //        getyear: function (value) { return yearac[value]; },
-                                                             //        getindex: function () { return ++index; }
-                                                             //    }
-                                                             //});
+                                                                training: usertraining_acYear,
+                                                                academicTitle:noOfAcademicTitle,
+                                                                noOfStaff:noOfProgarm,
+                                                                careerDevelopment:subs,
 
+                                                                helpers: {
+                                                                    inc: function (value) { return parseInt(value) + 1; },
+                                                                    getyear: function (value) { return yearac[value]; },
+                                                                    getindex: function () { return ++index; }
+                                                                }
+                                                             });
 
+						
                                                    });      
                                           
                                          });
@@ -2907,16 +2930,28 @@ module.exports = function(app, passport) {
                                     ]
                                 }
                             },
-
                             {
-                                $project: {
-                                    "program": 1,
-                                    "type": 1,
-                                    "title":1,
-                                    "academicYear":1,
-                                    countstaff: { $size: "$user" }
-                                }
-                            }
+                        $unwind:  "$user"    
+                    },
+
+                            { 
+                    	$group : { 
+                    		_id : {academicYear:"$academicYear" ,title:"$title"},
+                    		
+                    		count: { $sum: 1 }
+                    	}
+
+                	},
+                	{ 
+                    	$group : { 
+                    		_id : "$_id.academicYear",
+                    		user: { $push: "$$ROOT" }
+                    		
+                    	}
+
+                	}
+
+                            
                                 ],
                          function (err, noOfStaffTitle) {
 

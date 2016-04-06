@@ -62,16 +62,24 @@
                     <tbody>
                         
                       
-                       
+                       <% for(i=0;i< training.length;i++){%>
+                        <% for(j=0;j< training[i].user.length;j++){%>
                         <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+
+                        <td><%= j+1 %></td> 
+                        <td><%= training[i].user[j].local.title %></td>
+                        <td><%= training[i].user[j].local.name %> <%= training[i].user[j].local.surname %></td>
+                        <% for(k=0;k< training[i].user[j].training.length;k++){%>
+
+                        <td><%= training[i].user[j].training[k].trainingCourse %></td>
+                        <td><%= training[i].user[j].training[k].hour %></td>
+
+                        <%}%>
+                       </tr> 
+                        <%}%>
+                         
                         
-                        </tr>  
-                        
+                        <%}%>
                     </tbody>
 
                   </table>

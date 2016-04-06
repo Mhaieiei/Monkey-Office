@@ -142,12 +142,34 @@
                     <tbody> 
 
                     {{#each noOfStaffTitle}}
-
+<!-- {{#if @first}} 
+                <td>{{subjectType}}</td>
+                <td>{{followingReq}}</td>
+                </tr>
+                
+                {{else}}
+                <tr>
+                <th></th>
+                <th></th>
+                <td>{{subjectType}}</td>
+                <td>{{followingReq}}</td>
+                {{/if}} -->
                         <tr>
-                        <td>{{academicYear}}</td>
-                        <td>{{title}}</td>
-                        <td>{{countstaff}}</td>
+                        <td>{{_id}}</td>
+                        {{#each user}}
+                        {{#if @first}} 
+                        <td>{{_id.title}}</td>
+                        <td>{{count}}</td>
+                        </tr>
+
+                        {{else}}
+                        <tr>
+                        <th></th>
                         
+                        <td>{{_id.title}}</td>
+                        <td>{{count}}</td>
+                        {{/if}}
+                        {{/each}}
                         
                         </tr>  
                        {{/each}} 
