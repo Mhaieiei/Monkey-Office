@@ -2855,6 +2855,7 @@ module.exports = function(app, passport) {
                                                                 academicTitle:noOfAcademicTitle,
                                                                 noOfStaff:noOfProgarm,
                                                                 careerDevelopment:subs,
+                                                                academicYear:req.query.year,
 
                                                                 helpers: {
                                                                     inc: function (value) { return parseInt(value) + 1; },
@@ -3363,7 +3364,7 @@ module.exports = function(app, passport) {
 
             console.log("REFFFF---->>>", programs);
 
-            res.render('C:/Monkey-Office-master/webproject/views/qa/test_FacilityAndInfrastruture.hbs', {
+            res.render('qa/qa-aun8.3.hbs', {
                 //    user: req.user,      
                 layout: "qaPage",
 
@@ -3488,7 +3489,7 @@ module.exports = function(app, passport) {
 
 
             console.log("REFFFF---->>>", programs);
-
+            var index = 0;
             res.render('qa/qa-aun13.2.hbs', {
                //    user: req.user,      
                layout: "qaPage",

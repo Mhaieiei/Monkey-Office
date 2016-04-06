@@ -87,9 +87,10 @@
                     <thead align="center">
                         <tr>
                             
-                            <th>Cohort</a></th>
-                            <td colspan=3>Nationality</a></td>
+                            <th>Academic year</a></th>
                             <th>Total</a></th>
+                            <td>Nationality</a></td>
+                            <th>Total of Nationality</a></th>
 
                         </tr>
                         <tr>
@@ -99,17 +100,32 @@
                         
                         <td></td>
                         </tr>
-                       
+
 
                     <!-- ใช้ th colspan กับ Plan / topic ใช้ td กับข้อมูลปกติ -->
                     </thead>
                     <tbody>
+                    {{#each docs}}
                         <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                       
+                        <td>{{_id}}</td>
+                        <td>{{sunOfYear}}</td>
+                        {{#each groupOfNationality}}
+                        {{#if @first}} 
+                        <td>{{_id.nationality}}</td>
+                        <td>{{count}}</td>
+                        </tr>
+
+                        {{else}}
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        <td>{{_id.nationality}}</td>
+                        <td>{{count}}</td>
+                        {{/if}}
+                       {{/each}}
                         </tr>     
+                        {{/each}}
+
                     </tbody>
 
                   </table>

@@ -45,9 +45,10 @@
                         <tr>
                             
                             <th>No.</a></th>
-                            <th>Career/Higher Studying</a></th>
-                            <td colspan=2>Graduated in</a></td>
+                            <th>Graduated in</a></th>
                             <th>Total</a></th>
+                            <th>Career/Higher Studying</a></th>
+                            <th>Total of Career/Higher Studying</a></th>
                             
                            
                         </tr>
@@ -69,8 +70,9 @@
                     {{#each docs}}
 
                         <tr>
+                        <td>{{getindex}}</td>
                         <td>{{_id}}</td>
-
+                        <td>{{sumOfYear}}</td>
                        {{#each groupOfCareerOrHigherStudying}}
                         {{#if @first}} 
                         <td>{{_id.careerOrHigherStudying}}</td>
@@ -79,13 +81,15 @@
                         {{else}}
                         <tr>
                         <th></th>
+                        <th></th>
+                        <th></th>
                         <td>{{_id.careerOrHigherStudying}}</td>
                         <td>{{count}}</td>
                         {{/if}}
                        
                         
                         {{/each}}
-                        <td></td>
+                        
                         
                         </tr>  
                         {{/each}}
