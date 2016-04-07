@@ -12,7 +12,7 @@ var roleOfProgramSchema = mongoose.Schema({
 
 
     "type": String,//development  committee
-    "academicYear": String,
+    "academicYear": String, //id of acyear
     "position": String,//chairman...
     "user": [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 
@@ -23,7 +23,7 @@ var roleOfStaffSchema = mongoose.Schema({
 
 
     "type": String,//academic , support staff, student
-    "academicYear": String,
+    "academicYear": String,//2013
     "position": String,//faculty member,visiting member, accountance, normal master student
     "program": String,
     "user": [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
@@ -37,7 +37,7 @@ var specialTitleSchema = mongoose.Schema({
 
     "title": String,
     "type": String, //academic title for academic staff, advancementOfCareer for supporting staff 
-    "academicYear": String,
+    "academicYear": String, //2013..
     "program": String,
     "role":String, // Faculty Member,Visiting Member, Supporting Staff
     "user": [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]

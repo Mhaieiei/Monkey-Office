@@ -3218,6 +3218,7 @@ module.exports = function(app, passport) {
                     {
                         $group: {
                             _id: {role:"$role", type: "$title" },
+                            user: { $push: "$$ROOT" },
                             count: { $sum: 1 }
                        
                        
@@ -3240,8 +3241,14 @@ module.exports = function(app, passport) {
                    
 	                    console.log("REFFFF-staff1--->>>", staff);
 	                    
-	                
-	                        
+	                // docs[i].groupOftype[j].user[k].user
+	                        User.populate(staff, {
+	                    path: 'groupOftype.user.user',
+	                    model: 'User'
+	                },
+                         function (err, pop_user) {
+
+                         	console.log("REFFFF-pop user--->>>", pop_user);
 
                                 Role.roleOfStaff.aggregate(
                                 [
@@ -3249,18 +3256,13 @@ module.exports = function(app, passport) {
                                 $match: {
 		                           /* $and: [
 		                            {*/
-		                            	$or: [
-		                                { "type": "Academic Staff" },
-		                                { 'type': "Student" }
+		                            	// $or: [
+		                             //    { "type": "Academic Staff" },
+		                             //    { 'type': "Student" }
 		                               
 
-		                            	]
-
-		                        	//},	
-		                           /* { "academicYear": programs.id }
-
-		                            ]*/
-
+		                            	// ]
+		                            	"type": "Academic Staff" 
 		                        }
 
                             },
@@ -3290,23 +3292,69 @@ module.exports = function(app, passport) {
                                 ]
                             , function (err, user) {
 
-                                console.log("REFFFF---user--->>>", user);
-                        //res.render('qa/qa-aun6.1.hbs', {
-                        //    //    user: req.user,      
-                        //    layout: "qaPage",
+                            	console.log("REFFFF---user--->>>", user);
 
-                        //    docs: programs,
-                        //    helpers: {
-                        //        inc: function (value) { return parseInt(value) + 1; },
-                        //        getyear: function (value) { return yearac[value]; },
-                        //        getindex: function () { return ++index; }
-                        //    }
-                        //});
+                            	Role.roleOfStaff.aggregate(
+                                [
+                            {
+                                $match: {
+		                           /* $and: [
+		                            {*/
+		                            	// $or: [
+		                             //    { "type": "Academic Staff" },
+		                             //    { 'type': "Student" }
+		                               
+
+		                            	// ]
+		                            	"type": "Student" 
+		                        }
+
+                            },
+                            
+
+                            {
+                                $unwind:  "$user"    
+                            },
+                                {
+                                    $group: {
+                                        _id: {academicYear:"$academicYear", type: "$position" },
+                                        count: { $sum: 1 }
+                                   
+                                   
+                                }
+                                },
+                                {
+                                    $group: {
+                                        _id: "$_id.academicYear",
+                                        groupOftype: { $push: "$$ROOT" },
+                                        sunOfYear: { $sum: "$count" }
+
+                                    }
+                                }
+
+                            
+                                ]
+                            , function (err, student) {
+
+                                console.log("REFFFF---student--->>>", student);
+                        res.render('qa/qa-aun6.2.ejs', {
+                           //    user: req.user,      
+                           layout: "qaPage",
+
+                           docs: pop_user,
+                           roleOfuser:user,
+                           student:student,
+                           helpers: {
+                               inc: function (value) { return parseInt(value) + 1; },
+                               getyear: function (value) { return yearac[value]; },
+                               getindex: function () { return ++index; }
+                           }
+                        });
 
 
-                       
+                       });
 
-                           
+                           });
 	                   // });
 
                     });
@@ -3354,21 +3402,74 @@ module.exports = function(app, passport) {
                     }
 
 	    ]
-        ,function (err, programs) {
+        ,function (err, Nationality ) {
+        	console.log("REFFFF---->>>", Nationality );
+        	User.aggregate(
 
+            [
+                    {
+                        $match: {
+                            $and: [
+                                { 'local.role': 'student' },
+                                { 'local.program': req.query.program },
+                                
 
+                            ]
+
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: { yearAttend: "$local.yearAttend" },
+                            groupOfNationality: { $push: "$$ROOT" },
+                            count: { $sum: 1 }
+                        }
+                    }
+
+                    
+
+	    ]
+        ,function (err, student) {
+
+			console.log("REFFFF---->>>", student );
             //referenceCurriculumSchema.find();
 
+User.aggregate(
 
+            [
+                    {
+                        $match: {
+                            $and: [
+                                { 'local.role': 'student' },
+                                { 'local.program': req.query.program },
+                                { 'detail.status': {$ne:"Drop Out"} }
 
+                            ]
 
-            console.log("REFFFF---->>>", programs);
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: { yearAttend: "$detail.academicYear" },
+                            count: { $sum: 1 }
+                        }
+                    }
 
-            res.render('qa/qa-aun8.3.hbs', {
+                    
+
+	    ]
+        ,function (err, student_academicYear) {
+
+        	console.log("REFFFF--student_academicYear-->>>", student_academicYear );
+            
+
+            res.render('qa/qa-aun8.3.ejs', {
                 //    user: req.user,      
                 layout: "qaPage",
 
-                docs: programs,
+                docs: Nationality,
+                student:student,
+                student_academicYear:student_academicYear,
                 helpers: {
                     inc: function (value) { return parseInt(value) + 1; },
                     getyear: function (value) { return yearac[value]; },
@@ -3378,9 +3479,9 @@ module.exports = function(app, passport) {
 
 
 
+});
 
-
-
+ });
         });
 
 	});
